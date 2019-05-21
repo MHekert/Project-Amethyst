@@ -3,27 +3,27 @@ import { expect } from 'chai';
 import User from '../../src/models/user';
 import bcrypt from 'bcrypt';
 
-describe(`user's model tests`, () => {
-	describe(`user.determineVisibleName()`, () => {
-		it(`should return megaman@capcom.com`, () => {
+describe(`user's model method`, () => {
+	describe(`that returns visible name`, () => {
+		it(`should return e-mail as visible name`, () => {
 			const user = new User();
 			user.account.local.email = 'megaman@capcom.com';
 			const result = user.determineVisibleName(user.account);
 			expect(result).to.be.equal('megaman@capcom.com');
 		});
-		it(`should return Mega Man`, () => {
+		it(`should return Facebook name as visible name`, () => {
 			const user = new User();
 			user.account.facebook.name = 'Mega Man';
 			const result = user.determineVisibleName(user.account);
 			expect(result).to.be.equal('Mega Man');
 		});
-		it(`should return username`, () => {
+		it(`should return 'username' string as visible name`, () => {
 			const user = new User();
 			const result = user.determineVisibleName(user.account);
 			expect(result).to.be.equal('username');
 		});
 	});
-	describe(`user.generateHash()`, () => {
+	describe(`that generates hash`, () => {
 		it(`should return valid hash`, () => {
 			const user = new User();
 			user.account.local.password = 'passfraze';
@@ -32,7 +32,7 @@ describe(`user's model tests`, () => {
 			expect(result).to.be.equal(true);
 		});
 	});
-	describe('user.preSaveValidation', () => {
+	describe('that validates user object pre save', () => {
 		it('should return user with visibleName and hashed password', () => {
 			const user = new User();
 			user.account.local.password = 'passfraze';
