@@ -38,20 +38,21 @@ userSchema.methods.validPassword = function(password: string) {
 };
 
 userSchema.post('validate', (user: IUserModel, next) => {
-	user = preSaveValidation(user);
+	user = user.preSaveValidation(user);
 	next();
 });
 
-const User: mongoose.Model<IUserModel> = mongoose.model<IUserModel>('User', userSchema);
-export default User;
-
-const determineVisibleName = (account: IAccount): string => {
+userSchema.methods.determineVisibleName = (account: IAccount) => {
 	if (account.facebook.name) return account.facebook.name;
 	if (account.local.email) return account.local.email;
+	return 'username';
 };
 
-const preSaveValidation = (user: IUserModel) => {
-	if (user.visibleName === undefined) user.visibleName = determineVisibleName(user.account);
+userSchema.methods.preSaveValidation = (user: IUserModel) => {
+	if (user.visibleName === undefined) user.visibleName = user.determineVisibleName(user.account);
 	if (user.account.local.password) user.account.local.password = user.generateHash();
 	return user;
 };
+
+const User: mongoose.Model<IUserModel> = mongoose.model<IUserModel>('User', userSchema);
+export default User;

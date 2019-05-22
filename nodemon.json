@@ -1,5 +1,5 @@
 {
-	"watch": [ "src" ],
+	"watch": [ "src", "tests" ],
 	"ext": "ts,json,env",
-	"exec": "yarn start"
+	"exec": "yarn build && yarn justTest && yarn justStart"
 }
