@@ -13,6 +13,4 @@ export default interface IMode {
 	favorites: Number;
 	points: Number;
 	created: String;
-	lastUpdated: String;
-	lastVersion: typeof Id;
 }
