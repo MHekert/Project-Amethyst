@@ -10,4 +10,4 @@ export default interface IRevision {
 	createdAt: Date;
 	body: string;
 	gallery: [string];
-};
+}
