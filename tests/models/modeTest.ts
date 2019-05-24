@@ -7,17 +7,22 @@ import { MONGODB_URI } from '../../src/util/secrets';
 import IModeModel from '../../src/interfaces/mode/IModeModel';
 const mongoUri: string = MONGODB_URI;
 
-mongoose.connection.openUri(mongoUri, { useNewUrlParser: true, useCreateIndex: true });
-
 describe(`mode's model`, () => {
+	before(() => {
+		mongoose.connection.openUri(mongoUri, { useNewUrlParser: true, useCreateIndex: true });
+	});
+	after(() => {
+		mongoose.connection.close();
+	});
+
 	describe(`on saving new element`, () => {
 		it(`should set up default values`, async () => {
 			const mode = await getDummyMode();
-			cleanUp(mode);
 			expect(mode).to.have.property('favorites', 0);
 			expect(mode).to.have.property('points', 0);
 			expect(mode).to.have.property('createdAt');
 			expect(mode).to.have.property('thumbnail');
+			cleanUp(mode);
 		});
 	});
 	describe(`method to increment favorites`, () => {
@@ -55,7 +60,7 @@ describe(`mode's model`, () => {
 });
 
 const cleanUp = async (saved: IModeModel) => {
-	const removed = await saved.remove();
+	saved.remove();
 };
 
 const getDummyMode = () => new Mode().save();
