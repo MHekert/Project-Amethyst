@@ -4,10 +4,10 @@ const Id = Schema.Types.ObjectId;
 
 export default interface IRevision {
 	modeId: typeof Id;
-	changelog: [String];
-	version: Number;
-	code: String;
-	created: Date;
-	body: String;
-	gallery: [String];
-}
+	changelog: [string];
+	version: number;
+	code: string;
+	createdAt: Date;
+	body: string;
+	gallery: [string];
+};

@@ -3,4 +3,4 @@ export default interface IFacebook {
 	token: string;
 	email: string;
 	name: string;
-}
+};

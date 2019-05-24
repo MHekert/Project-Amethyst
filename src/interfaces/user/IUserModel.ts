@@ -7,4 +7,4 @@ export default interface IUserModel extends Document, IUser {
 	validPassword(password: string): boolean;
 	preSaveValidation(user: IUserModel): IUserModel;
 	determineVisibleName(account: IAccount): string;
-}
+};

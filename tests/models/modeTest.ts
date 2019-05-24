@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import Mode from '../../src/models/mode';
 
 import { MONGODB_URI } from '../../src/util/secrets';
+import IModeModel from '../../src/interfaces/mode/IModeModel';
 const mongoUri: string = MONGODB_URI;
 
 mongoose.connection.openUri(mongoUri, { useNewUrlParser: true, useCreateIndex: true });
@@ -48,12 +49,19 @@ describe(`mode's model`, () => {
 	});
 	describe(`object`, () => {
 		it(`should delete correctly`, async () => {
-			Promise.all([ updatedMode1, updatedMode2 ]).then(async (values) => {
-				const saved = await saveResult;
-				const removed = await saved.remove();
-				mongoose.connection.close();
-				expect(removed).to.be.deep.equal(saved);
-			});
+			Promise.all([ updatedMode1, updatedMode2 ])
+				.then(async () => {
+					cleanUp(await saveResult);
+				})
+				.catch(async () => {
+					cleanUp(await saveResult);
+				});
 		});
 	});
 });
+
+const cleanUp = async (saved: IModeModel) => {
+	const removed = await saved.remove();
+	mongoose.connection.close();
+	return expect(removed).to.be.deep.equal(saved);
+};
