@@ -5,12 +5,12 @@ const Id = Schema.Types.ObjectId;
 
 export default interface IMode {
 	author: typeof Id;
-	title: String;
-	tags: [String];
-	shortDescription: String;
-	thumbnail: String;
+	title: string;
+	tags: [string];
+	shortDescription: string;
+	thumbnail: string;
 	fork?: IFork;
-	favorites: Number;
-	points: Number;
-	created: String;
-}
+	favorites: number;
+	points: number;
+	created: string;
+};

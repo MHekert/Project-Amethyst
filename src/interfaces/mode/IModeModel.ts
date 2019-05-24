@@ -6,4 +6,4 @@ export default interface IModeModel extends Document, IMode {
 	downvote(): any;
 	incFavorite(): any;
 	decFavorite(): any;
-}
+};

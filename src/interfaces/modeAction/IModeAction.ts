@@ -5,6 +5,6 @@ const Id = Schema.Types.ObjectId;
 export default interface IModeAction {
 	userId: typeof Id;
 	modeId: typeof Id;
-	upvote?: Boolean;
-	favorite?: Boolean;
+	upvote?: boolean;
+	favorite?: boolean;
 };

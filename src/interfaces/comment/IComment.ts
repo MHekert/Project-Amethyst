@@ -6,6 +6,6 @@ export default interface IComment {
 	author: typeof Id;
 	mode: typeof Id;
 	replyTo: typeof Id;
-	points: Number;
-	body: String;
-};
+	points: number;
+	body: string;
+}
