@@ -46,18 +46,17 @@ modeSchema.methods.decFavorite = function() {
 	return decFavorite(this._id);
 };
 
-export const upvote = (modeId: typeof Schema.Types.ObjectId) => {
-	return Mode.updateOne({ _id: modeId }, { $inc: { points: 1 } }).exec();
-};
-export const downvote = (modeId: typeof Schema.Types.ObjectId) => {
-	return Mode.updateOne({ _id: modeId }, { $inc: { points: -1 } }).exec();
-};
-export const incFavorite = (modeId: typeof Schema.Types.ObjectId) => {
-	return Mode.updateOne({ _id: modeId }, { $inc: { favorites: 1 } }).exec();
-};
-export const decFavorite = (modeId: typeof Schema.Types.ObjectId) => {
-	return Mode.updateOne({ _id: modeId }, { $inc: { favorites: -1 } }).exec();
-};
+export const upvote = (modeId: typeof Schema.Types.ObjectId) =>
+	Mode.updateOne({ _id: modeId }, { $inc: { points: 1 } }).exec();
+
+export const downvote = (modeId: typeof Schema.Types.ObjectId) =>
+	Mode.updateOne({ _id: modeId }, { $inc: { points: -1 } }).exec();
+
+export const incFavorite = (modeId: typeof Schema.Types.ObjectId) =>
+	Mode.updateOne({ _id: modeId }, { $inc: { favorites: 1 } }).exec();
+
+export const decFavorite = (modeId: typeof Schema.Types.ObjectId) =>
+	Mode.updateOne({ _id: modeId }, { $inc: { favorites: -1 } }).exec();
 
 const Mode: mongoose.Model<IModeModel> = mongoose.model<IModeModel>('Mode', modeSchema);
 export default Mode;
