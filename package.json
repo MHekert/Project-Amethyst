@@ -1,7 +1,7 @@
 {
 	"name": "amethyst",
 	"version": "1.0.0",
-	"main": "dist/server.js",
+	"main": "dist/src/server.js",
 	"scripts": {
 		"prebuild": "tslint -c tslint.json -p tsconfig.json --fix",
 		"build": "tsc",
@@ -42,7 +42,6 @@
 		"@types/morgan": "^1.7.35",
 		"@types/node": "^12.0.2",
 		"@types/passport": "^1.0.0",
-		"@types/winston": "^2.4.4",
 		"chai": "^4.2.0",
 		"mocha": "^6.1.4",
 		"nodemon": "^1.19.0",

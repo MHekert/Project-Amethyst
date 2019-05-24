@@ -1,16 +1,12 @@
 import mongoose, { Schema } from 'mongoose';
 import bcrypt from 'bcrypt';
-import IUserModel from '../interfaces/IUserModel';
-import IAccount from '../interfaces/IAccount';
+import IUserModel from '../interfaces/user/IUserModel';
+import IAccount from '../interfaces/user/IAccount';
 
 const Id = Schema.Types.ObjectId;
 
 const userSchema: Schema = new Schema({
 	visibleName: String,
-	submittedModes: [ Id ],
-	favoriteModes: [ Id ],
-	likedModes: [ Id ],
-	dislikedModes: [ Id ],
 	account: {
 		local: {
 			email: String,
