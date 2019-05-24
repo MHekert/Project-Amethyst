@@ -7,4 +7,4 @@ export default interface IModeAction {
 	modeId: typeof Id;
 	upvote?: boolean;
 	favorite?: boolean;
-};
+}

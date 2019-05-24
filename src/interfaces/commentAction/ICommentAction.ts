@@ -6,4 +6,4 @@ export default interface ICommentAction {
 	userId: typeof Id;
 	commentId: typeof Id;
 	upvote: boolean;
-};
+}
