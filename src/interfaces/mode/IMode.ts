@@ -12,5 +12,5 @@ export default interface IMode {
 	fork?: IFork;
 	favorites: number;
 	points: number;
-	created: string;
+	createdAt: string;
 }
