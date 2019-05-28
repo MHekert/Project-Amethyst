@@ -58,26 +58,20 @@ export const incFavorite = (modeId: typeof Schema.Types.ObjectId) =>
 export const decFavorite = (modeId: typeof Schema.Types.ObjectId) =>
 	Mode.updateOne({ _id: modeId }, { $inc: { favorites: -1 } }).exec();
 
-export const getModesByDate = (olderThan: string, lessThan: number, quantity: number) => {
-	if (!olderThan && !lessThan) {
-		return Mode.find({}).sort({ createdAt: -1, points: -1 }).limit(quantity).exec();
-	} else {
-		return Mode.find({ createdAt: { $lte: olderThan }, points: { $lt: lessThan } })
-			.sort({ createdAt: -1, points: -1 })
-			.limit(quantity)
-			.exec();
-	}
+export const getModesByDate = (quantity: number, olderThan?: string, lessThan?: number) => {
+	if (!olderThan && !lessThan) return Mode.find({}).sort({ createdAt: -1, points: -1 }).limit(quantity).exec();
+	return Mode.find({ createdAt: { $lte: olderThan }, points: { $lt: lessThan } })
+		.sort({ createdAt: -1, points: -1 })
+		.limit(quantity)
+		.exec();
 };
 
-export const getModesByPoints = (olderThan: string, lessThan: number, quantity: number) => {
-	if (!olderThan && !lessThan) {
-		return Mode.find().sort({ points: -1, createdAt: -1 }).limit(quantity).exec();
-	} else {
-		return Mode.find({ createdAt: { $lt: olderThan }, points: { $lte: lessThan } })
-			.limit(quantity)
-			.sort({ points: -1, createdAt: -1 })
-			.exec();
-	}
+export const getModesByPoints = (quantity: number, olderThan?: string, lessThan?: number) => {
+	if (!olderThan && !lessThan) return Mode.find().sort({ points: -1, createdAt: -1 }).limit(quantity).exec();
+	return Mode.find({ createdAt: { $lt: olderThan }, points: { $lte: lessThan } })
+		.limit(quantity)
+		.sort({ points: -1, createdAt: -1 })
+		.exec();
 };
 
 const Mode: mongoose.Model<IModeModel> = mongoose.model<IModeModel>('Mode', modeSchema);
