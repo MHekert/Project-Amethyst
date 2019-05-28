@@ -4,12 +4,11 @@ import express, { Request, Response } from 'express';
 import session from 'express-session';
 import mongoose from 'mongoose';
 import passport from 'passport';
-import { logger } from './util/logger';
 import { isDev, MONGODB_URI, PORT, SESSION_SECRET } from './util/secrets';
 import { morganConsole, morganFile } from './util/httpLogger';
+import { GetModesController } from './controllers/getModes';
 const app = express();
-
-if (isDev) {
+if (isDev && process.env.NODE_ENV !== 'test') {
 	app.use(morganConsole);
 	app.use(morganFile);
 }
@@ -19,7 +18,7 @@ const mongoUri: string = MONGODB_URI;
 const port = PORT;
 const secret = SESSION_SECRET;
 
-mongoose.connection.openUri(mongoUri, { useNewUrlParser: true });
+mongoose.connection.openUri(mongoUri, { useNewUrlParser: true, useCreateIndex: true });
 
 app.use(bodyParser.json());
 app.use(
@@ -46,10 +45,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.get('/', function(req: Request, res: Response) {
-	res.status(200).send({ hello: 'world' });
-});
+app.use('/modes', GetModesController);
 
-app.listen(port, () => {
-	logger.log('info', `The magic happens on port ${port}!`);
-});
+export const server = app.listen(port);
+export default app;

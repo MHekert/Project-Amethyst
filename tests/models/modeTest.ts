@@ -1,18 +1,21 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import mongoose from 'mongoose';
-import Mode from '../../src/models/mode';
-
+import Mode, { getModesByDate, getModesByPoints } from '../../src/models/mode';
+import createDummyModes from '../dummyData/dummyModes';
 import { MONGODB_URI } from '../../src/util/secrets';
-import IModeModel from '../../src/interfaces/mode/IModeModel';
 const mongoUri: string = MONGODB_URI;
 
 describe(`mode's model`, () => {
-	before(() => {
-		mongoose.connection.openUri(mongoUri, { useNewUrlParser: true, useCreateIndex: true });
+	before(async () => {
+		return mongoose.connection.openUri(mongoUri, { useNewUrlParser: true, useCreateIndex: true });
 	});
-	after(() => {
-		mongoose.connection.close();
+	beforeEach(async () => {
+		return Mode.deleteMany({});
+	});
+	after(async () => {
+		await Mode.deleteMany({});
+		return mongoose.connection.close();
 	});
 
 	describe(`on saving new element`, () => {
@@ -22,7 +25,7 @@ describe(`mode's model`, () => {
 			expect(mode).to.have.property('points', 0);
 			expect(mode).to.have.property('createdAt');
 			expect(mode).to.have.property('thumbnail');
-			cleanUp(mode);
+			return new Promise((resolve) => resolve());
 		});
 	});
 	describe(`method to increment favorites`, () => {
@@ -32,7 +35,7 @@ describe(`mode's model`, () => {
 			const updatedMode = await Mode.findOne({ _id: mode._id });
 			expect(updatedMode).to.have.property('favorites', 1);
 			expect(updateResult).to.have.property('nModified', 1);
-			cleanUp(mode);
+			return new Promise((resolve) => resolve());
 		});
 	});
 	describe(`method to decrement and increment points`, () => {
@@ -41,13 +44,13 @@ describe(`mode's model`, () => {
 			const pointsArray = [ 1, 1, 1, -1, -1, 1, 1, 1, 1, -1 ];
 			const expectedPoints = pointsArray.reduce((a, b) => a + b);
 			const updateMap = pointsArray.map((el) => (el === 1 ? mode.upvote() : mode.downvote()));
-			Promise.all(updateMap)
+			return Promise.all(updateMap)
 				.then(async (values) => {
 					values.forEach((el) => expect(el).to.have.property('nModified', 1));
 					const updatedMode = await Mode.findOne({ _id: mode._id });
 					expect(updatedMode).to.have.property('points', expectedPoints);
 				})
-				.then(() => cleanUp(mode));
+				.then(async () => new Promise((resolve) => resolve()));
 		});
 	});
 	describe(`object`, () => {
@@ -55,12 +58,43 @@ describe(`mode's model`, () => {
 			const mode = await getDummyMode();
 			const removed = await mode.remove();
 			expect(removed).to.be.deep.equal(mode);
+			return new Promise((resolve) => resolve());
+		});
+	});
+
+	describe(`funtion that returns modes by date`, () => {
+		it(`should return correct documents`, async () => {
+			const date = new Date('2019-05-28');
+			const dateS = date.toISOString();
+			const points = 45;
+			const quantity = 10;
+			await Promise.all(createDummyModes());
+			const res1 = await getModesByDate(quantity, dateS, points);
+			expect(res1.length).to.be.at.most(quantity);
+			res1.forEach((el) => {
+				expect(new Date(el.createdAt)).at.most(date);
+				expect(el.points).at.below(points);
+			});
+			return new Promise((resolve) => resolve());
+		});
+	});
+
+	describe(`funtion that returns modes by points`, () => {
+		it(`should return correct documents`, async () => {
+			const date = new Date('2019-05-28');
+			const dateS = date.toISOString();
+			const points = 45;
+			const quantity = 10;
+			await Promise.all(createDummyModes());
+			const res1 = await getModesByPoints(quantity, dateS, points);
+			expect(res1.length).to.be.at.most(quantity);
+			res1.forEach((el) => {
+				expect(new Date(el.createdAt)).be.below(date);
+				expect(el.points).at.most(points);
+			});
+			return new Promise((resolve) => resolve());
 		});
 	});
 });
-
-const cleanUp = async (saved: IModeModel) => {
-	saved.remove();
-};
 
 const getDummyMode = () => new Mode().save();
