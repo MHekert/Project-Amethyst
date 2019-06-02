@@ -7,6 +7,8 @@ import passport from 'passport';
 import { isDev, MONGODB_URI, PORT, SESSION_SECRET } from './util/secrets';
 import { morganConsole, morganFile } from './util/httpLogger';
 import { GetModesController } from './controllers/getModes';
+import { AddModeController } from './controllers/addMode';
+import { AddRevisionController } from './controllers/addRevision';
 const app = express();
 if (isDev && process.env.NODE_ENV !== 'test') {
 	app.use(morganConsole);
@@ -46,6 +48,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/modes', GetModesController);
+app.use('/', AddModeController);
+app.use('/', AddRevisionController);
 
 export const server = app.listen(port);
 export default app;

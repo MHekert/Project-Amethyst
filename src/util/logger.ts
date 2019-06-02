@@ -13,7 +13,7 @@ const httpFormat = winston.format.printf(({ level, message, label, timestamp }) 
 	return label !== undefined ? `[${timestamp}] [${label}] ${newMessage}` : `[${timestamp}] ${newMessage}`;
 });
 
-export const logger = winston.loggers.add('logger', {
+const logger = winston.loggers.add('logger', {
 	transports: [
 		new winston.transports.Console({
 			level: isDev ? 'debug' : 'error',
@@ -61,3 +61,5 @@ if (isDev) {
 	httpLoggerConsole.debug('HTTP logging initialized at debug level');
 	logger.debug('HTTP Logging initialized at debug level');
 }
+
+export default logger;
