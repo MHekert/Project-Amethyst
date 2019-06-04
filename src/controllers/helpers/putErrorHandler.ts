@@ -1,10 +1,11 @@
 import { Response } from 'express';
 import serializeError from 'serialize-error';
+import { has } from 'lodash';
 import logger from '../../util/logger';
+import { putError400, allError500 } from '../../util/errorObjects';
 
 export default (err: any, res: Response) => {
-	if ('message' in err && err.message.indexOf('Validation failed') !== -1)
-		return res.status(400).send({ error: { message: 'Wrong params in body', status: 400 } });
+	if (has(err, 'message') && err.message.includes('Validation failed')) return res.status(400).send(putError400);
 	logger.error(JSON.stringify(serializeError(err)));
-	return res.status(500).send({ error: { message: 'Unknown error has occured', status: 500 } });
+	return res.status(500).send(allError500);
 };

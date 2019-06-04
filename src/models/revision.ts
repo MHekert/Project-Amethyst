@@ -25,7 +25,8 @@ revisionSchema.methods.getNextVersionNumber = function() {
 
 const nextVersionNumer = async (modeId: Schema.Types.ObjectId) => {
 	const result = await Revision.findOne({ modeId: modeId }).sort({ modeId: 1, version: -1 });
-	return result !== null && result.version !== undefined ? ++result.version : 1;
+	// return result !== null && result.version !== undefined ? ++result.version : 1;
+	return result && result.version ? ++result.version : 1;
 };
 
 const Revision: mongoose.Model<IRevisionModel> = mongoose.model<IRevisionModel>('Revision', revisionSchema);

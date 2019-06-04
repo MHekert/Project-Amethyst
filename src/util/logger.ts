@@ -3,14 +3,12 @@ import { isDev } from './secrets';
 
 const debug = winston.format.printf(({ level, message, label, timestamp }) => {
 	const newMessage = JSON.stringify(message).replace(/\r?\n|\r/, '');
-	return label !== undefined
-		? `[${timestamp}] [${label}] ${level}: ${newMessage}`
-		: `[${timestamp}] ${level}: ${newMessage}`;
+	return label ? `[${timestamp}] [${label}] ${level}: ${newMessage}` : `[${timestamp}] ${level}: ${newMessage}`;
 });
 
 const httpFormat = winston.format.printf(({ level, message, label, timestamp }) => {
 	const newMessage = message.replace(/\r?\n|\r/, '');
-	return label !== undefined ? `[${timestamp}] [${label}] ${newMessage}` : `[${timestamp}] ${newMessage}`;
+	return label ? `[${timestamp}] [${label}] ${newMessage}` : `[${timestamp}] ${newMessage}`;
 });
 
 const logger = winston.loggers.add('logger', {

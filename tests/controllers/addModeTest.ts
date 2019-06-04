@@ -7,6 +7,7 @@ import Mode from '../../src/models/mode';
 import Revision from '../../src/models/revision';
 process.env.NODE_ENV = 'test';
 import app, { server } from '../../src/server';
+import { correctBody, incorrectBody } from '../dummyData/putModeBodyDummy';
 const mongoUri: string = MONGODB_URI;
 chai.use(chaiHttp);
 
@@ -56,20 +57,3 @@ describe(`PUT on path /mode/add`, () => {
 		});
 	});
 });
-
-const correctBody = {
-	author: '5cf2a6fded450065969652b3',
-	modeId: '5cf2a6fded450065969652b3',
-	thumbnail: '/path/to/custom.img',
-	tags: [ 'test1', 'test number 2', 'hey there' ],
-	gallery: 'some.png',
-	code: '123asd'
-};
-
-const incorrectBody = {
-	author: '5cf2a6fded450065969652b3',
-	modeId: '5cf2a6fded450065969652b3',
-	thumbnail: '/path/to/custom.img',
-	tags: [ 'test1', 'test number 2', 'hey there' ],
-	gallery: 'some.png'
-};
