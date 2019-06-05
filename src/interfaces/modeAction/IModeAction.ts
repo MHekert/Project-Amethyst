@@ -3,4 +3,4 @@ export default interface IModeAction {
 	modeId: string;
 	upvote?: boolean;
 	favorite?: boolean;
-};
+}

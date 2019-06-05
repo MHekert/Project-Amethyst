@@ -5,4 +5,4 @@ export default interface IUser {
 	visibleName: string;
 	account: IAccount;
 	suspension?: ISuspension;
-};
+}

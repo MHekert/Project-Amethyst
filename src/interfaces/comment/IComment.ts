@@ -4,4 +4,4 @@ export default interface IComment {
 	replyTo: string;
 	points: number;
 	body: string;
-};
+}
