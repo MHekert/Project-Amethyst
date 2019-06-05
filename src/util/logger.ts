@@ -3,17 +3,15 @@ import { isDev } from './secrets';
 
 const debug = winston.format.printf(({ level, message, label, timestamp }) => {
 	const newMessage = JSON.stringify(message).replace(/\r?\n|\r/, '');
-	return label !== undefined
-		? `[${timestamp}] [${label}] ${level}: ${newMessage}`
-		: `[${timestamp}] ${level}: ${newMessage}`;
+	return label ? `[${timestamp}] [${label}] ${level}: ${newMessage}` : `[${timestamp}] ${level}: ${newMessage}`;
 });
 
 const httpFormat = winston.format.printf(({ level, message, label, timestamp }) => {
 	const newMessage = message.replace(/\r?\n|\r/, '');
-	return label !== undefined ? `[${timestamp}] [${label}] ${newMessage}` : `[${timestamp}] ${newMessage}`;
+	return label ? `[${timestamp}] [${label}] ${newMessage}` : `[${timestamp}] ${newMessage}`;
 });
 
-export const logger = winston.loggers.add('logger', {
+const logger = winston.loggers.add('logger', {
 	transports: [
 		new winston.transports.Console({
 			level: isDev ? 'debug' : 'error',
@@ -61,3 +59,5 @@ if (isDev) {
 	httpLoggerConsole.debug('HTTP logging initialized at debug level');
 	logger.debug('HTTP Logging initialized at debug level');
 }
+
+export default logger;

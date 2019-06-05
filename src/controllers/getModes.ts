@@ -1,6 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { check, validationResult } from 'express-validator/check';
 import { getModesByDate, getModesByPoints } from '../models/mode';
+import { getError400 } from '../util/errorObjects';
 
 const router: Router = Router();
 
@@ -16,7 +17,7 @@ router.get(
 			const modes = await getModesByDate(quantity, date, points);
 			res.status(200).send(modes);
 		} catch (err) {
-			res.status(400).send({ error: { message: 'Wrong params in path', status: 400 } });
+			res.status(400).send(getError400);
 		}
 	}
 );
@@ -28,7 +29,7 @@ router.get('/new/:quantity', [ check('quantity').isInt() ], async (req: Request,
 		const modes = await getModesByDate(quantity);
 		res.status(200).send(modes);
 	} catch (err) {
-		res.status(400).send({ error: { message: 'Wrong params in path', status: 400 } });
+		res.status(400).send(getError400);
 	}
 });
 
@@ -44,7 +45,7 @@ router.get(
 			const modes = await getModesByPoints(quantity, date, points);
 			res.status(200).send(modes);
 		} catch (err) {
-			res.status(400).send({ error: { message: 'Wrong params in path', status: 400 } });
+			res.status(400).send(getError400);
 		}
 	}
 );
@@ -56,7 +57,7 @@ router.get('/top/:quantity', [ check('quantity').isInt() ], async (req: Request,
 		const modes = await getModesByPoints(quantity);
 		res.status(200).send(modes);
 	} catch (err) {
-		res.status(400).send({ error: { message: 'Wrong params in path', status: 400 } });
+		res.status(400).send(getError400);
 	}
 });
 

@@ -7,15 +7,15 @@ const revisionSchema: Schema = new Schema({
 	version: Number,
 	code: { type: String, required: true },
 	createdAt: { type: Date, default: Date.now },
-	body: String,
+	body: { type: String, default: '' },
 	gallery: [ String ]
 });
 
 revisionSchema.index({ modeId: 1 });
 revisionSchema.index({ modeId: 1, version: -1 });
 
-revisionSchema.pre<IRevisionModel>('save', function(next) {
-	this.version = this.getNextVersionNumber();
+revisionSchema.pre<IRevisionModel>('save', async function(next) {
+	this.version = await this.getNextVersionNumber();
 	next();
 });
 
@@ -25,7 +25,7 @@ revisionSchema.methods.getNextVersionNumber = function() {
 
 const nextVersionNumer = async (modeId: Schema.Types.ObjectId) => {
 	const result = await Revision.findOne({ modeId: modeId }).sort({ modeId: 1, version: -1 });
-	return result !== null ? result.version : 1;
+	return result && result.version ? ++result.version : 1;
 };
 
 const Revision: mongoose.Model<IRevisionModel> = mongoose.model<IRevisionModel>('Revision', revisionSchema);
