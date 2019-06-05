@@ -1,10 +1,7 @@
-import { Schema } from 'mongoose';
 import IFork from './IFork';
 
-const Id = Schema.Types.ObjectId;
-
 export default interface IMode {
-	author: typeof Id;
+	author: string;
 	title: string;
 	tags: [string];
 	shortDescription: string;
@@ -13,4 +10,4 @@ export default interface IMode {
 	favorites: number;
 	points: number;
 	createdAt: string;
-}
+};

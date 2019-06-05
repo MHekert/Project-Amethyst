@@ -1,10 +1,10 @@
+process.env.NODE_ENV = 'test';
 import { describe, it } from 'mocha';
 import chai, { expect } from 'chai';
 import mongoose from 'mongoose';
 import { MONGODB_URI } from '../../src/util/secrets';
 import chaiHttp from 'chai-http';
 import * as _ from 'lodash';
-process.env.NODE_ENV = 'test';
 import app, { server } from '../../src/server';
 const mongoUri: string = MONGODB_URI;
 chai.use(chaiHttp);

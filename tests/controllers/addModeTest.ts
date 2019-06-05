@@ -1,3 +1,4 @@
+process.env.NODE_ENV = 'test';
 import chai, { expect } from 'chai';
 import mongoose from 'mongoose';
 import { MONGODB_URI } from '../../src/util/secrets';
@@ -5,7 +6,6 @@ import chaiHttp from 'chai-http';
 import * as _ from 'lodash';
 import Mode from '../../src/models/mode';
 import Revision from '../../src/models/revision';
-process.env.NODE_ENV = 'test';
 import app, { server } from '../../src/server';
 import { correctBody, incorrectBody } from '../dummyData/putModeBodyDummy';
 const mongoUri: string = MONGODB_URI;

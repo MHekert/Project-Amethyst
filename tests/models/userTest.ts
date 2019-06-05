@@ -1,3 +1,4 @@
+process.env.NODE_ENV = 'test';
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import User from '../../src/models/user';

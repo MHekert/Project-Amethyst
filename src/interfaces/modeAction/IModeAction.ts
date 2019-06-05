@@ -1,10 +1,6 @@
-import { Schema } from 'mongoose';
-
-const Id = Schema.Types.ObjectId;
-
 export default interface IModeAction {
-	userId: typeof Id;
-	modeId: typeof Id;
+	userId: string;
+	modeId: string;
 	upvote?: boolean;
 	favorite?: boolean;
-}
+};

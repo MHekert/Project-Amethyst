@@ -1,9 +1,7 @@
 import { Schema } from 'mongoose';
 
-const Id = Schema.Types.ObjectId;
-
 export default interface IRevision {
-	modeId: typeof Id;
+	modeId: string;
 	changelog: [string];
 	version: number;
 	code: string;

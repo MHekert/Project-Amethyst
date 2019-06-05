@@ -1,3 +1,4 @@
+process.env.NODE_ENV = 'test';
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import mongoose from 'mongoose';
@@ -8,8 +9,11 @@ import { MONGODB_URI } from '../../src/util/secrets';
 const mongoUri: string = MONGODB_URI;
 
 describe(`revision's model`, () => {
-	before(() => {
-		mongoose.connection.openUri(mongoUri, { useNewUrlParser: true, useCreateIndex: true });
+	before(async () => {
+		return mongoose.connection.openUri(mongoUri, { useNewUrlParser: true, useCreateIndex: true });
+	});
+	beforeEach(async () => {
+		return Revision.deleteMany({});
 	});
 	after(async () => {
 		await Revision.deleteMany({});

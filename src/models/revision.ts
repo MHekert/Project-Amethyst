@@ -28,5 +28,8 @@ const nextVersionNumer = async (modeId: Schema.Types.ObjectId) => {
 	return result && result.version ? ++result.version : 1;
 };
 
+export const getRevisions = (modeId: string, offset: number, quantity: number) =>
+	Revision.find({ modeId: modeId }).sort({ modeId: 1, createdAt: -1 }).skip(offset).limit(quantity).exec();
+
 const Revision: mongoose.Model<IRevisionModel> = mongoose.model<IRevisionModel>('Revision', revisionSchema);
 export default Revision;
