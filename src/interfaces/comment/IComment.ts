@@ -1,11 +1,7 @@
-import { Schema } from 'mongoose';
-
-const Id = Schema.Types.ObjectId;
-
 export default interface IComment {
-	author: typeof Id;
-	mode: typeof Id;
-	replyTo: typeof Id;
+	author: string;
+	mode: string;
+	replyTo: string;
 	points: number;
 	body: string;
 }

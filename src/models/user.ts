@@ -1,5 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
-import bcrypt from 'bcrypt';
+import { compareSync, hashSync, genSaltSync } from 'bcrypt';
 import IUserModel from '../interfaces/user/IUserModel';
 import IAccount from '../interfaces/user/IAccount';
 
@@ -27,10 +27,10 @@ const userSchema: Schema = new Schema({
 });
 
 userSchema.methods.generateHash = function() {
-	return bcrypt.hashSync(this.account.local.password, bcrypt.genSaltSync(8));
+	return hashSync(this.account.local.password, genSaltSync(8));
 };
 userSchema.methods.validPassword = function(password: string) {
-	return bcrypt.compareSync(password, this.account.local.password);
+	return compareSync(password, this.account.local.password);
 };
 
 userSchema.post('validate', (user: IUserModel, next) => {

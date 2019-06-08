@@ -1,21 +1,22 @@
+process.env.NODE_ENV = 'test';
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
-import mongoose from 'mongoose';
+import { connection } from 'mongoose';
 import Mode, { getModesByDate, getModesByPoints } from '../../src/models/mode';
-import createDummyModes from '../dummyData/dummyModes';
+import createDummyModes from '../dummyData/createDummyModes';
 import { MONGODB_URI } from '../../src/util/secrets';
 const mongoUri: string = MONGODB_URI;
 
 describe(`mode's model`, () => {
 	before(async () => {
-		return mongoose.connection.openUri(mongoUri, { useNewUrlParser: true, useCreateIndex: true });
+		return connection.openUri(mongoUri, { useNewUrlParser: true, useCreateIndex: true });
 	});
 	beforeEach(async () => {
 		return Mode.deleteMany({});
 	});
 	after(async () => {
 		await Mode.deleteMany({});
-		return mongoose.connection.close();
+		return connection.close();
 	});
 
 	describe(`on saving new element`, () => {
