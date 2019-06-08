@@ -2,7 +2,7 @@ process.env.NODE_ENV = 'test';
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import User from '../../src/models/user';
-import bcrypt from 'bcrypt';
+import { compareSync } from 'bcrypt';
 
 describe(`user's model method`, () => {
 	describe(`that returns visible name`, () => {
@@ -29,7 +29,7 @@ describe(`user's model method`, () => {
 			const user = new User();
 			user.account.local.password = 'passfraze';
 			const hash = user.generateHash();
-			const result = bcrypt.compareSync(user.account.local.password, hash);
+			const result = compareSync(user.account.local.password, hash);
 			expect(result).to.be.equal(true);
 		});
 	});

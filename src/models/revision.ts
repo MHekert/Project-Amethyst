@@ -1,4 +1,4 @@
-import mongoose, { Schema } from 'mongoose';
+import { Model, model, Schema } from 'mongoose';
 import IRevisionModel from '../interfaces/revision/IRevisionModel';
 
 const revisionSchema: Schema = new Schema({
@@ -31,5 +31,5 @@ const nextVersionNumer = async (modeId: Schema.Types.ObjectId) => {
 export const getRevisions = (modeId: string, offset: number, quantity: number) =>
 	Revision.find({ modeId: modeId }).sort({ modeId: 1, createdAt: -1 }).skip(offset).limit(quantity).exec();
 
-const Revision: mongoose.Model<IRevisionModel> = mongoose.model<IRevisionModel>('Revision', revisionSchema);
+const Revision: Model<IRevisionModel> = model<IRevisionModel>('Revision', revisionSchema);
 export default Revision;

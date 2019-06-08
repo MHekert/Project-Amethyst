@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
-import fs from 'fs';
+import { existsSync } from 'fs';
 
-if (fs.existsSync('node.env')) dotenv.config({ path: 'node.env' });
+if (existsSync('node.env')) dotenv.config({ path: 'node.env' });
 export const isDev: boolean = JSON.parse(process.env.ISDEV);
 export const SESSION_SECRET = isDev ? process.env['SESSION_SECRET_LOCAL'] : process.env['SESSION_SECRET'];
 export const MONGODB_URI =

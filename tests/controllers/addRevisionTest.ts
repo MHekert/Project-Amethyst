@@ -1,18 +1,17 @@
 process.env.NODE_ENV = 'test';
-import chai, { expect } from 'chai';
-import mongoose from 'mongoose';
+import { expect, request, use } from 'chai';
+import { connection } from 'mongoose';
 import { MONGODB_URI } from '../../src/util/secrets';
 import chaiHttp from 'chai-http';
-import * as _ from 'lodash';
 import Revision from '../../src/models/revision';
 import correctBody from '../dummyData/dummyRevisionCorrectBody';
 import app, { server } from '../../src/server';
 const mongoUri: string = MONGODB_URI;
-chai.use(chaiHttp);
+use(chaiHttp);
 
 describe(`PUT on path /revision/add`, () => {
 	before(async () => {
-		return mongoose.connection.openUri(mongoUri, { useNewUrlParser: true, useCreateIndex: true });
+		return connection.openUri(mongoUri, { useNewUrlParser: true, useCreateIndex: true });
 	});
 	beforeEach(async () => {
 		return Revision.deleteMany({});
@@ -20,13 +19,12 @@ describe(`PUT on path /revision/add`, () => {
 	after(async () => {
 		await Revision.deleteMany({});
 		server.close();
-		return mongoose.connection.close();
+		return connection.close();
 	});
 
 	describe(`with correct body`, () => {
 		it(`should return saved revision object and status code 200`, (done) => {
-			chai
-				.request(app)
+			request(app)
 				.put('/revision/add')
 				.set('content-type', 'application/json')
 				.send(correctBody)
@@ -45,7 +43,7 @@ describe(`PUT on path /revision/add`, () => {
 	});
 	describe(`with incorrect body`, () => {
 		it(`should return object with error description and status code 400`, (done) => {
-			chai.request(app).put('/revision/add').set('content-type', 'application/json').send({}).end((err, res) => {
+			request(app).put('/revision/add').set('content-type', 'application/json').send({}).end((err, res) => {
 				expect(res).have.status(400);
 				expect(res.body.error).to.be.an('object');
 				expect(res.body.error).to.have.property('message', 'Wrong params in body');

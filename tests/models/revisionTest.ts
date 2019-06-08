@@ -1,7 +1,7 @@
 process.env.NODE_ENV = 'test';
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
-import mongoose from 'mongoose';
+import { connection } from 'mongoose';
 import Revision from '../../src/models/revision';
 import correctBody from '../dummyData/dummyRevisionCorrectBody';
 import modelFromRequest from '../../src/util/modelFromRequest';
@@ -10,14 +10,14 @@ const mongoUri: string = MONGODB_URI;
 
 describe(`revision's model`, () => {
 	before(async () => {
-		return mongoose.connection.openUri(mongoUri, { useNewUrlParser: true, useCreateIndex: true });
+		return connection.openUri(mongoUri, { useNewUrlParser: true, useCreateIndex: true });
 	});
 	beforeEach(async () => {
 		return Revision.deleteMany({});
 	});
 	after(async () => {
 		await Revision.deleteMany({});
-		return mongoose.connection.close();
+		return connection.close();
 	});
 
 	describe(`on saving new element without required values`, () => {

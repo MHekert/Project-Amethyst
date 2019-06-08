@@ -1,4 +1,4 @@
-import mongoose, { Schema } from 'mongoose';
+import { Model, model, Schema } from 'mongoose';
 import IModeModel from '../interfaces/mode/IModeModel';
 
 const modeSchema: Schema = new Schema({
@@ -74,5 +74,5 @@ export const getModesByPoints = (quantity: number, olderThan?: string, lessThan?
 		.exec();
 };
 
-const Mode: mongoose.Model<IModeModel> = mongoose.model<IModeModel>('Mode', modeSchema);
+const Mode: Model<IModeModel> = model<IModeModel>('Mode', modeSchema);
 export default Mode;

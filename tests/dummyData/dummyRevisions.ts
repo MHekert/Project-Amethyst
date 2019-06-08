@@ -3,7 +3,7 @@ import Revision from '../../src/models/revision';
 
 export const modeId = '5cf2a6fded450065969652b3';
 
-export default () => {
+export const createDummyRevisions = () => {
 	const testArr = Array(15).fill(async (call: any) => {
 		const testRevision = new Revision();
 		testRevision.modeId = modeId;

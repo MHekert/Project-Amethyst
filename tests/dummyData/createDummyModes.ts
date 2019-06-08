@@ -1,6 +1,6 @@
 import Mode from '../../src/models/mode';
 
-export default () => {
+const createDummyModes = () => {
 	const testArr = [
 		{ date: '2019-05-27', points: 30 },
 		{ date: '2019-05-27', points: 45 },
@@ -19,3 +19,5 @@ export default () => {
 		return testmode.save();
 	});
 };
+
+export default createDummyModes;

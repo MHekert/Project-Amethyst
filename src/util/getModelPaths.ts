@@ -1,9 +1,11 @@
-import mongoose from 'mongoose';
+import { Model } from 'mongoose';
 
-export default (model: mongoose.Model<any>) => {
+const getModelPaths = (model: Model<any>) => {
 	const paths: string[] = [];
 	model.schema.eachPath((path: string) => {
 		paths.push(path);
 	});
 	return paths;
 };
+
+export default getModelPaths;
