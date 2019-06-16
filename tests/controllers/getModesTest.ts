@@ -9,6 +9,7 @@ import app, { server } from '../../src/server';
 import getDummyIds from '../dummyData/getDummyIds';
 import Mode from '../../src/models/mode';
 import IModeModel from '../../src/interfaces/mode/IModeModel';
+import { getError400 } from '../../src/util/errorObjects';
 const mongoUri: string = MONGODB_URI;
 use(chaiHttp);
 
@@ -39,7 +40,7 @@ describe(`GET on path`, () => {
 					.get('/modes/new/wrong_param')
 					.end((err, res) => {
 						expect(res).have.status(400);
-						expect(res.body).to.be.deep.equal({ error: { message: 'Wrong params in path', status: 400 } });
+						expect(res.body).to.be.deep.equal(getError400);
 						done();
 					});
 			});
@@ -61,7 +62,7 @@ describe(`GET on path`, () => {
 					.get('/modes/new/wrong_param/2019-05-28T16:55:56.496Z')
 					.end((err, res) => {
 						expect(res).have.status(400);
-						expect(res.body).to.be.deep.equal({ error: { message: 'Wrong params in path', status: 400 } });
+						expect(res.body).to.be.deep.equal(getError400);
 						done();
 					});
 			});
@@ -72,7 +73,7 @@ describe(`GET on path`, () => {
 					.get('/modes/new/10/2019-05-2')
 					.end((err, res) => {
 						expect(res).have.status(400);
-						expect(res.body).to.be.deep.equal({ error: { message: 'Wrong params in path', status: 400 } });
+						expect(res.body).to.be.deep.equal(getError400);
 						done();
 					});
 			});
@@ -116,7 +117,7 @@ describe(`GET on path`, () => {
 					.get('/modes/top/wrong_param')
 					.end((err, res) => {
 						expect(res).have.status(400);
-						expect(res.body).to.be.deep.equal({ error: { message: 'Wrong params in path', status: 400 } });
+						expect(res.body).to.be.deep.equal(getError400);
 						done();
 					});
 			});
@@ -140,7 +141,7 @@ describe(`GET on path`, () => {
 					.get(`/modes/top/wrong_param?ids[]=${dummyIds[1]}&ids[]=${dummyIds[2]}`)
 					.end((err, res) => {
 						expect(res).have.status(400);
-						expect(res.body).to.be.deep.equal({ error: { message: 'Wrong params in path', status: 400 } });
+						expect(res.body).to.be.deep.equal(getError400);
 						done();
 					});
 			});
@@ -152,7 +153,7 @@ describe(`GET on path`, () => {
 					.get(`/modes/top/10?ids=wrong_param`)
 					.end((err, res) => {
 						expect(res).have.status(400);
-						expect(res.body).to.be.deep.equal({ error: { message: 'Wrong params in path', status: 400 } });
+						expect(res.body).to.be.deep.equal(getError400);
 						done();
 					});
 			});
@@ -164,7 +165,7 @@ describe(`GET on path`, () => {
 					.get(`/modes/top/10?ids[]=not&ids[]=hex`)
 					.end((err, res) => {
 						expect(res).have.status(400);
-						expect(res.body).to.be.deep.equal({ error: { message: 'Wrong params in path', status: 400 } });
+						expect(res.body).to.be.deep.equal(getError400);
 						done();
 					});
 			});

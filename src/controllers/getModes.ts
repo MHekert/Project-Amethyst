@@ -45,7 +45,9 @@ router.get(
 router.get(
 	'/top/:quantity',
 	[
-		param('quantity').isInt(),
+		param('quantity')
+			.isInt()
+			.toInt(),
 		query('ids')
 			.optional()
 			.isArray()
@@ -54,9 +56,8 @@ router.get(
 	async (req: Request, res: Response) => {
 		try {
 			validationResult(req).throw();
-			const quantity = +req.params.quantity;
-			if (!req.query.ids) return res.status(200).send(await getModesByPoints(quantity));
-			return res.status(200).send(await getModesByPoints(quantity, req.query.ids));
+			if (!req.query.ids) return res.status(200).send(await getModesByPoints(req.params.quantity));
+			return res.status(200).send(await getModesByPoints(req.params.quantity, req.query.ids));
 		} catch (err) {
 			res.status(400).send(getError400);
 		}
