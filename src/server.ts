@@ -4,6 +4,7 @@ import express, { Request, Response } from 'express';
 import session from 'express-session';
 import mongoose from 'mongoose';
 import passport from 'passport';
+import cors from 'cors';
 import { isDev, MONGODB_URI, PORT, SESSION_SECRET } from './util/secrets';
 import { morganConsole, morganFile } from './util/httpLogger';
 import { GetModesController } from './controllers/getModes';
@@ -11,6 +12,7 @@ import { GetRevisionsController } from './controllers/getRevisions';
 import { AddModeController } from './controllers/addMode';
 import { AddRevisionController } from './controllers/addRevision';
 const app = express();
+app.use(cors());
 if (isDev && process.env.NODE_ENV !== 'test') {
 	app.use(morganConsole);
 	app.use(morganFile);
