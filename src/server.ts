@@ -5,14 +5,14 @@ import session from 'express-session';
 import mongoose from 'mongoose';
 import passport from 'passport';
 import cors from 'cors';
-import { isDev, MONGODB_URI, PORT, SESSION_SECRET } from './util/secrets';
+import { isDev, MONGODB_URI, PORT, SESSION_SECRET, FRONTEND_URL } from './util/secrets';
 import { morganConsole, morganFile } from './util/httpLogger';
-import { GetModesController } from './controllers/getModes';
-import { GetRevisionsController } from './controllers/getRevisions';
-import { AddModeController } from './controllers/addMode';
-import { AddRevisionController } from './controllers/addRevision';
+import { RoutesController } from './controllers/routes';
+import passportConf from './config/passport';
+passportConf(passport);
+
 const app = express();
-app.use(cors());
+app.use(cors({ origin: FRONTEND_URL, credentials: true }));
 if (isDev && process.env.NODE_ENV !== 'test') {
 	app.use(morganConsole);
 	app.use(morganFile);
@@ -34,7 +34,7 @@ app.use(
 
 app.use(
 	session({
-		cookie: { secure: false },
+		cookie: { secure: false, httpOnly: true },
 		resave: false,
 		saveUninitialized: false,
 		secret: secret,
@@ -50,10 +50,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/modes', GetModesController);
-app.use('/revisions', GetRevisionsController);
-app.use('/', AddModeController);
-app.use('/', AddRevisionController);
+app.use('/', RoutesController);
 
 export const server = app.listen(port);
 export default app;
