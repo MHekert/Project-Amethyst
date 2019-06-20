@@ -1,10 +1,8 @@
-import passportFacebook from 'passport-facebook';
+import { Strategy } from 'passport-facebook';
 import User from '../models/user';
 import { FACEBOOK_APP_ID, FACEBOOK_APP_SECRET, FACEBOOK_CALLBACK_URL } from '../util/secrets';
 
-const FacebookStrategy = passportFacebook.Strategy;
-
-export default new FacebookStrategy(
+export default new Strategy(
 	{
 		clientID: FACEBOOK_APP_ID,
 		clientSecret: FACEBOOK_APP_SECRET,
