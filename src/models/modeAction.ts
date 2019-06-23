@@ -27,19 +27,19 @@ modeActionSchema.methods.unsetFavorite = function() {
 };
 
 const setUpvote = (id: typeof Schema.Types.ObjectId) =>
-	ModeAction.updateOne({ _id: id }, { upvote: true }, { upsert: true, new: true }).exec();
+	ModeAction.updateOne({ _id: id }, { upvote: true }, { upsert: true }).exec();
 
 const setDownvote = (id: typeof Schema.Types.ObjectId) =>
-	ModeAction.updateOne({ _id: id }, { upvote: false }, { upsert: true, new: true }).exec();
+	ModeAction.updateOne({ _id: id }, { upvote: false }, { upsert: true }).exec();
 
 const unsetVote = (id: typeof Schema.Types.ObjectId) =>
-	ModeAction.updateOne({ _id: id }, { $unset: { upvote: '' } }, { upsert: true, new: true }).exec();
+	ModeAction.updateOne({ _id: id }, { $unset: { upvote: '' } }, { upsert: true }).exec();
 
 const setFavorite = (id: typeof Schema.Types.ObjectId) =>
-	ModeAction.updateOne({ _id: id }, { favorite: true }, { upsert: true, new: true }).exec();
+	ModeAction.updateOne({ _id: id }, { favorite: true }, { upsert: true }).exec();
 
 const unsetFavorite = (id: typeof Schema.Types.ObjectId) =>
-	ModeAction.updateOne({ _id: id }, { favorite: false }, { upsert: true, new: true }).exec();
+	ModeAction.updateOne({ _id: id }, { favorite: false }, { upsert: true }).exec();
 
 const ModeAction: Model<IModeActionModel> = model<IModeActionModel>('ModeAction', modeActionSchema);
 export default ModeAction;
