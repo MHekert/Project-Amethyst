@@ -1,10 +1,11 @@
 import { Model, model, Schema } from 'mongoose';
 import IModeModel from '../interfaces/mode/IModeModel';
+import { max } from 'lodash';
 
 const modeSchema: Schema = new Schema({
 	author: Schema.Types.ObjectId,
 	title: String,
-	tags: [ String ],
+	tags: [String],
 	shortDescription: String,
 	thumbnail: { type: String, default: '/path/to/default.img' },
 	fork: {
@@ -16,9 +17,9 @@ const modeSchema: Schema = new Schema({
 	createdAt: { type: Date, default: Date.now }
 });
 
-modeSchema.index({ createdAt: -1, points: -1 });
-modeSchema.index({ points: -1, createdAt: -1 });
-modeSchema.index({ author: 1, createdAt: -1 });
+modeSchema.index({ createdAt: -1 });
+modeSchema.index({ points: -1 });
+modeSchema.index({ author: 1 });
 modeSchema.index(
 	{
 		title: 'text',
@@ -58,20 +59,47 @@ export const incFavorite = (modeId: typeof Schema.Types.ObjectId) =>
 export const decFavorite = (modeId: typeof Schema.Types.ObjectId) =>
 	Mode.updateOne({ _id: modeId }, { $inc: { favorites: -1 } }).exec();
 
-export const getModesByDate = (quantity: number, olderThan?: string, lessThan?: number) => {
-	if (!olderThan && !lessThan) return Mode.find({}).sort({ createdAt: -1, points: -1 }).limit(quantity).exec();
-	return Mode.find({ createdAt: { $lte: olderThan }, points: { $lt: lessThan } })
-		.sort({ createdAt: -1, points: -1 })
+export const getModesByDate = (quantity: number, olderThan?: string) => {
+	if (!olderThan)
+		return Mode.find({})
+			.sort({ createdAt: -1 })
+			.limit(quantity)
+			.exec();
+	return Mode.find({ createdAt: { $lt: olderThan } })
+		.sort({ createdAt: -1 })
 		.limit(quantity)
 		.exec();
 };
 
-export const getModesByPoints = (quantity: number, olderThan?: string, lessThan?: number) => {
-	if (!olderThan && !lessThan) return Mode.find().sort({ points: -1, createdAt: -1 }).limit(quantity).exec();
-	return Mode.find({ createdAt: { $lt: olderThan }, points: { $lte: lessThan } })
+export const getModesByPoints = async (quantity: number, ids?: string[]) => {
+	if (!ids)
+		return Mode.find()
+			.sort({ points: -1 })
+			.limit(quantity)
+			.exec();
+
+	const position = await determineOffset(getPositions(ids));
+	return Mode.find({})
 		.limit(quantity)
-		.sort({ points: -1, createdAt: -1 })
+		.skip(position)
+		.sort({ points: -1 })
 		.exec();
+};
+
+const getPositions = (ids: string[]) =>
+	ids.map((id) =>
+		Mode.findById({ _id: id })
+			.exec()
+			.then((mode) => {
+				return Mode.find({ points: { $gt: mode.points } })
+					.sort({ points: -1 })
+					.countDocuments();
+			})
+	);
+
+const determineOffset = async (modePromises: any[]) => {
+	const positions = await Promise.all(modePromises);
+	return max(positions) + 1;
 };
 
 const Mode: Model<IModeModel> = model<IModeModel>('Mode', modeSchema);
