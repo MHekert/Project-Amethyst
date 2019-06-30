@@ -3,7 +3,7 @@
 	"version": "1.0.0",
 	"main": "dist/src/server.js",
 	"scripts": {
-		"prebuild": "tslint -c tslint.json -p tsconfig.json --fix",
+		"tslint": "tslint -c tslint.json -p tsconfig.json",
 		"build": "tsc",
 		"prestart": "yarn build",
 		"start": "node .",
@@ -11,11 +11,12 @@
 		"test": "mocha dist/tests/**/*.js --exit",
 		"watch": "nodemon",
 		"justTest": "mocha dist/tests/**/*.js --exit",
-		"justStart": "node ."
+		"justStart": "node .",
+		"pre-commit": "concurrently \"yarn tslint\" \"yarn test\""
 	},
 	"husky": {
 		"hooks": {
-			"pre-commit": "./pre-commit"
+			"pre-commit": "yarn pre-commit"
 		}
 	},
 	"dependencies": {
