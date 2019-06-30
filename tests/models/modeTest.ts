@@ -4,6 +4,7 @@ import { expect } from 'chai';
 import { connection } from 'mongoose';
 import Mode, { getModesByDate, getModesByPoints } from '../../src/models/mode';
 import createDummyModes from '../dummyData/createDummyModes';
+import getDummyIds from '../dummyData/getDummyIds';
 import { MONGODB_URI } from '../../src/util/secrets';
 const mongoUri: string = MONGODB_URI;
 
@@ -42,7 +43,7 @@ describe(`mode's model`, () => {
 	describe(`method to decrement and increment points`, () => {
 		it(`should update in order`, async () => {
 			const mode = await getDummyMode();
-			const pointsArray = [ 1, 1, 1, -1, -1, 1, 1, 1, 1, -1 ];
+			const pointsArray = [1, 1, 1, -1, -1, 1, 1, 1, 1, -1];
 			const expectedPoints = pointsArray.reduce((a, b) => a + b);
 			const updateMap = pointsArray.map((el) => (el === 1 ? mode.upvote() : mode.downvote()));
 			return Promise.all(updateMap)
@@ -67,32 +68,46 @@ describe(`mode's model`, () => {
 		it(`should return correct documents`, async () => {
 			const date = new Date('2019-05-28');
 			const dateS = date.toISOString();
-			const points = 45;
 			const quantity = 10;
 			await Promise.all(createDummyModes());
-			const res1 = await getModesByDate(quantity, dateS, points);
-			expect(res1.length).to.be.at.most(quantity);
+			const res1 = await getModesByDate(quantity, dateS);
+			expect(res1.length).to.be.equal(3);
 			res1.forEach((el) => {
 				expect(new Date(el.createdAt)).at.most(date);
-				expect(el.points).at.below(points);
 			});
 			return new Promise((resolve) => resolve());
 		});
 	});
 
-	describe(`funtion that returns modes by points`, () => {
+	describe(`funtion that returns modes by points with ids param`, () => {
 		it(`should return correct documents`, async () => {
-			const date = new Date('2019-05-28');
-			const dateS = date.toISOString();
-			const points = 45;
 			const quantity = 10;
+			const dummyIds: string[] = await getDummyIds();
+			const res1 = await getModesByPoints(quantity, await dummyIds.slice(1, 4));
+			expect(res1.length).to.be.equal(2);
+			res1.forEach((el) => expect(el.points).at.most(30));
+			return new Promise((resolve) => resolve());
+		});
+	});
+
+	describe(`funtion that returns modes by points with ids param`, () => {
+		it(`should return correctly limit documents`, async () => {
+			const quantity = 1;
+			const dummyIds: string[] = await getDummyIds();
+			const res1 = await getModesByPoints(quantity, await dummyIds.slice(1, 4));
+			expect(res1.length).to.be.equal(1);
+			res1.forEach((el) => expect(el.points).at.most(30));
+			return new Promise((resolve) => resolve());
+		});
+	});
+
+	describe(`funtion that returns modes by points without ids param`, () => {
+		it(`should return correct documents`, async () => {
+			const quantity = 3;
 			await Promise.all(createDummyModes());
-			const res1 = await getModesByPoints(quantity, dateS, points);
-			expect(res1.length).to.be.at.most(quantity);
-			res1.forEach((el) => {
-				expect(new Date(el.createdAt)).be.below(date);
-				expect(el.points).at.most(points);
-			});
+			const res1 = await getModesByPoints(quantity);
+			expect(res1.length).to.be.equal(3);
+			res1.forEach((el) => expect(el.points).to.be.equal(60));
 			return new Promise((resolve) => resolve());
 		});
 	});
