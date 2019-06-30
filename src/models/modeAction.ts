@@ -1,9 +1,11 @@
-import { Model, model, Schema } from 'mongoose';
+import { Model, model, Schema, Types } from 'mongoose';
 import IModeActionModel from '../interfaces/modeAction/IModeActionModel';
 
+const { ObjectId } = Schema.Types;
+
 const modeActionSchema: Schema = new Schema({
-	userId: { type: Schema.Types.ObjectId, required: true },
-	modeId: { type: Schema.Types.ObjectId, required: true },
+	userId: { type: ObjectId, required: true },
+	modeId: { type: ObjectId, required: true },
 	upvote: Boolean,
 	favorite: { type: Boolean, default: false }
 });
@@ -26,20 +28,17 @@ modeActionSchema.methods.unsetFavorite = function() {
 	return unsetFavorite(this._id);
 };
 
-const setUpvote = (id: typeof Schema.Types.ObjectId) =>
-	ModeAction.updateOne({ _id: id }, { upvote: true }, { upsert: true }).exec();
+const updateModeAction = (obj: any) => (id: string) => ModeAction.updateOne({ _id: id }, obj, { upsert: true }).exec();
 
-const setDownvote = (id: typeof Schema.Types.ObjectId) =>
-	ModeAction.updateOne({ _id: id }, { upvote: false }, { upsert: true }).exec();
+const setUpvote = updateModeAction({ upvote: true });
 
-const unsetVote = (id: typeof Schema.Types.ObjectId) =>
-	ModeAction.updateOne({ _id: id }, { $unset: { upvote: '' } }, { upsert: true }).exec();
+const setDownvote = updateModeAction({ upvote: false });
 
-const setFavorite = (id: typeof Schema.Types.ObjectId) =>
-	ModeAction.updateOne({ _id: id }, { favorite: true }, { upsert: true }).exec();
+const unsetVote = updateModeAction({ $unset: { upvote: '' } });
 
-const unsetFavorite = (id: typeof Schema.Types.ObjectId) =>
-	ModeAction.updateOne({ _id: id }, { favorite: false }, { upsert: true }).exec();
+const setFavorite = updateModeAction({ favorite: true });
+
+const unsetFavorite = updateModeAction({ favorite: false });
 
 const ModeAction: Model<IModeActionModel> = model<IModeActionModel>('ModeAction', modeActionSchema);
 export default ModeAction;
