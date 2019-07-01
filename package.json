@@ -3,7 +3,7 @@
 	"version": "1.0.0",
 	"main": "dist/src/server.js",
 	"scripts": {
-		"prebuild": "tslint -c tslint.json -p tsconfig.json --fix",
+		"tslint": "tslint -c tslint.json -p tsconfig.json",
 		"build": "tsc",
 		"prestart": "yarn build",
 		"start": "node .",
@@ -12,7 +12,13 @@
 		"watch": "nodemon",
 		"justTest": "mocha dist/tests/**/*.js --exit",
 		"justStart": "node .",
+		"pre-commit": "concurrently \"yarn tslint\" \"yarn test\"",
 		"populateDatabase": "node -e 'require(\"./dist/tests/dummyData/populateDatabase\").populateDatabase()'"
+	},
+	"husky": {
+		"hooks": {
+			"pre-commit": "yarn pre-commit"
+		}
 	},
 	"dependencies": {
 		"async": "^3.0.1",
@@ -53,6 +59,7 @@
 		"@types/passport": "^1.0.0",
 		"chai": "^4.2.0",
 		"chai-http": "^4.3.0",
+		"husky": "^2.4.1",
 		"mocha": "^6.1.4",
 		"nodemon": "^1.19.0",
 		"tslint": "^5.16.0",
