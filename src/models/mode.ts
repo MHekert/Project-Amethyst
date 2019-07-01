@@ -2,15 +2,17 @@ import { Model, model, Schema } from 'mongoose';
 import IModeModel from '../interfaces/mode/IModeModel';
 import { max } from 'lodash';
 
+const { ObjectId } = Schema.Types;
+
 const modeSchema: Schema = new Schema({
-	author: Schema.Types.ObjectId,
+	author: ObjectId,
 	title: String,
 	tags: [String],
 	shortDescription: String,
 	thumbnail: { type: String, default: '/path/to/default.img' },
 	fork: {
-		modeId: Schema.Types.ObjectId,
-		revisionId: Schema.Types.ObjectId
+		modeId: ObjectId,
+		revisionId: ObjectId
 	},
 	favorites: { type: Number, default: 0 },
 	points: { type: Number, default: 0 },
@@ -47,17 +49,12 @@ modeSchema.methods.decFavorite = function() {
 	return decFavorite(this._id);
 };
 
-export const upvote = (modeId: typeof Schema.Types.ObjectId) =>
-	Mode.updateOne({ _id: modeId }, { $inc: { points: 1 } }).exec();
+const updateMode = (obj: any) => (modeId: string) => Mode.updateOne({ _id: modeId }, { $inc: obj }).exec();
 
-export const downvote = (modeId: typeof Schema.Types.ObjectId) =>
-	Mode.updateOne({ _id: modeId }, { $inc: { points: -1 } }).exec();
-
-export const incFavorite = (modeId: typeof Schema.Types.ObjectId) =>
-	Mode.updateOne({ _id: modeId }, { $inc: { favorites: 1 } }).exec();
-
-export const decFavorite = (modeId: typeof Schema.Types.ObjectId) =>
-	Mode.updateOne({ _id: modeId }, { $inc: { favorites: -1 } }).exec();
+const upvote = updateMode({ points: 1 });
+const downvote = updateMode({ points: -1 });
+const incFavorite = updateMode({ favorites: 1 });
+const decFavorite = updateMode({ favorites: -1 });
 
 export const getModesByDate = (quantity: number, olderThan?: string) => {
 	if (!olderThan)

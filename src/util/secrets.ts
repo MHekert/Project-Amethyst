@@ -3,9 +3,7 @@ import { existsSync } from 'fs';
 
 if (existsSync('node.env')) dotenv.config({ path: 'node.env' });
 export const isDev: boolean = JSON.parse(process.env.ISDEV);
-export const SESSION_SECRET = isDev ? process.env['SESSION_SECRET_LOCAL'] : process.env['SESSION_SECRET'];
+export const SESSION_SECRET = process.env['SESSION_SECRET'];
 export const MONGODB_URI =
-	process.env.NODE_ENV === 'test'
-		? process.env['MONGODB_URI_TEST']
-		: isDev ? process.env['MONGODB_URI_LOCAL'] : process.env['MONGODB_URI'];
-export const PORT = isDev ? process.env['PORT_LOCAL'] : process.env['PORT'];
+	process.env.NODE_ENV === 'test' ? process.env['MONGODB_URI_TEST'] : process.env['MONGODB_URI'];
+export const PORT = process.env['PORT'];

@@ -3,8 +3,6 @@ import { compareSync, hashSync, genSaltSync } from 'bcrypt';
 import IUserModel from '../interfaces/user/IUserModel';
 import IAccount from '../interfaces/user/IAccount';
 
-const Id = Schema.Types.ObjectId;
-
 const userSchema: Schema = new Schema({
 	visibleName: String,
 	account: {
