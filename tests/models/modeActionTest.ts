@@ -53,7 +53,7 @@ describe(`modeAction's model`, () => {
 
 	describe(`on running setUpvote method and setDownvote`, () => {
 		it(`should set up favorite to default value and upvote as false`, async () => {
-			const id: string = (<any>await dummyModeAction.setUpvote()).upserted[0]._id;
+			const id: string = (await dummyModeAction.setUpvote()).upserted[0]._id;
 			await (await ModeAction.findById(id)).setDownvote();
 			const modeAction = await ModeAction.findById(id);
 			expect(modeAction).to.have.property('favorite', false);

@@ -1,4 +1,4 @@
-import { Model, model, Schema, Types } from 'mongoose';
+import { Model, model, Schema } from 'mongoose';
 import IModeActionModel from '../interfaces/modeAction/IModeActionModel';
 
 const { ObjectId } = Schema.Types;
