@@ -5,8 +5,8 @@ import getTopModesController from './mode/getTopModesController';
 
 const router: Router = Router();
 
-router.put('/add', addModeController);
-router.get('/new', getNewModesController);
-router.get('/top', getTopModesController);
+router.use('/add', addModeController);
+router.use('/new', getNewModesController);
+router.use('/top', getTopModesController);
 
 export default router;

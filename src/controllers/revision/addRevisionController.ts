@@ -3,9 +3,11 @@ import { validationResult, body } from 'express-validator/check';
 import Revision from '../../models/revision';
 import modelFromRequest from '../../util/modelFromRequest';
 import putErrorHandler from '../helpers/putErrorHandler';
+
 const router: Router = Router();
+
 router.put(
-	'/add',
+	'/',
 	[body('code').exists(), body('modeId').exists()],
 	async (req: Request, res: Response, next: NextFunction) => {
 		try {

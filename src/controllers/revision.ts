@@ -4,7 +4,7 @@ import addRevisionController from './revision/addRevisionController';
 
 const router: Router = Router();
 
-router.put('/add', addRevisionController);
-router.get('/', getRevisionsController);
+router.use('/add', addRevisionController);
+router.use('/', getRevisionsController);
 
 export default router;

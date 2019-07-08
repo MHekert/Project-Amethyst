@@ -6,7 +6,7 @@ import { getError400 } from '../../util/errorObjects';
 const router: Router = Router();
 
 router.get(
-	'/new/:quantity/:date/',
+	'/:quantity/:date/',
 	[
 		param('quantity')
 			.isInt()
@@ -25,7 +25,7 @@ router.get(
 );
 
 router.get(
-	'/new/:quantity',
+	'/:quantity',
 	[
 		param('quantity')
 			.isInt()
