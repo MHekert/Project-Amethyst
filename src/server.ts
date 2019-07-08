@@ -8,6 +8,7 @@ import cors from 'cors';
 import { isDev, MONGODB_URI, PORT, SESSION_SECRET } from './util/secrets';
 import { morganConsole, morganFile } from './util/httpLogger';
 import { GetModesController } from './controllers/getModes';
+import { GetModesByAuthorController } from './controllers/getModesByAuthorController';
 import { GetRevisionsController } from './controllers/getRevisions';
 import { AddModeController } from './controllers/addMode';
 import { AddRevisionController } from './controllers/addRevision';
@@ -51,6 +52,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/modes', GetModesController);
+app.use('/modes', GetModesByAuthorController);
 app.use('/revisions', GetRevisionsController);
 app.use('/', AddModeController);
 app.use('/', AddRevisionController);

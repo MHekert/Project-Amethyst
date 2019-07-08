@@ -6,4 +6,5 @@ export const isDev: boolean = JSON.parse(process.env.ISDEV);
 export const SESSION_SECRET = process.env['SESSION_SECRET'];
 export const MONGODB_URI =
 	process.env.NODE_ENV === 'test' ? process.env['MONGODB_URI_TEST'] : process.env['MONGODB_URI'];
+export const MONGODB_URI_TEST = process.env['MONGODB_URI_TEST'];
 export const PORT = process.env['PORT'];
