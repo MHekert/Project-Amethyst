@@ -83,6 +83,14 @@ export const getModesByPoints = async (quantity: number, ids?: string[]) => {
 		.exec();
 };
 
+export const getModesByAuthor = (author: string, quantity: number, offset = 0) => {
+	return Mode.find({ author: author })
+		.sort({ createdAt: -1 })
+		.skip(offset)
+		.limit(quantity)
+		.exec();
+};
+
 const getPositions = (ids: string[]) =>
 	ids.map((id) =>
 		Mode.findById({ _id: id })
