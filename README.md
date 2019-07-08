@@ -26,10 +26,10 @@
 
 ```
 ISDEV=true
-SESSION_SECRET_LOCAL=keybordCat
-MONGODB_URI_TEST=mongodb://localhost:27017/test
-MONGODB_URI_LOCAL=mongodb://localhost:27017/local
-PORT_LOCAL=8080
+SESSION_SECRET=keybordCat
+MONGODB_URI_TEST=mongodb://localhost:27017/testDB
+MONGODB_URI=mongodb://localhost:27017/localDB
+PORT=8080
 FRONTEND_URL=http://localhost:3000
 FACEBOOK_APP_ID=ask_for_id
 FACEBOOK_APP_SECRET=ask_for_secret
