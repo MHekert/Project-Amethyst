@@ -1,12 +1,11 @@
-process.env.NODE_ENV = 'test';
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import { connection } from 'mongoose';
 import Revision from '../../src/models/revision';
 import correctBody from '../dummyData/dummyRevisionCorrectBody';
 import modelFromRequest from '../../src/util/modelFromRequest';
-import { MONGODB_URI } from '../../src/util/secrets';
-const mongoUri: string = MONGODB_URI;
+import { MONGODB_URI_TEST } from '../../src/util/secrets';
+const mongoUri: string = MONGODB_URI_TEST;
 
 describe(`revision's model`, () => {
 	before(async () => {

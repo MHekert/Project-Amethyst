@@ -1,13 +1,12 @@
-process.env.NODE_ENV = 'test';
 import { expect, request, use } from 'chai';
 import { connection } from 'mongoose';
-import { MONGODB_URI } from '../../src/util/secrets';
+import { MONGODB_URI_TEST } from '../../../src/util/secrets';
 import chaiHttp from 'chai-http';
-import Mode from '../../src/models/mode';
-import Revision from '../../src/models/revision';
-import app, { server } from '../../src/server';
-import { correctBody, incorrectBody } from '../dummyData/putModeBodyDummy';
-const mongoUri: string = MONGODB_URI;
+import Mode from '../../../src/models/mode';
+import Revision from '../../../src/models/revision';
+import app, { server } from '../../../src/server';
+import { correctBody, incorrectBody } from '../../dummyData/putModeBodyDummy';
+const mongoUri: string = MONGODB_URI_TEST;
 use(chaiHttp);
 
 describe(`PUT on path /mode/add`, () => {
@@ -15,17 +14,17 @@ describe(`PUT on path /mode/add`, () => {
 		return connection.openUri(mongoUri, { useNewUrlParser: true, useCreateIndex: true });
 	});
 	beforeEach(async () => {
-		return Promise.all([ Mode.deleteMany({}), Revision.deleteMany({}) ]);
+		return Promise.all([Mode.deleteMany({}), Revision.deleteMany({})]);
 	});
 	after(async () => {
-		await Promise.all([ Mode.deleteMany({}), Revision.deleteMany({}) ]);
+		await Promise.all([Mode.deleteMany({}), Revision.deleteMany({})]);
 		server.close();
 		return connection.close();
 	});
 
 	describe(`with correct body`, () => {
 		it(`should return object with nested mode and revision objects and status code 200`, (done) => {
-				request(app)
+			request(app)
 				.put('/mode/add')
 				.set('content-type', 'application/json')
 				.send(correctBody)
@@ -40,7 +39,7 @@ describe(`PUT on path /mode/add`, () => {
 	});
 	describe(`with incorrect body`, () => {
 		it(`should return object with error description and status code 400`, (done) => {
-				request(app)
+			request(app)
 				.put('/mode/add')
 				.set('content-type', 'application/json')
 				.send(incorrectBody)

@@ -1,12 +1,11 @@
-process.env.NODE_ENV = 'test';
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import { connection } from 'mongoose';
-import Mode, { getModesByDate, getModesByPoints } from '../../src/models/mode';
+import Mode, { getModesByDate, getModesByPoints, getModesByAuthor } from '../../src/models/mode';
 import createDummyModes from '../dummyData/createDummyModes';
 import getDummyIds from '../dummyData/getDummyIds';
-import { MONGODB_URI } from '../../src/util/secrets';
-const mongoUri: string = MONGODB_URI;
+import { MONGODB_URI_TEST } from '../../src/util/secrets';
+const mongoUri: string = MONGODB_URI_TEST;
 
 describe(`mode's model`, () => {
 	before(async () => {
@@ -108,6 +107,18 @@ describe(`mode's model`, () => {
 			const res1 = await getModesByPoints(quantity);
 			expect(res1.length).to.be.equal(3);
 			res1.forEach((el) => expect(el.points).to.be.equal(60));
+			return new Promise((resolve) => resolve());
+		});
+	});
+
+	describe(`funtion that returns modes by author`, () => {
+		it(`should return correct documents`, async () => {
+			const id = '507f1f77bcf86cd799439011';
+			const quantity = 10;
+			await Promise.all(createDummyModes());
+			const res1 = await getModesByAuthor(id, quantity);
+			expect(res1).to.have.length(5);
+			res1.forEach((el) => expect(el.author.toString()).at.equal(id));
 			return new Promise((resolve) => resolve());
 		});
 	});
