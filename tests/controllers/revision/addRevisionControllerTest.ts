@@ -1,3 +1,4 @@
+process.env.NODE_ENV = 'test';
 import { expect, request, use } from 'chai';
 import { connection } from 'mongoose';
 import { MONGODB_URI_TEST } from '../../../src/util/secrets';

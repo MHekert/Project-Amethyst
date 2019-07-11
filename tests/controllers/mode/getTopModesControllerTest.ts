@@ -1,3 +1,4 @@
+process.env.NODE_ENV = 'test';
 import { describe, it } from 'mocha';
 import { expect, request, use } from 'chai';
 import { connection } from 'mongoose';
