@@ -1,12 +1,12 @@
 import { Router, Request, Response } from 'express';
 import { validationResult, param } from 'express-validator/check';
-import { getModesByAuthor } from '../models/mode';
-import { getError400 } from '../util/errorObjects';
+import { getModesByAuthor } from '../../models/mode';
+import { getError400 } from '../../util/errorObjects';
 
 const router: Router = Router();
 
 router.get(
-	'/author/:author/:quantity/:offset?',
+	'/:author/:quantity/:offset?',
 	[
 		param('quantity')
 			.isInt()
@@ -29,4 +29,4 @@ router.get(
 	}
 );
 
-export const GetModesByAuthorController: Router = router;
+export default router;

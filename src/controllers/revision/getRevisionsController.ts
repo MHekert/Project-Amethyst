@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { validationResult, param } from 'express-validator/check';
-import { getRevisions } from '../models/revision';
-import { getError400 } from '../util/errorObjects';
+import { getRevisions } from '../../models/revision';
+import { getError400 } from '../../util/errorObjects';
 
 const router: Router = Router();
 
@@ -28,4 +28,4 @@ router.get(
 	}
 );
 
-export const GetRevisionsController: Router = router;
+export default router;

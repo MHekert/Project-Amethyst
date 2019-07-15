@@ -1,12 +1,11 @@
-process.env.NODE_ENV = 'test';
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import { connection } from 'mongoose';
 import Mode, { getModesByDate, getModesByPoints, getModesByAuthor } from '../../src/models/mode';
 import createDummyModes from '../dummyData/createDummyModes';
 import getDummyIds from '../dummyData/getDummyIds';
-import { MONGODB_URI } from '../../src/util/secrets';
-const mongoUri: string = MONGODB_URI;
+import { MONGODB_URI_TEST } from '../../src/util/secrets';
+const mongoUri: string = MONGODB_URI_TEST;
 
 describe(`mode's model`, () => {
 	before(async () => {
@@ -64,7 +63,7 @@ describe(`mode's model`, () => {
 		});
 	});
 
-	describe(`funtion that returns modes by date`, () => {
+	describe(`function that returns modes by date`, () => {
 		it(`should return correct documents`, async () => {
 			const date = new Date('2019-05-28');
 			const dateS = date.toISOString();
@@ -79,7 +78,7 @@ describe(`mode's model`, () => {
 		});
 	});
 
-	describe(`funtion that returns modes by points with ids param`, () => {
+	describe(`function that returns modes by points with ids param`, () => {
 		it(`should return correct documents`, async () => {
 			const quantity = 10;
 			const dummyIds: string[] = await getDummyIds();
@@ -90,7 +89,7 @@ describe(`mode's model`, () => {
 		});
 	});
 
-	describe(`funtion that returns modes by points with ids param`, () => {
+	describe(`function that returns modes by points with ids param`, () => {
 		it(`should return correctly limit documents`, async () => {
 			const quantity = 1;
 			const dummyIds: string[] = await getDummyIds();
@@ -101,7 +100,7 @@ describe(`mode's model`, () => {
 		});
 	});
 
-	describe(`funtion that returns modes by points without ids param`, () => {
+	describe(`function that returns modes by points without ids param`, () => {
 		it(`should return correct documents`, async () => {
 			const quantity = 3;
 			await Promise.all(createDummyModes());
@@ -112,7 +111,7 @@ describe(`mode's model`, () => {
 		});
 	});
 
-	describe(`funtion that returns modes by author`, () => {
+	describe(`function that returns modes by author`, () => {
 		it(`should return correct documents`, async () => {
 			const id = '507f1f77bcf86cd799439011';
 			const quantity = 10;

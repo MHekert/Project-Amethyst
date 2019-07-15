@@ -1,11 +1,10 @@
-process.env.NODE_ENV = 'test';
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import { connection } from 'mongoose';
 import ModeAction from '../../src/models/modeAction';
-import { MONGODB_URI } from '../../src/util/secrets';
+import { MONGODB_URI_TEST } from '../../src/util/secrets';
 import { dummyModeAction, getDummyModeAction } from '../dummyData/dummyModeAction';
-const mongoUri: string = MONGODB_URI;
+const mongoUri: string = MONGODB_URI_TEST;
 
 describe(`modeAction's model`, () => {
 	before(async () => {

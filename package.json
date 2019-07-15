@@ -8,9 +8,9 @@
 		"prestart": "yarn build",
 		"start": "node .",
 		"pretest": "yarn build",
-		"test": "mocha dist/tests/**/*.js --exit",
+		"test": "mocha dist/tests/**/**/**/*.js --exit",
 		"watch": "nodemon",
-		"justTest": "mocha dist/tests/**/*.js --exit",
+		"justTest": "mocha dist/tests/**/**/**/*.js --exit",
 		"justStart": "node .",
 		"pre-commit": "concurrently \"yarn tslint\" \"yarn test\"",
 		"populateDatabase": "node -e 'require(\"./dist/tests/dummyData/populateDatabase\").populateDatabase()'"
