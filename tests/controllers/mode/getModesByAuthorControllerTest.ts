@@ -42,7 +42,7 @@ describe(`GET on path`, () => {
 					});
 			});
 		});
-		describe(`with sting quantity's place`, () => {
+		describe(`with string in quantity's place`, () => {
 			it(`should return message and status code 400`, (done) => {
 				request(app)
 					.get('/mode/author/123123/wrong_param/10')
@@ -76,7 +76,7 @@ describe(`GET on path`, () => {
 			});
 		});
 
-		describe(`/:quantity/:date/ with wrong params number`, () => {
+		describe(`with wrong params number`, () => {
 			it(`should return message and status code 404`, (done) => {
 				request(app)
 					.get('/mode/author/wrong_param/10/10/something_else')
