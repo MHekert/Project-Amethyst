@@ -7,9 +7,10 @@ import passport from 'passport';
 import cors from 'cors';
 import { isDev, MONGODB_URI, PORT, SESSION_SECRET, FRONTEND_URL } from './util/secrets';
 import { morganConsole, morganFile } from './util/httpLogger';
-import { RoutesController } from './routes';
 import passportConf from './config/passport';
+
 passportConf(passport);
+import router from './router';
 
 const app = express();
 app.use(cors({ origin: FRONTEND_URL, credentials: true }));
@@ -50,7 +51,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/', RoutesController);
+app.use('/', router);
 
 export const server = app.listen(port);
 export default app;

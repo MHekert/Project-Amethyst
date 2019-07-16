@@ -1,17 +1,23 @@
 import { Router, Request, Response } from 'express';
-import { check, validationResult } from 'express-validator/check';
-import { getRevisions } from '../models/revision';
-import { getError400 } from '../util/errorObjects';
+import { validationResult, param } from 'express-validator/check';
+import { getRevisions } from '../../models/revision';
+import { getError400 } from '../../util/errorObjects';
 
 const router: Router = Router();
 
 router.get(
 	'/:modeId/:offset?',
-	[ check('modeId').isHexadecimal(), check('offset').optional().isInt() ],
+	[
+		param('modeId').isHexadecimal(),
+		param('offset')
+			.optional()
+			.isInt()
+			.toInt()
+	],
 	async (req: Request, res: Response) => {
 		try {
 			validationResult(req).throw();
-			const offset = req.params.offset ? +req.params.offset : 0;
+			const offset = req.params.offset ? req.params.offset : 0;
 			const modeId = req.params.modeId;
 			const quantity = 10;
 			const revisions = await getRevisions(modeId, offset, quantity);
@@ -22,4 +28,4 @@ router.get(
 	}
 );
 
-export const GetRevisionsController: Router = router;
+export default router;

@@ -7,4 +7,4 @@ router.get('/', (req: Request, res: Response) => {
 	res.redirect(401, FRONTEND_URL);
 });
 
-export const AuthFailController: Router = router;
+export default router;

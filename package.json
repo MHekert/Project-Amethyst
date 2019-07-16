@@ -3,15 +3,22 @@
 	"version": "1.0.0",
 	"main": "dist/src/server.js",
 	"scripts": {
-		"prebuild": "tslint -c tslint.json -p tsconfig.json --fix",
+		"tslint": "tslint -c tslint.json -p tsconfig.json",
 		"build": "tsc",
 		"prestart": "yarn build",
 		"start": "node .",
 		"pretest": "yarn build",
-		"test": "mocha dist/tests/**/*.js --exit",
+		"test": "mocha dist/tests/**/**/**/*.js --exit",
 		"watch": "nodemon",
-		"justTest": "mocha dist/tests/**/*.js --exit",
-		"justStart": "node ."
+		"justTest": "mocha dist/tests/**/**/**/*.js --exit",
+		"justStart": "node .",
+		"pre-commit": "concurrently \"yarn tslint\" \"yarn test\"",
+		"populateDatabase": "node -e 'require(\"./dist/tests/dummyData/populateDatabase\").populateDatabase()'"
+	},
+	"husky": {
+		"hooks": {
+			"pre-commit": "yarn pre-commit"
+		}
 	},
 	"dependencies": {
 		"async": "^3.0.1",
@@ -24,6 +31,7 @@
 		"express-session": "^1.16.2",
 		"express-validator": "^5.3.1",
 		"lodash": "^4.17.11",
+		"lorem-ipsum": "^2.0.3",
 		"mongoose": "^5.5.9",
 		"morgan": "^1.9.1",
 		"passport": "^0.4.0",
@@ -43,6 +51,7 @@
 		"@types/express": "^4.16.1",
 		"@types/express-session": "^1.15.12",
 		"@types/lodash": "^4.14.129",
+		"@types/lorem-ipsum": "^1.0.2",
 		"@types/mocha": "^5.2.6",
 		"@types/mongodb": "^3.1.27",
 		"@types/mongoose": "^5.5.6",
@@ -52,6 +61,8 @@
 		"@types/passport-facebook": "^2.1.9",
 		"chai": "^4.2.0",
 		"chai-http": "^4.3.0",
+		"concurrently": "^4.1.1",
+		"husky": "^2.4.1",
 		"mocha": "^6.1.4",
 		"nodemon": "^1.19.0",
 		"tslint": "^5.16.0",

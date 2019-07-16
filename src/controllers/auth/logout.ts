@@ -12,4 +12,4 @@ router.post('/', (req: Request, res: Response) => {
 		.json({ message: 'logged out successfully', status: 200 });
 });
 
-export const AuthLogoutController: Router = router;
+export default router;

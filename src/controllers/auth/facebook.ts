@@ -12,4 +12,4 @@ router.get(
 	})
 );
 
-export const AuthFacebookController: Router = router;
+export default router;

@@ -1,4 +1,3 @@
-process.env.NODE_ENV = 'test';
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import User from '../../src/models/user';
@@ -38,8 +37,8 @@ describe(`user's model method`, () => {
 			const user = new User();
 			user.account.local.password = 'passfraze';
 			const result = user.preSaveValidation(user);
-			expect(result).to
-				.include({ visibleName: 'username' })
+			expect(result)
+				.to.include({ visibleName: 'username' })
 				.and.to.have.nested.property('account.local.password');
 		});
 	});
