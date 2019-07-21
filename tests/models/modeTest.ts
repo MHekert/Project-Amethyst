@@ -122,6 +122,16 @@ describe(`mode's model`, () => {
 			return new Promise((resolve) => resolve());
 		});
 	});
+
+	describe(`method that that pushes gallery to mode`, () => {
+		it(`should push correct number of paths`, async () => {
+			const mode = await getDummyMode();
+			await mode.pushGallery(Array(5).fill('file_name'));
+			const updatedMode = await Mode.findOne({ _id: mode._id });
+			expect(updatedMode.gallery).to.have.length(5);
+			return updatedMode;
+		});
+	});
 });
 
 const getDummyMode = () => new Mode().save();

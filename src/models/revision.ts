@@ -7,8 +7,7 @@ const revisionSchema: Schema = new Schema({
 	version: Number,
 	code: { type: String, required: true },
 	createdAt: { type: Date, default: Date.now },
-	body: { type: String, default: '' },
-	gallery: [String]
+	body: { type: String, default: '' }
 });
 
 revisionSchema.index({ modeId: 1 });

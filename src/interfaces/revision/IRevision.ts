@@ -5,5 +5,4 @@ export default interface IRevision {
 	code: string;
 	createdAt: Date;
 	body: string;
-	gallery: string[];
 }

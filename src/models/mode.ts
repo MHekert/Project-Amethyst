@@ -16,7 +16,8 @@ const modeSchema: Schema = new Schema({
 	},
 	favorites: { type: Number, default: 0 },
 	points: { type: Number, default: 0 },
-	createdAt: { type: Date, default: Date.now }
+	createdAt: { type: Date, default: Date.now },
+	gallery: [String]
 });
 
 modeSchema.index({ createdAt: -1 });
@@ -48,6 +49,9 @@ modeSchema.methods.incFavorite = function() {
 modeSchema.methods.decFavorite = function() {
 	return decFavorite(this._id);
 };
+modeSchema.methods.pushGallery = function(images: string[]) {
+	return pushGallery(this._id, images);
+};
 
 const updateMode = (obj: any) => (modeId: string) => Mode.updateOne({ _id: modeId }, { $inc: obj }).exec();
 
@@ -55,6 +59,9 @@ const upvote = updateMode({ points: 1 });
 const downvote = updateMode({ points: -1 });
 const incFavorite = updateMode({ favorites: 1 });
 const decFavorite = updateMode({ favorites: -1 });
+
+export const pushGallery = (modeId: string, newImages: string[]) =>
+	Mode.updateOne({ _id: modeId }, { $push: { gallery: { $each: newImages } } }).exec();
 
 export const getModesByDate = (quantity: number, olderThan?: string) => {
 	if (!olderThan)

@@ -10,4 +10,5 @@ export default interface IMode {
 	favorites: number;
 	points: number;
 	createdAt: string;
+	gallery: string[];
 }
