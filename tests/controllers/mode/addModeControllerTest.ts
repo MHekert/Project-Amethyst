@@ -3,8 +3,7 @@ import { expect, request, use } from 'chai';
 import { connection } from 'mongoose';
 import { MONGODB_URI_TEST } from '../../../src/util/secrets';
 import chaiHttp from 'chai-http';
-import Mode from '../../../src/models/mode';
-import Revision from '../../../src/models/revision';
+import Mode from '../../../src/models/mode/mode';
 import app, { server } from '../../../src/server';
 import { correctBody, incorrectBody } from '../../dummyData/putModeBodyDummy';
 const mongoUri: string = MONGODB_URI_TEST;
@@ -15,10 +14,10 @@ describe(`PUT on path /mode/add`, () => {
 		return connection.openUri(mongoUri, { useNewUrlParser: true, useCreateIndex: true });
 	});
 	beforeEach(async () => {
-		return Promise.all([Mode.deleteMany({}), Revision.deleteMany({})]);
+		return Mode.deleteMany({});
 	});
 	after(async () => {
-		await Promise.all([Mode.deleteMany({}), Revision.deleteMany({})]);
+		await Mode.deleteMany({});
 		server.close();
 		return connection.close();
 	});
@@ -33,7 +32,8 @@ describe(`PUT on path /mode/add`, () => {
 					expect(res).have.status(200);
 					expect(res.body).to.be.an('object');
 					expect(res.body).to.have.property('mode');
-					expect(res.body).to.have.property('revision');
+					expect(res.body.mode).to.have.property('revisions');
+					expect(res.body.mode.revisions).to.have.lengthOf(1);
 					done();
 				});
 		});

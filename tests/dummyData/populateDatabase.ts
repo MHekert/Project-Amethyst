@@ -1,6 +1,6 @@
 import { LoremIpsum } from 'lorem-ipsum';
-import Mode from '../../src/models/mode';
-import Revision from '../../src/models/revision';
+import Mode from '../../src/models/mode/mode';
+import Revision from '../../src/models/mode/revision';
 import { connection } from 'mongoose';
 import { MONGODB_URI } from '../../src/util/secrets';
 import { random, now } from 'lodash';
@@ -28,20 +28,20 @@ const insertMode = async () => {
 	mode.title = lorem.generateWords(random(1, 8));
 	mode.tags = new Array(random(10)).fill('').map(() => lorem.generateWords(random(1, 2)));
 	mode.shortDescription = lorem.generateSentences(random(0, 5));
-	await mode.save();
-	return await insertRevisions(mode._id);
+	mode.revisions = insertRevisions();
+	return await mode.save();
 };
 
-const insertRevisions = (modeId: string) => {
+const insertRevisions = () => {
 	const revisions = new Array(random(1, 15)).fill('').map(() => {
 		const revision = new Revision();
 		revision.code = makeCode();
 		revision.body = lorem.generateSentences(random(0, 20));
 		revision.changelog = new Array(random(10)).fill('').map(() => lorem.generateWords(random(1, 10)));
-		revision.modeId = modeId;
-		return revision.save();
+		revision.createdAt = new Date(now() - random(31556952000)).toISOString();
+		return revision;
 	});
-	return Promise.all(revisions);
+	return revisions;
 };
 
 const makeCode = () => {

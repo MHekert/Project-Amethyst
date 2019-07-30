@@ -1,14 +1,18 @@
 import { Router, Request, Response } from 'express';
 import { validationResult, param } from 'express-validator/check';
-import { getRevisions } from '../../models/revision';
+import getRevision from '../../models/mode/helpers/getRevision';
 import { getError400 } from '../../util/errorObjects';
 
 const router: Router = Router();
 
 router.get(
-	'/:modeId/:offset?',
+	'/:modeId/:quantity?/:offset?',
 	[
 		param('modeId').isHexadecimal(),
+		param('quantity')
+			.optional()
+			.isInt()
+			.toInt(),
 		param('offset')
 			.optional()
 			.isInt()
@@ -17,10 +21,10 @@ router.get(
 	async (req: Request, res: Response) => {
 		try {
 			validationResult(req).throw();
-			const offset = req.params.offset ? req.params.offset : 0;
+			const offset = req.params.offset || 0;
+			const quantity = req.params.quantity || 10;
 			const modeId = req.params.modeId;
-			const quantity = 10;
-			const revisions = await getRevisions(modeId, offset, quantity);
+			const revisions = await getRevision(modeId, quantity, offset);
 			res.status(200).send(revisions);
 		} catch (err) {
 			res.status(400).send(getError400);

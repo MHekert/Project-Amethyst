@@ -7,7 +7,7 @@ import chaiHttp from 'chai-http';
 import { isArray } from 'lodash';
 import app, { server } from '../../../src/server';
 import getDummyIds from '../../dummyData/getDummyIds';
-import Mode from '../../../src/models/mode';
+import Mode from '../../../src/models/mode/mode';
 import IModeModel from '../../../src/interfaces/mode/IModeModel';
 import { getError400 } from '../../../src/util/errorObjects';
 const mongoUri: string = MONGODB_URI_TEST;

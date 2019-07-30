@@ -8,9 +8,9 @@
 		"prestart": "yarn build",
 		"start": "node .",
 		"pretest": "yarn build",
-		"test": "mocha dist/tests/**/**/**/*.js --exit",
+		"test": "mocha dist/tests/**/**/**/**/*.js --exit",
 		"watch": "nodemon",
-		"justTest": "mocha dist/tests/**/**/**/*.js --exit",
+		"justTest": "mocha dist/tests/**/**/**/**/*.js --exit",
 		"justStart": "node .",
 		"pre-commit": "concurrently \"yarn tslint\" \"yarn test\"",
 		"populateDatabase": "node -e 'require(\"./dist/tests/dummyData/populateDatabase\").populateDatabase()'"
@@ -21,7 +21,6 @@
 		}
 	},
 	"dependencies": {
-		"async": "^3.0.1",
 		"bcrypt": "^3.0.6",
 		"body-parser": "^1.19.0",
 		"connect-mongo": "^2.0.3",
@@ -40,7 +39,6 @@
 		"winston": "^3.2.1"
 	},
 	"devDependencies": {
-		"@types/async": "^3.0.0",
 		"@types/bcrypt": "^3.0.0",
 		"@types/chai": "^4.1.7",
 		"@types/chai-http": "^4.2.0",
