@@ -3,7 +3,7 @@ import { validationResult, body } from 'express-validator/check';
 import Mode from '../../models/mode';
 import Revision from '../../models/revision';
 import modelFromRequest from '../../util/modelFromRequest';
-import putErrorHandler from '../helpers/putErrorHandler';
+import errorHandler from '../helpers/errorHandler';
 const router: Router = Router();
 router.put(
 	'/',
@@ -18,7 +18,7 @@ router.put(
 			const savedRevision = revision.save();
 			res.status(200).send({ mode: await savedMode, revision: await savedRevision });
 		} catch (err) {
-			putErrorHandler(err, res);
+			errorHandler(err, res);
 		}
 	}
 );

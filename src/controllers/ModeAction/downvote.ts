@@ -1,20 +1,21 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { validationResult, body } from 'express-validator/check';
-import Revision from '../../models/revision';
-import modelFromRequest from '../../util/modelFromRequest';
 import errorHandler from '../helpers/errorHandler';
-
+import { setDownvote } from '../../models/modeAction';
+import isUserLoggedIn from '../middleware/isUserLoggedIn';
 const router: Router = Router();
 
-router.put(
+router.post(
 	'/',
-	[body('code').exists(), body('modeId').exists()],
+	isUserLoggedIn,
+	[body('modeId').isHexadecimal()],
 	async (req: Request, res: Response, next: NextFunction) => {
 		try {
 			validationResult(req).throw();
-			const revision = modelFromRequest(Revision, req.body, ['createdAt', 'version']);
-			const savedRevision = revision.save();
-			res.status(200).send(await savedRevision);
+			const modeId = req.body.modeId;
+			const { n, ok } = await setDownvote(req.user, modeId);
+			if (n !== 1 || ok !== 1) throw new Error('database update failed');
+			res.sendStatus(200);
 		} catch (err) {
 			errorHandler(err, res);
 		}
