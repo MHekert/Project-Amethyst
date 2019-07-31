@@ -1,16 +1,18 @@
 import { Router } from 'express';
-import upvote from './ModeAction/upvote';
-import downvote from './ModeAction/downvote';
-import unsetVote from './ModeAction/unsetVote';
-import setFavorite from './ModeAction/setFavorite';
-import unsetFavorite from './ModeAction/unsetFavorite';
+import validateRequestController from './ModeAction/helpers/validateRequest';
+import upvoteController from './ModeAction/upvote';
+import downvoteController from './ModeAction/downvote';
+import unsetVoteController from './ModeAction/unsetVote';
+import setFavoriteController from './ModeAction/setFavorite';
+import unsetFavoriteController from './ModeAction/unsetFavorite';
 
 const router: Router = Router();
 
-router.use('/upvote', upvote);
-router.use('/downvote', downvote);
-router.use('/unsetvote', unsetVote);
-router.use('/setfavorite', setFavorite);
-router.use('/unsetfavorite', unsetFavorite);
+router.use('/*', validateRequestController);
+router.use('/upvote', upvoteController);
+router.use('/downvote', downvoteController);
+router.use('/unsetvote', unsetVoteController);
+router.use('/setfavorite', setFavoriteController);
+router.use('/unsetfavorite', unsetFavoriteController);
 
 export default router;
