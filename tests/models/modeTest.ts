@@ -1,7 +1,14 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import { connection } from 'mongoose';
-import Mode, { getModesByDate, getModesByPoints, getModesByAuthor } from '../../src/models/mode';
+import Mode, {
+	getModesByDate,
+	getModesByPoints,
+	getModesByAuthor,
+	incPoints,
+	decPoints,
+	incFavorite
+} from '../../src/models/mode';
 import createDummyModes from '../dummyData/createDummyModes';
 import getDummyIds from '../dummyData/getDummyIds';
 import { MONGODB_URI_TEST } from '../../src/util/secrets';
@@ -32,7 +39,7 @@ describe(`mode's model`, () => {
 	describe(`method to increment favorites`, () => {
 		it(`should return model object with incremented favorites`, async () => {
 			const mode = await getDummyMode();
-			const updateResult = await mode.incFavorite();
+			const updateResult = await incFavorite(mode._id);
 			const updatedMode = await Mode.findOne({ _id: mode._id });
 			expect(updatedMode).to.have.property('favorites', 1);
 			expect(updateResult).to.have.property('nModified', 1);
@@ -44,7 +51,7 @@ describe(`mode's model`, () => {
 			const mode = await getDummyMode();
 			const pointsArray = [1, 1, 1, -1, -1, 1, 1, 1, 1, -1];
 			const expectedPoints = pointsArray.reduce((a, b) => a + b);
-			const updateMap = pointsArray.map((el) => (el === 1 ? mode.upvote() : mode.downvote()));
+			const updateMap = pointsArray.map((el) => (el === 1 ? incPoints(mode._id) : decPoints(mode._id)));
 			return Promise.all(updateMap)
 				.then(async (values) => {
 					values.forEach((el) => expect(el).to.have.property('nModified', 1));

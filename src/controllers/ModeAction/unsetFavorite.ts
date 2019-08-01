@@ -1,13 +1,15 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import errorHandler from '../helpers/errorHandler';
 import { unsetFavorite } from '../../models/modeAction';
+import { decFavorite } from '../../models/mode';
 const router: Router = Router();
 
 router.post('/', async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		const { n, ok } = await unsetFavorite(req.user, req.body.modeId);
-		if (n !== 1 || ok !== 1) throw new Error('database update failed');
-		res.sendStatus(200);
+		const modeAction = await unsetFavorite(req.user, req.body.modeId);
+		if (!modeAction || !modeAction.favorite) return res.sendStatus(304);
+		await decFavorite(req.body.modeId);
+		return res.sendStatus(200);
 	} catch (err) {
 		errorHandler(err, res);
 	}

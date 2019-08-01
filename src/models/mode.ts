@@ -36,25 +36,12 @@ modeSchema.index(
 	}
 );
 
-modeSchema.methods.upvote = function() {
-	return upvote(this._id);
-};
-modeSchema.methods.downvote = function() {
-	return downvote(this._id);
-};
-modeSchema.methods.incFavorite = function() {
-	return incFavorite(this._id);
-};
-modeSchema.methods.decFavorite = function() {
-	return decFavorite(this._id);
-};
-
 const updateMode = (obj: any) => (modeId: string) => Mode.updateOne({ _id: modeId }, { $inc: obj }).exec();
 
-const upvote = updateMode({ points: 1 });
-const downvote = updateMode({ points: -1 });
-const incFavorite = updateMode({ favorites: 1 });
-const decFavorite = updateMode({ favorites: -1 });
+export const incPoints = (modeId: string, value = 1) => updateMode({ points: value })(modeId);
+export const decPoints = (modeId: string, value = 1) => updateMode({ points: -value })(modeId);
+export const incFavorite = (modeId: string, value = 1) => updateMode({ favorites: value })(modeId);
+export const decFavorite = (modeId: string, value = 1) => updateMode({ favorites: -value })(modeId);
 
 export const getModesByDate = (quantity: number, olderThan?: string) => {
 	if (!olderThan)

@@ -35,13 +35,13 @@ describe(`POST on path /mode/action/unsetfavorite`, () => {
 			});
 	});
 
-	it('should return status code 200', (done) => {
+	it('should return status code 304', (done) => {
 		request(app)
 			.post('/mode/action/unsetfavorite')
 			.set('content-type', 'application/json')
 			.send({ modeId: id })
 			.end((err, res) => {
-				expect(res).have.status(200);
+				expect(res).have.status(304);
 				done();
 			});
 	});
