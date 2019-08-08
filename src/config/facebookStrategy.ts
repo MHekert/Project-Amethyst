@@ -9,18 +9,20 @@ export default new Strategy(
 		callbackURL: FACEBOOK_CALLBACK_URL,
 		profileFields: ['id', 'emails', 'displayName']
 	},
-	async (token, tokenSecret, profile, done) => {
+	async (token, _tokenSecret, profile, done) => {
 		const currentUser = await User.findOne({
 			'account.facebook.id': profile.id
 		});
 		if (!currentUser) {
-			const newUser = await new User({
-				'account.facebook.name': profile._json.name,
-				'account.facebook.id': profile.id,
-				'account.facebook.token': token
-			}).save();
-			if (newUser) {
-				return done(null, newUser);
+			try {
+				const newUser = await new User({
+					'account.facebook.name': profile._json.name,
+					'account.facebook.id': profile.id,
+					'account.facebook.token': token
+				}).save();
+				if (newUser) return done(null, newUser);
+			} catch (err) {
+				return done(err, null);
 			}
 		}
 		return done(null, currentUser);

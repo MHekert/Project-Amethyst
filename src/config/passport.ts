@@ -3,16 +3,17 @@ import User from '../models/user';
 import IUserModel from '../interfaces/user/IUserModel';
 import facebookStrategy from './facebookStrategy';
 
-export default (passport: passport.PassportStatic) => {
-	passport.use(facebookStrategy);
+passport.use(facebookStrategy);
 
-	passport.serializeUser((user: IUserModel, done) => {
-		done(null, user._id);
-	});
+passport.serializeUser((user: IUserModel, done: any) => done(null, user._id));
 
-	passport.deserializeUser((id, done) => {
-		User.findById(id, function(err, user) {
-			done(err, user);
-		});
-	});
-};
+passport.deserializeUser(async (id: string, done: any) => {
+	try {
+		const user = await User.findById(id).exec();
+		done(null, user);
+	} catch (err) {
+		done(err, null);
+	}
+});
+
+export default passport;

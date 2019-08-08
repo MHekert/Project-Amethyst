@@ -3,13 +3,11 @@ import mongo from 'connect-mongo';
 import express from 'express';
 import session from 'express-session';
 import mongoose from 'mongoose';
-import passport from 'passport';
 import cors from 'cors';
 import { isDev, MONGODB_URI, PORT, SESSION_SECRET, FRONTEND_URL } from './util/secrets';
 import { morganConsole, morganFile } from './util/httpLogger';
-import passportConf from './config/passport';
+import passport from './config/passport';
 
-passportConf(passport);
 import router from './router';
 
 const app = express();
