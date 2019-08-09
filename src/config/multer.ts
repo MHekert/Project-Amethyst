@@ -6,19 +6,15 @@ export const uploadPath = tmpdir() + '/uploads/';
 
 ensureDir(uploadPath);
 
-const fileFilter = (req: any, file: any, cb: any) => {
+const fileFilter = (_req: Express.Request, file: Express.Multer.File, cb: any) => {
 	const acceptTypes = ['image/png', 'image/jpeg'];
 	if (acceptTypes.some((el) => file.mimetype === el)) return cb(null, true);
 	return cb(null, false);
 };
 
 const storage = multer.diskStorage({
-	destination: function(req, file, cb) {
-		cb(null, uploadPath);
-	},
-	filename: function(req, file, cb) {
-		cb(null, req.user + '-' + Date.now());
-	}
+	destination: (_req, _file, cb) => cb(null, uploadPath),
+	filename: (req, _file, cb) => cb(null, req.user + '-' + Date.now())
 });
 
 const upload = multer({ storage: storage, fileFilter: fileFilter });

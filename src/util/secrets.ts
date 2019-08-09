@@ -33,4 +33,4 @@ export const FIREBASE_SERVICEACCOUNTKEY = {
 	client_x509_cert_url: FIREBASE_SAK_CLIENT_X509_CERT_URL
 };
 
-export const FIREBASE_BUCKET = FIREBASE_SAK_TYPE + '.appspot.com';
+export const FIREBASE_BUCKET = FIREBASE_SAK_PROJECT_ID + '.appspot.com';
