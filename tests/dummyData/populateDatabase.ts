@@ -48,6 +48,5 @@ const insertMode = async () => {
 export const populateDatabase = async (quantity?: number) => {
 	const count = !quantity ? 50 : quantity;
 	await Promise.all(times(count, () => insertMode()));
-	// await Promise.all(new Array(count).fill('').map(() => insertMode()));
 	return process.exit(0);
 };
