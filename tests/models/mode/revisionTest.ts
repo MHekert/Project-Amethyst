@@ -6,12 +6,8 @@ import { MONGODB_URI_TEST } from '../../../src/util/secrets';
 const mongoUri: string = MONGODB_URI_TEST;
 
 describe(`revision's model`, () => {
-	before(async () => {
-		return connection.openUri(mongoUri, { useNewUrlParser: true, useCreateIndex: true });
-	});
-	after(async () => {
-		return connection.close();
-	});
+	before(async () => connection.openUri(mongoUri, { useNewUrlParser: true, useCreateIndex: true }));
+	after(async () => connection.close());
 
 	describe(`on saving new element without required values`, () => {
 		it(`should throw error`, async () => {

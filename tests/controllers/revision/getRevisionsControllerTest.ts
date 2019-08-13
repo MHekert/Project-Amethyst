@@ -28,59 +28,43 @@ describe(`GET on path /revision/:modeId/:quantity?/:offset?`, () => {
 	});
 
 	describe(`without optional params: quantity and offset`, () => {
-		it(`should return array with correct objects and status code 200`, (done) => {
-			request(app)
-				.get(`/revision/${modeId}`)
-				.end((err, res) => {
-					expect(res).have.status(200);
-					expect(isArray(res.body)).to.equal(true);
-					expect(res.body.length).to.equal(3);
-					expect(res.body[0].code).to.equal('code3');
-					expect(res.body[res.body.length - 1].code).to.equal('code1');
-					done();
-				});
+		it(`should return array with correct objects and status code 200`, async () => {
+			const res = await request(app).get(`/revision/${modeId}`);
+			expect(res).have.status(200);
+			expect(isArray(res.body)).to.equal(true);
+			expect(res.body.length).to.equal(3);
+			expect(res.body[0].code).to.equal('code3');
+			expect(res.body[res.body.length - 1].code).to.equal('code1');
 		});
 	});
 
 	describe(`with modeId and quantity`, () => {
-		it(`should return array with correct objects and status code 200`, (done) => {
-			request(app)
-				.get(`/revision/${modeId}/2`)
-				.end((err, res) => {
-					expect(res).have.status(200);
-					expect(isArray(res.body)).to.equal(true);
-					expect(res.body.length).to.equal(2);
-					expect(res.body[res.body.length - 1].code).to.equal('code2');
-					expect(res.body[0].code).to.equal('code3');
-					done();
-				});
+		it(`should return array with correct objects and status code 200`, async () => {
+			const res = await request(app).get(`/revision/${modeId}/2`);
+			expect(res).have.status(200);
+			expect(isArray(res.body)).to.equal(true);
+			expect(res.body.length).to.equal(2);
+			expect(res.body[res.body.length - 1].code).to.equal('code2');
+			expect(res.body[0].code).to.equal('code3');
 		});
 	});
 
 	describe(`with modeId, quantity and offset`, () => {
-		it(`should return array with correct objects and status code 200`, (done) => {
-			request(app)
-				.get(`/revision/${modeId}/2/1`)
-				.end((err, res) => {
-					expect(res).have.status(200);
-					expect(isArray(res.body)).to.equal(true);
-					expect(res.body.length).to.equal(2);
-					expect(res.body[0].code).to.equal('code2');
-					expect(res.body[res.body.length - 1].code).to.equal('code1');
-					done();
-				});
+		it(`should return array with correct objects and status code 200`, async () => {
+			const res = await request(app).get(`/revision/${modeId}/2/1`);
+			expect(res).have.status(200);
+			expect(isArray(res.body)).to.equal(true);
+			expect(res.body.length).to.equal(2);
+			expect(res.body[0].code).to.equal('code2');
+			expect(res.body[res.body.length - 1].code).to.equal('code1');
 		});
 	});
 
 	describe(`with sting in offset's place`, () => {
-		it(`should return message and status code 400`, (done) => {
-			request(app)
-				.get(`/revision/${modeId}/wrong_param`)
-				.end((err, res) => {
-					expect(res).have.status(400);
-					expect(res.body).to.be.deep.equal({ error: { message: 'Wrong params in path', status: 400 } });
-					done();
-				});
+		it(`should return message and status code 400`, async () => {
+			const res = await request(app).get(`/revision/${modeId}/wrong_param`);
+			expect(res).have.status(400);
+			expect(res.body).to.be.deep.equal({ error: { message: 'Wrong params in path', status: 400 } });
 		});
 	});
 });

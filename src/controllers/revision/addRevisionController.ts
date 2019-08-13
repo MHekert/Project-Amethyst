@@ -3,7 +3,6 @@ import { validationResult, body } from 'express-validator/check';
 import Revision from '../../models/mode/revision';
 import modelFromRequest from '../../util/modelFromRequest';
 import putErrorHandler from '../helpers/putErrorHandler';
-
 import IRevisionModel from '../../../src/interfaces/mode/IRevisionModel';
 
 const router: Router = Router();

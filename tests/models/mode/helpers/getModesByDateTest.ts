@@ -8,12 +8,8 @@ import { MONGODB_URI_TEST } from '../../../../src/util/secrets';
 const mongoUri: string = MONGODB_URI_TEST;
 
 describe(`mode's model helper function getModesByDate`, () => {
-	before(async () => {
-		return connection.openUri(mongoUri, { useNewUrlParser: true, useCreateIndex: true });
-	});
-	beforeEach(async () => {
-		return Mode.deleteMany({});
-	});
+	before(async () => connection.openUri(mongoUri, { useNewUrlParser: true, useCreateIndex: true }));
+	beforeEach(async () => Mode.deleteMany({}));
 	after(async () => {
 		await Mode.deleteMany({});
 		return connection.close();
@@ -27,10 +23,7 @@ describe(`mode's model helper function getModesByDate`, () => {
 			await Promise.all(createDummyModes());
 			const res1 = await getModesByDate(quantity, dateS);
 			expect(res1.length).to.be.equal(3);
-			res1.forEach((el) => {
-				expect(new Date(el.createdAt)).at.most(date);
-			});
-			return new Promise((resolve) => resolve());
+			res1.forEach((el) => expect(new Date(el.createdAt)).at.most(date));
 		});
 	});
 });

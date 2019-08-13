@@ -9,12 +9,8 @@ import { MONGODB_URI_TEST } from '../../../../src/util/secrets';
 const mongoUri: string = MONGODB_URI_TEST;
 
 describe(`mode's model helper function getModesByPoints`, () => {
-	before(async () => {
-		return connection.openUri(mongoUri, { useNewUrlParser: true, useCreateIndex: true });
-	});
-	beforeEach(async () => {
-		return Mode.deleteMany({});
-	});
+	before(async () => connection.openUri(mongoUri, { useNewUrlParser: true, useCreateIndex: true }));
+	beforeEach(async () => Mode.deleteMany({}));
 	after(async () => {
 		await Mode.deleteMany({});
 		return connection.close();
@@ -27,7 +23,6 @@ describe(`mode's model helper function getModesByPoints`, () => {
 			const res1 = await getModesByPoints(quantity, await dummyIds.slice(1, 4));
 			expect(res1.length).to.be.equal(2);
 			res1.forEach((el: any) => expect(el.points).at.most(30));
-			return new Promise((resolve) => resolve());
 		});
 	});
 
@@ -38,7 +33,6 @@ describe(`mode's model helper function getModesByPoints`, () => {
 			const res1 = await getModesByPoints(quantity, await dummyIds.slice(1, 4));
 			expect(res1.length).to.be.equal(1);
 			res1.forEach((el: any) => expect(el.points).at.most(30));
-			return new Promise((resolve) => resolve());
 		});
 	});
 
@@ -49,7 +43,6 @@ describe(`mode's model helper function getModesByPoints`, () => {
 			const res1 = await getModesByPoints(quantity);
 			expect(res1.length).to.be.equal(3);
 			res1.forEach((el: any) => expect(el.points).to.be.equal(60));
-			return new Promise((resolve) => resolve());
 		});
 	});
 });

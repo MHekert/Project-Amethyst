@@ -1,6 +1,6 @@
 import Mode, { defaultSelection } from '../mode';
 
-export const getModesByDate = (quantity: number, olderThan?: string) => {
+const getModesByDate = (quantity: number, olderThan?: string) => {
 	if (!olderThan)
 		return Mode.find({})
 			.sort({ createdAt: -1 })
