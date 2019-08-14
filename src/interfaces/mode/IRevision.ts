@@ -1,9 +1,6 @@
 export default interface IRevision {
-	modeId: string;
 	changelog: string[];
-	version: number;
 	code: string;
-	createdAt: Date;
+	createdAt: string;
 	body: string;
-	gallery: string[];
 }

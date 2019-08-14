@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
 import errorHandler from '../helpers/errorHandler';
 import { setUpvote } from '../../models/modeAction';
-import { incPoints } from '../../models/mode';
+import { incPoints } from '../../models/mode/mode';
 const router: Router = Router();
 
 router.post('/', async (req: Request, res: Response) => {

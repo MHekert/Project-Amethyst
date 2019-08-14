@@ -6,7 +6,7 @@ import chaiHttp from 'chai-http';
 import ModeAction from '../../../src/models/modeAction';
 import app from '../../../src/server';
 import { correctBody } from '../../dummyData/putModeBodyDummy';
-import Mode from '../../../src/models/mode';
+import Mode from '../../../src/models/mode/mode';
 import IModeModel from '../../../src/interfaces/mode/IModeModel';
 
 const mongoUri: string = MONGODB_URI_TEST;

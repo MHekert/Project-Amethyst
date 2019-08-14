@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
 import errorHandler from '../helpers/errorHandler';
 import { setFavorite } from '../../models/modeAction';
-import { incFavorite } from '../../models/mode';
+import { incFavorite } from '../../models/mode/mode';
 const router: Router = Router();
 
 router.post('/', async (req: Request, res: Response) => {
