@@ -4,6 +4,7 @@ import Mode from '../../models/mode/mode';
 import Revision from '../../models/mode/revision';
 import modelFromRequest from '../../util/modelFromRequest';
 import putErrorHandler from '../helpers/putErrorHandler';
+
 const router: Router = Router();
 router.put(
 	'/',
