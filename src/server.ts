@@ -1,16 +1,17 @@
 import bodyParser from 'body-parser';
 import mongo from 'connect-mongo';
-import express, { Request, Response } from 'express';
+import express from 'express';
 import session from 'express-session';
 import mongoose from 'mongoose';
-import passport from 'passport';
 import cors from 'cors';
-import { isDev, MONGODB_URI, PORT, SESSION_SECRET } from './util/secrets';
+import { isDev, MONGODB_URI, PORT, SESSION_SECRET, FRONTEND_URL } from './util/secrets';
 import { morganConsole, morganFile } from './util/httpLogger';
+import passport from './config/passport';
+
 import router from './router';
 
 const app = express();
-app.use(cors());
+app.use(cors({ origin: FRONTEND_URL, credentials: true }));
 if (isDev && process.env.NODE_ENV !== 'test') {
 	app.use(morganConsole);
 	app.use(morganFile);
@@ -32,7 +33,7 @@ app.use(
 
 app.use(
 	session({
-		cookie: { secure: false },
+		cookie: { secure: false, httpOnly: true },
 		resave: false,
 		saveUninitialized: false,
 		secret: secret,
