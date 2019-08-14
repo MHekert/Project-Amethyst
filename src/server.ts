@@ -5,11 +5,13 @@ import session from 'express-session';
 import mongoose from 'mongoose';
 import passport from 'passport';
 import cors from 'cors';
+import helmet from 'helmet';
 import { isDev, MONGODB_URI, PORT, SESSION_SECRET } from './util/secrets';
 import { morganConsole, morganFile } from './util/httpLogger';
 import router from './router';
 
 const app = express();
+app.use(helmet());
 app.use(cors());
 if (isDev && process.env.NODE_ENV !== 'test') {
 	app.use(morganConsole);
