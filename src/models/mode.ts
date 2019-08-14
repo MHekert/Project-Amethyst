@@ -36,12 +36,12 @@ modeSchema.index(
 	}
 );
 
-const updateMode = (obj: any) => (modeId: string) => Mode.updateOne({ _id: modeId }, { $inc: obj }).exec();
+const updateMode = (modeId: string, obj: any) => Mode.updateOne({ _id: modeId }, { $inc: obj }).exec();
 
-export const incPoints = (modeId: string, value = 1) => updateMode({ points: value })(modeId);
-export const decPoints = (modeId: string, value = 1) => updateMode({ points: -value })(modeId);
-export const incFavorite = (modeId: string, value = 1) => updateMode({ favorites: value })(modeId);
-export const decFavorite = (modeId: string, value = 1) => updateMode({ favorites: -value })(modeId);
+export const incPoints = (modeId: string, value = 1) => updateMode(modeId, { points: value });
+export const decPoints = (modeId: string, value = 1) => updateMode(modeId, { points: -value });
+export const incFavorite = (modeId: string, value = 1) => updateMode(modeId, { favorites: value });
+export const decFavorite = (modeId: string, value = 1) => updateMode(modeId, { favorites: -value });
 
 export const getModesByDate = (quantity: number, olderThan?: string) => {
 	if (!olderThan)

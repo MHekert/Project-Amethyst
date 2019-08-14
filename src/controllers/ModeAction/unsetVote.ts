@@ -1,18 +1,14 @@
-import { Router, Request, Response, NextFunction } from 'express';
+import { Router, Request, Response } from 'express';
 import errorHandler from '../helpers/errorHandler';
 import { unsetVote } from '../../models/modeAction';
 import { incPoints, decPoints } from '../../models/mode';
 const router: Router = Router();
 
-router.post('/', async (req: Request, res: Response, next: NextFunction) => {
+router.post('/', async (req: Request, res: Response) => {
 	try {
-		const modeAction: any = await unsetVote(req.user, req.body.modeId);
-		if (modeAction === null || modeAction.upvote === undefined) {
-			return res.sendStatus(304);
-		} else {
-			if (modeAction.upvote === false) await incPoints(req.body.modeId);
-			if (modeAction.upvote === true) await decPoints(req.body.modeId);
-		}
+		const modeAction = await unsetVote(req.user, req.body.modeId);
+		if (!modeAction || modeAction.upvote === undefined) return res.sendStatus(304);
+		modeAction.upvote ? await decPoints(req.body.modeId) : await incPoints(req.body.modeId);
 		res.sendStatus(200);
 	} catch (err) {
 		errorHandler(err, res);

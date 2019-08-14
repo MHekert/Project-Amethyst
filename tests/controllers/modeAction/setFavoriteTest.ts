@@ -5,44 +5,59 @@ import { MONGODB_URI_TEST } from '../../../src/util/secrets';
 import chaiHttp from 'chai-http';
 import ModeAction from '../../../src/models/modeAction';
 import app from '../../../src/server';
+import { correctBody } from '../../dummyData/putModeBodyDummy';
+import Mode from '../../../src/models/mode';
+import IModeModel from '../../../src/interfaces/mode/IModeModel';
+
 const mongoUri: string = MONGODB_URI_TEST;
 use(chaiHttp);
-
-const id = Types.ObjectId();
+let mode: IModeModel;
 
 describe(`POST on path /mode/action/setfavorite`, () => {
 	before(async () => {
-		return connection.openUri(mongoUri, { useNewUrlParser: true, useCreateIndex: true });
+		await connection.openUri(mongoUri, { useNewUrlParser: true, useCreateIndex: true });
+		await Promise.all([ModeAction.deleteMany({}), Mode.deleteMany({})]);
 	});
 	beforeEach(async () => {
-		return ModeAction.deleteMany({});
+		await Promise.all([ModeAction.deleteMany({}), Mode.deleteMany({})]);
+		mode = await new Mode(correctBody).save();
 	});
 	after(async () => {
-		await ModeAction.deleteMany({});
+		await Promise.all([ModeAction.deleteMany({}), Mode.deleteMany({})]);
 		return connection.close();
 	});
 
-	it('should return error 400 while no modeId in body', (done) => {
-		request(app)
+	it('should return error 400 while no modeId in body', async () => {
+		const res = await request(app)
 			.post('/mode/action/setfavorite')
 			.set('content-type', 'application/json')
-			.send({})
-			.end((err, res) => {
-				expect(res).have.status(400);
-				expect(res.body.error).to.have.property('message', 'Wrong params in body');
-				expect(res.body.error).to.have.property('status', 400);
-				done();
-			});
+			.send({});
+		expect(res).have.status(400);
+		expect(res.body.error).to.have.property('message', 'Wrong params in body');
+		expect(res.body.error).to.have.property('status', 400);
 	});
 
-	it('should return status code 200', (done) => {
-		request(app)
+	it('should return status code 200 and increase favorite by 1', async () => {
+		const res = await request(app)
 			.post('/mode/action/setfavorite')
 			.set('content-type', 'application/json')
-			.send({ modeId: id })
-			.end((err, res) => {
-				expect(res).have.status(200);
-				done();
-			});
+			.send({ modeId: mode._id });
+		expect(res).have.status(200);
+		const updatedMode = await Mode.findById(mode._id);
+		expect(updatedMode.favorites).to.be.equal(mode.favorites + 1);
+	});
+
+	it('should return status code 304 and decrease points by 1', async () => {
+		await request(app)
+			.post('/mode/action/setfavorite')
+			.set('content-type', 'application/json')
+			.send({ modeId: mode._id });
+		const res = await request(app)
+			.post('/mode/action/setfavorite')
+			.set('content-type', 'application/json')
+			.send({ modeId: mode._id });
+		expect(res).have.status(304);
+		const updatedMode = await Mode.findById(mode._id);
+		expect(updatedMode.favorites).to.be.equal(mode.favorites + 1);
 	});
 });
