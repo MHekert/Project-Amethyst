@@ -1,6 +1,6 @@
 import { Model, model, Schema } from 'mongoose';
-import IModeModel from '../interfaces/mode/IModeModel';
-import { max } from 'lodash';
+import IModeModel from '../../interfaces/mode/IModeModel';
+import { revisionSchema } from './revision';
 
 const { ObjectId } = Schema.Types;
 
@@ -16,7 +16,10 @@ const modeSchema: Schema = new Schema({
 	},
 	favorites: { type: Number, default: 0 },
 	points: { type: Number, default: 0 },
-	createdAt: { type: Date, default: Date.now }
+	createdAt: { type: Date, default: Date.now },
+	gallery: [String],
+	revisions: [revisionSchema],
+	actualCode: String
 });
 
 modeSchema.index({ createdAt: -1 });
@@ -36,6 +39,11 @@ modeSchema.index(
 	}
 );
 
+modeSchema.pre<IModeModel>('save', async function(next) {
+	if (this.revisions.length > 0) this.actualCode = this.revisions[this.revisions.length - 1].code;
+	next();
+});
+
 modeSchema.methods.upvote = function() {
 	return upvote(this._id);
 };
@@ -49,63 +57,14 @@ modeSchema.methods.decFavorite = function() {
 	return decFavorite(this._id);
 };
 
+export const defaultSelection = { __v: 0, revisions: 0 };
+
 const updateMode = (obj: any) => (modeId: string) => Mode.updateOne({ _id: modeId }, { $inc: obj }).exec();
 
 const upvote = updateMode({ points: 1 });
 const downvote = updateMode({ points: -1 });
 const incFavorite = updateMode({ favorites: 1 });
 const decFavorite = updateMode({ favorites: -1 });
-
-export const getModesByDate = (quantity: number, olderThan?: string) => {
-	if (!olderThan)
-		return Mode.find({})
-			.sort({ createdAt: -1 })
-			.limit(quantity)
-			.exec();
-	return Mode.find({ createdAt: { $lt: olderThan } })
-		.sort({ createdAt: -1 })
-		.limit(quantity)
-		.exec();
-};
-
-export const getModesByPoints = async (quantity: number, ids?: string[]) => {
-	if (!ids)
-		return Mode.find()
-			.sort({ points: -1 })
-			.limit(quantity)
-			.exec();
-
-	const position = await determineOffset(getPositions(ids));
-	return Mode.find({})
-		.limit(quantity)
-		.skip(position)
-		.sort({ points: -1 })
-		.exec();
-};
-
-export const getModesByAuthor = (author: string, quantity: number, offset = 0) => {
-	return Mode.find({ author: author })
-		.sort({ createdAt: -1 })
-		.skip(offset)
-		.limit(quantity)
-		.exec();
-};
-
-const getPositions = (ids: string[]) =>
-	ids.map((id) =>
-		Mode.findById({ _id: id })
-			.exec()
-			.then((mode) => {
-				return Mode.find({ points: { $gt: mode.points } })
-					.sort({ points: -1 })
-					.countDocuments();
-			})
-	);
-
-const determineOffset = async (modePromises: any[]) => {
-	const positions = await Promise.all(modePromises);
-	return max(positions) + 1;
-};
 
 const Mode: Model<IModeModel> = model<IModeModel>('Mode', modeSchema);
 export default Mode;
