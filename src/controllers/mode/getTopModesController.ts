@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express';
 import { validationResult, query, param } from 'express-validator/check';
-import { getModesByPoints } from '../../models/mode';
+import getModesByPoints from '../../models/mode/helpers/getModesByPoints';
 import { getError400 } from '../../util/errorObjects';
 
 const router: Router = Router();

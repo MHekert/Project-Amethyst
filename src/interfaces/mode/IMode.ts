@@ -1,4 +1,5 @@
 import IFork from './IFork';
+import IRevision from './IRevision';
 
 export default interface IMode {
 	author: string;
@@ -11,4 +12,6 @@ export default interface IMode {
 	points: number;
 	createdAt: string;
 	gallery: string[];
+	revisions?: IRevision[];
+	actualCode: string;
 }

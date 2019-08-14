@@ -3,7 +3,7 @@ import { validationResult, param } from 'express-validator/check';
 import multer, { uploadPath } from '../../../config/multer';
 import convertAndUpload from '../../../util/Files/convertAndUpload';
 import { deleteFiles } from '../../../util/firebase';
-import { pushGallery } from '../../../models/mode';
+import { pushGallery } from '../../../models/mode/mode';
 import { allError207, allError507, getError400 } from '../../../util/errorObjects';
 import { remove } from 'fs-extra';
 

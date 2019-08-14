@@ -7,12 +7,8 @@ import { dummyModeAction, getDummyModeAction } from '../dummyData/dummyModeActio
 const mongoUri: string = MONGODB_URI_TEST;
 
 describe(`modeAction's model`, () => {
-	before(async () => {
-		return connection.openUri(mongoUri, { useNewUrlParser: true, useCreateIndex: true });
-	});
-	beforeEach(async () => {
-		return ModeAction.deleteMany({});
-	});
+	before(async () => connection.openUri(mongoUri, { useNewUrlParser: true, useCreateIndex: true }));
+	beforeEach(async () => ModeAction.deleteMany({}));
 	after(async () => {
 		await ModeAction.deleteMany({});
 		return connection.close();

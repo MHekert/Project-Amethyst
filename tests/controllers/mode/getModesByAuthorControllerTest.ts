@@ -6,10 +6,8 @@ import { MONGODB_URI_TEST } from '../../../src/util/secrets';
 import chaiHttp from 'chai-http';
 import { isArray } from 'lodash';
 import app, { server } from '../../../src/server';
-import getDummyIds from '../../dummyData/getDummyIds';
-import Mode from '../../../src/models/mode/mode';
-import IModeModel from '../../../src/interfaces/mode/IModeModel';
 import { getError400 } from '../../../src/util/errorObjects';
+
 const mongoUri: string = MONGODB_URI_TEST;
 use(chaiHttp);
 
@@ -20,55 +18,47 @@ describe(`GET on path`, () => {
 		return connection.close();
 	});
 
-	describe(`/mode/top`, async () => {
-		let dummyIds: string[];
-		before(async () => (dummyIds = await getDummyIds()));
-		after(async () => Mode.deleteMany({}));
-
-		describe(`/:quantity with number in quantity's place`, () => {
+	describe(`/mode/author/:author/:quantity/:offset`, () => {
+		describe(`with correct parameters`, () => {
 			it(`should return array and status code 200`, async () => {
-				const res = await request(app).get('/mode/top/10');
+				const res = await request(app).get('/mode/author/507f1f77bcf86cd799439011/10/10');
 				expect(res).have.status(200);
 				expect(isArray(res.body)).to.equal(true);
 			});
 		});
-		describe(`/:quantity with sting quantity's place`, () => {
-			it(`should return message and status code 400`, async () => {
-				const res = await request(app).get('/mode/top/wrong_param');
-				expect(res).have.status(400);
-				expect(res.body).to.be.deep.equal(getError400);
-			});
-		});
-
-		describe(`/:quantity?ids[]=... with correct params`, () => {
+		describe(`with correct parameters (without optional offset)`, () => {
 			it(`should return array and status code 200`, async () => {
-				const res = await request(app).get(`/mode/top/10?ids[]=${dummyIds[1]}&ids[]=${dummyIds[2]}`);
+				const res = await request(app).get('/mode/author/507f1f77bcf86cd799439011/10');
 				expect(res).have.status(200);
 				expect(isArray(res.body)).to.equal(true);
-				res.body.forEach((el: IModeModel) => expect(el.points).to.be.at.most(45));
 			});
 		});
-		describe(`/:quantity?ids[]=... with wrong quantity param`, () => {
+		describe(`with string in quantity's place`, () => {
 			it(`should return message and status code 400`, async () => {
-				const res = await request(app).get(`/mode/top/wrong_param?ids[]=${dummyIds[1]}&ids[]=${dummyIds[2]}`);
+				const res = await request(app).get('/mode/author/123123/wrong_param/10');
+				expect(res).have.status(400);
+				expect(res.body).to.be.deep.equal(getError400);
+			});
+		});
+		describe(`with wrong offset param`, () => {
+			it(`should return message and status code 400`, async () => {
+				const res = await request(app).get('/mode/author/123123/10/wrong_param');
+				expect(res).have.status(400);
+				expect(res.body).to.be.deep.equal(getError400);
+			});
+		});
+		describe(`with wrong author param`, () => {
+			it(`should return message and status code 400`, async () => {
+				const res = await request(app).get('/mode/author/wrong_param/10/10');
 				expect(res).have.status(400);
 				expect(res.body).to.be.deep.equal(getError400);
 			});
 		});
 
-		describe(`/:quantity?ids[]=... with wrong ids query param`, () => {
-			it(`should return message and status code 400`, async () => {
-				const res = await request(app).get(`/mode/top/10?ids=wrong_param`);
-				expect(res).have.status(400);
-				expect(res.body).to.be.deep.equal(getError400);
-			});
-		});
-
-		describe(`/:quantity?ids[]=... with ids query param not being hexadecimal`, () => {
-			it(`should return message and status code 400`, async () => {
-				const res = await request(app).get(`/mode/top/10?ids[]=not&ids[]=hex`);
-				expect(res).have.status(400);
-				expect(res.body).to.be.deep.equal(getError400);
+		describe(`with wrong params number`, () => {
+			it(`should return message and status code 404`, async () => {
+				const res = await request(app).get('/mode/author/wrong_param/10/10/something_else');
+				expect(res).have.status(404);
 			});
 		});
 	});
