@@ -44,27 +44,14 @@ modeSchema.pre<IModeModel>('save', async function(next) {
 	next();
 });
 
-modeSchema.methods.upvote = function() {
-	return upvote(this._id);
-};
-modeSchema.methods.downvote = function() {
-	return downvote(this._id);
-};
-modeSchema.methods.incFavorite = function() {
-	return incFavorite(this._id);
-};
-modeSchema.methods.decFavorite = function() {
-	return decFavorite(this._id);
-};
-
 export const defaultSelection = { __v: 0, revisions: 0 };
 
-const updateMode = (obj: any) => (modeId: string) => Mode.updateOne({ _id: modeId }, { $inc: obj }).exec();
+const updateMode = (modeId: string, obj: any) => Mode.updateOne({ _id: modeId }, { $inc: obj }).exec();
 
-const upvote = updateMode({ points: 1 });
-const downvote = updateMode({ points: -1 });
-const incFavorite = updateMode({ favorites: 1 });
-const decFavorite = updateMode({ favorites: -1 });
+export const incPoints = (modeId: string, value = 1) => updateMode(modeId, { points: value });
+export const decPoints = (modeId: string, value = 1) => updateMode(modeId, { points: -value });
+export const incFavorite = (modeId: string, value = 1) => updateMode(modeId, { favorites: value });
+export const decFavorite = (modeId: string, value = 1) => updateMode(modeId, { favorites: -value });
 
 const Mode: Model<IModeModel> = model<IModeModel>('Mode', modeSchema);
 export default Mode;
