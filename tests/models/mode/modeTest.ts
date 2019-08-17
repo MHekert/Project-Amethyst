@@ -2,8 +2,8 @@ import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import { connection } from 'mongoose';
 import Mode, { incPoints, decPoints, incFavorite } from '../../../src/models/mode/mode';
-
 import { MONGODB_URI_TEST } from '../../../src/util/secrets';
+
 const mongoUri: string = MONGODB_URI_TEST;
 
 describe(`mode's model`, () => {

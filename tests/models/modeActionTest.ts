@@ -4,6 +4,7 @@ import { connection } from 'mongoose';
 import ModeAction, { setDownvote, setUpvote, setFavorite, unsetFavorite, unsetVote } from '../../src/models/modeAction';
 import { MONGODB_URI_TEST } from '../../src/util/secrets';
 import { dummyModeAction, dummyModeActionBody, getDummyModeAction } from '../dummyData/dummyModeAction';
+
 const mongoUri: string = MONGODB_URI_TEST;
 
 describe(`modeAction's model`, () => {

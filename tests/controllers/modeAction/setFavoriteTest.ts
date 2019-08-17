@@ -1,6 +1,6 @@
 process.env.NODE_ENV = 'test';
 import { expect, request, use } from 'chai';
-import { connection, Types } from 'mongoose';
+import { connection } from 'mongoose';
 import { MONGODB_URI_TEST } from '../../../src/util/secrets';
 import chaiHttp from 'chai-http';
 import ModeAction from '../../../src/models/modeAction';

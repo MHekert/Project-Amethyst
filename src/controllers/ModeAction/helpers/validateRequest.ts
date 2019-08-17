@@ -2,6 +2,7 @@ import { Router, Request, Response, NextFunction } from 'express';
 import { validationResult, body } from 'express-validator/check';
 import errorHandler from '../../helpers/errorHandler';
 import isUserLoggedIn from '../../middleware/isUserLoggedIn';
+
 const router: Router = Router();
 
 router.post(
