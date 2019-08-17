@@ -40,6 +40,7 @@ app.use(
 		store: new MongoStore({
 			autoReconnect: true,
 			collection: 'sessions',
+			stringify: false,
 			url: mongoUri
 		}),
 		unset: 'destroy'
