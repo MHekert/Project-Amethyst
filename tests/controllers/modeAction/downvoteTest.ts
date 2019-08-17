@@ -3,22 +3,19 @@ import { expect, request, use } from 'chai';
 import { connection } from 'mongoose';
 import { MONGODB_URI_TEST } from '../../../src/util/secrets';
 import chaiHttp from 'chai-http';
-import ModeAction from '../../../src/models/modeAction';
 import app from '../../../src/server';
 import { correctBody } from '../../dummyData/putModeBodyDummy';
+import ModeAction from '../../../src/models/modeAction';
 import Mode from '../../../src/models/mode/mode';
 import IModeModel from '../../../src/interfaces/mode/IModeModel';
+import { error400 } from '../../../src/util/errorObjects';
 
 const mongoUri: string = MONGODB_URI_TEST;
 use(chaiHttp);
-
 let mode: IModeModel;
 
 describe(`POST on path /mode/action/downvote`, () => {
-	before(async () => {
-		await connection.openUri(mongoUri, { useNewUrlParser: true, useCreateIndex: true });
-		await Promise.all([ModeAction.deleteMany({}), Mode.deleteMany({})]);
-	});
+	before(async () => await connection.openUri(mongoUri, { useNewUrlParser: true, useCreateIndex: true }));
 	beforeEach(async () => {
 		await Promise.all([ModeAction.deleteMany({}), Mode.deleteMany({})]);
 		mode = await new Mode(correctBody).save();
@@ -34,8 +31,7 @@ describe(`POST on path /mode/action/downvote`, () => {
 			.set('content-type', 'application/json')
 			.send({});
 		expect(res).have.status(400);
-		expect(res.body.error).to.have.property('message', 'Wrong params in body');
-		expect(res.body.error).to.have.property('status', 400);
+		expect(res.body).to.be.deep.equal(error400);
 	});
 
 	it('should return status code 200 on first request, 304 second and decrease points by 1', async () => {

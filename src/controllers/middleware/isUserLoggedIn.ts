@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
+import { unauthorizedError } from '../../util/errorObjects';
 
-// PLACEHOLDER
 const isUserLoggedIn = (req: Request, res: Response, next: NextFunction) => {
-	req.user = '5cf2a6fded450065969652b3';
-	next();
+	if (process.env.NODE_ENV === 'test' || req.isAuthenticated()) return next();
+	return res.status(401).json(unauthorizedError);
 };
 
 export default isUserLoggedIn;
