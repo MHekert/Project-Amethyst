@@ -1,6 +1,7 @@
 import { Model, model, Schema } from 'mongoose';
-import IRevisionModel from '../../interfaces/mode/IRevisionModel';
-import pushRevision from './helpers/pushRevision';
+
+import IRevisionModel from '@interfaces/mode/IRevisionModel';
+import pushRevision from '@models/mode/helpers/pushRevision';
 
 export const revisionSchema: Schema = new Schema({
 	changelog: [String],

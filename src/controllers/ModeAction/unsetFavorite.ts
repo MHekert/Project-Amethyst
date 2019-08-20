@@ -1,7 +1,8 @@
-import { Router, Request, Response, NextFunction } from 'express';
-import { unsetFavorite } from '../../models/modeAction';
-import { decFavorite } from '../../models/mode/mode';
+import { NextFunction, Request, Response, Router } from 'express';
 import { isNull, isUndefined } from 'lodash';
+
+import { decFavorite } from '@models/mode/mode';
+import { unsetFavorite } from '@models/modeAction';
 
 const router: Router = Router();
 

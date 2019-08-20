@@ -1,9 +1,11 @@
+import { now, random, times } from 'lodash';
 import { LoremIpsum } from 'lorem-ipsum';
-import Mode from '../../src/models/mode/mode';
-import Revision from '../../src/models/mode/revision';
 import { connection } from 'mongoose';
-import { MONGODB_URI } from '../../src/util/secrets';
-import { random, now, times } from 'lodash';
+
+import Mode from '@models/mode/mode';
+import Revision from '@models/mode/revision';
+import { MONGODB_URI } from '@util/secrets';
+
 const mongoUri: string = MONGODB_URI;
 connection.openUri(mongoUri, { useNewUrlParser: true, useCreateIndex: true });
 

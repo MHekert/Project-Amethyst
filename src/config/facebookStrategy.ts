@@ -1,6 +1,7 @@
 import { Strategy } from 'passport-facebook';
-import User from '../models/user';
-import { FACEBOOK_APP_ID, FACEBOOK_APP_SECRET, FACEBOOK_CALLBACK_URL } from '../util/secrets';
+
+import User from '@models/user';
+import { FACEBOOK_APP_ID, FACEBOOK_APP_SECRET, FACEBOOK_CALLBACK_URL } from '@util/secrets';
 
 export default new Strategy(
 	{

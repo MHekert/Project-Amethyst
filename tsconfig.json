@@ -1,21 +1,23 @@
 {
-    "compilerOptions": {
-        "module": "commonjs",
-        "esModuleInterop": true,
-        "target": "es6",
-        "noImplicitAny": true,
-        "moduleResolution": "node",
-        "sourceMap": true,
-        "outDir": "dist",
-        "baseUrl": ".",
-        "paths": {
-            "*": [
-                "node_modules/*"
-            ]
-        }
-    },
-    "include": [
-        "src/**/*",
-        "tests/**/*"
-    ]
+	"compilerOptions": {
+		"noUnusedLocals": true,
+		"module": "commonjs",
+		"esModuleInterop": true,
+		"target": "es6",
+		"noImplicitAny": true,
+		"moduleResolution": "node",
+		"sourceMap": true,
+		"outDir": "dist",
+		"baseUrl": ".",
+		"paths": {
+			"@dummy/*": ["tests/dummyData/*"],
+			"@src/*": ["src/*"],
+			"@models/*": ["src/models/*"],
+			"@controllers/*": ["src/controllers/*"],
+			"@interfaces/*": ["src/interfaces/*"],
+			"@config/*": ["src/config/*"],
+			"@util/*": ["src/util/*"]
+		}
+	},
+	"include": ["src/**/*", "tests/**/*"]
 }

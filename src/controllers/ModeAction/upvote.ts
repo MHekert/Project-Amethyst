@@ -1,7 +1,8 @@
-import { Router, Request, Response, NextFunction } from 'express';
-import { setUpvote } from '../../models/modeAction';
-import { incPoints } from '../../models/mode/mode';
+import { NextFunction, Request, Response, Router } from 'express';
 import { isNull, isUndefined } from 'lodash';
+
+import { incPoints } from '@models/mode/mode';
+import { setUpvote } from '@models/modeAction';
 
 const router: Router = Router();
 

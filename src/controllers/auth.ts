@@ -1,9 +1,10 @@
 import { Router } from 'express';
-import authFacebookController from './auth/facebook';
-import authFailController from './auth/failed';
-import authSuccessController from './auth/success';
-import authLogoutController from './auth/logout';
-import isUserLoggedIn from './middleware/isUserLoggedIn';
+
+import authFacebookController from '@controllers/auth/facebook';
+import authFailController from '@controllers/auth/failed';
+import authLogoutController from '@controllers/auth/logout';
+import authSuccessController from '@controllers/auth/success';
+import isUserLoggedIn from '@controllers/middleware/isUserLoggedIn';
 
 const router: Router = Router();
 
