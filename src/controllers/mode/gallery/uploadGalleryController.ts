@@ -8,12 +8,6 @@ import { allError207, allError507 } from '../../../util/errorObjects';
 import { remove } from 'fs-extra';
 import validateRequest from '../../../controllers/middleware/validateRequest';
 
-// TODO: replace with user authentication
-const userPlaceholder = (req: Request, res: Response, next: NextFunction) => {
-	req.user = '5cf2a6fded450065969652b3';
-	next();
-};
-
 const router: Router = Router();
 
 router.post(
