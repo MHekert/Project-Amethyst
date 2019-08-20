@@ -1,4 +1,4 @@
-import Mode from '../../src/models/mode';
+import Mode from '../../src/models/mode/mode';
 
 const createDummyModes = () => {
 	const testArr = [
