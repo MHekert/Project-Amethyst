@@ -53,5 +53,12 @@ export const decPoints = (modeId: string, value = 1) => updateMode(modeId, { poi
 export const incFavorite = (modeId: string, value = 1) => updateMode(modeId, { favorites: value });
 export const decFavorite = (modeId: string, value = 1) => updateMode(modeId, { favorites: -value });
 
+export const getAuthor = async (id: string) => {
+	const { author } = await Mode.findById(id)
+		.select({ _id: 0, author: 1 })
+		.exec();
+	return author;
+};
+
 const Mode: Model<IModeModel> = model<IModeModel>('Mode', modeSchema);
 export default Mode;

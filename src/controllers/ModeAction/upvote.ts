@@ -1,12 +1,11 @@
-import { Router, Request, Response } from 'express';
-import errorHandler from '../helpers/errorHandler';
+import { Router, Request, Response, NextFunction } from 'express';
 import { setUpvote } from '../../models/modeAction';
 import { incPoints } from '../../models/mode/mode';
 import { isNull, isUndefined } from 'lodash';
 
 const router: Router = Router();
 
-router.post('/', async (req: Request, res: Response) => {
+router.post('/', async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		const modeAction = await setUpvote(req.user, req.body.modeId);
 		if (isNull(modeAction) || isUndefined(modeAction.upvote)) {
@@ -17,7 +16,7 @@ router.post('/', async (req: Request, res: Response) => {
 		}
 		res.sendStatus(200);
 	} catch (err) {
-		errorHandler(err, res);
+		next(err);
 	}
 });
 

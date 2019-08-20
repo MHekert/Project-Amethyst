@@ -1,7 +1,7 @@
-import { Router, Request, Response } from 'express';
-import { validationResult, param } from 'express-validator/check';
+import { Router, Request, Response, NextFunction } from 'express';
+import { param } from 'express-validator/check';
 import getModesByDate from '../../models/mode/helpers/getModesByDate';
-import { getError400 } from '../../util/errorObjects';
+import validateRequest from '../middleware/validateRequest';
 
 const router: Router = Router();
 
@@ -13,13 +13,13 @@ router.get(
 			.toInt(),
 		param('date').isISO8601()
 	],
-	async (req: Request, res: Response) => {
+	validateRequest,
+	async (req: Request, res: Response, next: NextFunction) => {
 		try {
-			validationResult(req).throw();
 			const modes = await getModesByDate(req.params.quantity, req.params.date);
 			res.status(200).send(modes);
 		} catch (err) {
-			res.status(400).send(getError400);
+			next(err);
 		}
 	}
 );
@@ -31,13 +31,13 @@ router.get(
 			.isInt()
 			.toInt()
 	],
-	async (req: Request, res: Response) => {
+	validateRequest,
+	async (req: Request, res: Response, next: NextFunction) => {
 		try {
-			validationResult(req).throw();
 			const modes = await getModesByDate(req.params.quantity);
 			res.status(200).send(modes);
 		} catch (err) {
-			res.status(400).send(getError400);
+			next(err);
 		}
 	}
 );

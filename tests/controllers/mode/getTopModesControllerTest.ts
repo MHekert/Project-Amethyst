@@ -9,7 +9,7 @@ import app, { server } from '../../../src/server';
 import getDummyIds from '../../dummyData/getDummyIds';
 import Mode from '../../../src/models/mode/mode';
 import IModeModel from '../../../src/interfaces/mode/IModeModel';
-import { getError400 } from '../../../src/util/errorObjects';
+import { error400 } from '../../../src/util/errorObjects';
 const mongoUri: string = MONGODB_URI_TEST;
 use(chaiHttp);
 
@@ -36,7 +36,7 @@ describe(`GET on path`, () => {
 			it(`should return message and status code 400`, async () => {
 				const res = await request(app).get('/mode/top/wrong_param');
 				expect(res).have.status(400);
-				expect(res.body).to.be.deep.equal(getError400);
+				expect(res.body).to.be.deep.equal(error400);
 			});
 		});
 
@@ -52,7 +52,7 @@ describe(`GET on path`, () => {
 			it(`should return message and status code 400`, async () => {
 				const res = await request(app).get(`/mode/top/wrong_param?ids[]=${dummyIds[1]}&ids[]=${dummyIds[2]}`);
 				expect(res).have.status(400);
-				expect(res.body).to.be.deep.equal(getError400);
+				expect(res.body).to.be.deep.equal(error400);
 			});
 		});
 
@@ -60,7 +60,7 @@ describe(`GET on path`, () => {
 			it(`should return message and status code 400`, async () => {
 				const res = await request(app).get(`/mode/top/10?ids=wrong_param`);
 				expect(res).have.status(400);
-				expect(res.body).to.be.deep.equal(getError400);
+				expect(res.body).to.be.deep.equal(error400);
 			});
 		});
 
@@ -68,7 +68,7 @@ describe(`GET on path`, () => {
 			it(`should return message and status code 400`, async () => {
 				const res = await request(app).get(`/mode/top/10?ids[]=not&ids[]=hex`);
 				expect(res).have.status(400);
-				expect(res.body).to.be.deep.equal(getError400);
+				expect(res.body).to.be.deep.equal(error400);
 			});
 		});
 	});

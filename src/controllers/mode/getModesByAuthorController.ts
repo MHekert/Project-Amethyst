@@ -1,7 +1,7 @@
-import { Router, Request, Response } from 'express';
-import { validationResult, param } from 'express-validator/check';
+import { Router, Request, Response, NextFunction } from 'express';
+import { param } from 'express-validator/check';
 import getModesByAuthor from '../../models/mode/helpers/getModesByAuthor';
-import { getError400 } from '../../util/errorObjects';
+import validateRequest from '../middleware/validateRequest';
 
 const router: Router = Router();
 
@@ -17,14 +17,14 @@ router.get(
 			.isInt()
 			.toInt()
 	],
-	async (req: Request, res: Response) => {
+	validateRequest,
+	async (req: Request, res: Response, next: NextFunction) => {
 		try {
-			validationResult(req).throw();
 			const { author, quantity, offset } = req.params;
 			const modes = await getModesByAuthor(author, quantity, offset);
 			res.status(200).send(modes);
 		} catch (err) {
-			res.status(400).send(getError400);
+			next(err);
 		}
 	}
 );

@@ -1,7 +1,8 @@
-import { Router, Request, Response } from 'express';
-import { validationResult, query, param } from 'express-validator/check';
+import { Router, Request, Response, NextFunction } from 'express';
+import { query, param } from 'express-validator/check';
+import { isNull } from 'lodash';
 import getModesByPoints from '../../models/mode/helpers/getModesByPoints';
-import { getError400 } from '../../util/errorObjects';
+import validateRequest from '../middleware/validateRequest';
 
 const router: Router = Router();
 
@@ -14,15 +15,15 @@ router.get(
 		query('ids')
 			.optional()
 			.isArray()
-			.custom((arr) => arr.every((el: string) => el.match('^[0-9a-fA-F]+$') !== null))
+			.custom((arr) => arr.every((el: string) => !isNull(el.match('^[0-9a-fA-F]+$'))))
 	],
-	async (req: Request, res: Response) => {
+	validateRequest,
+	async (req: Request, res: Response, next: NextFunction) => {
 		try {
-			validationResult(req).throw();
 			if (!req.query.ids) return res.status(200).send(await getModesByPoints(req.params.quantity));
 			return res.status(200).send(await getModesByPoints(req.params.quantity, req.query.ids));
 		} catch (err) {
-			res.status(400).send(getError400);
+			next(err);
 		}
 	}
 );
