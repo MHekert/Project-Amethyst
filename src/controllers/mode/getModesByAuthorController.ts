@@ -21,7 +21,7 @@ router.get(
 	async (req: Request, res: Response, next: NextFunction) => {
 		try {
 			const { author, quantity, offset } = req.params;
-			const modes = await getModesByAuthor(author, quantity, offset);
+			const modes = await getModesByAuthor(req.user, author, quantity, offset);
 			res.status(200).send(modes);
 		} catch (err) {
 			next(err);
