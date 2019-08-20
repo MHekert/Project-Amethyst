@@ -5,6 +5,8 @@ import chaiHttp from 'chai-http';
 import Mode from '../../../src/models/mode/mode';
 import correctBody from '../../dummyData/dummyRevisionCorrectBody';
 import app, { server } from '../../../src/server';
+import { error400 } from '../../../src/util/errorObjects';
+
 const mongoUri: string = MONGODB_URI_TEST;
 use(chaiHttp);
 
@@ -40,9 +42,7 @@ describe(`PUT on path /revision/add`, () => {
 				.set('content-type', 'application/json')
 				.send({});
 			expect(res).have.status(400);
-			expect(res.body.error).to.be.an('object');
-			expect(res.body.error).to.have.property('message', 'Wrong params in body');
-			expect(res.body.error).to.have.property('status', 400);
+			expect(res.body).to.be.deep.equal(error400);
 		});
 	});
 });

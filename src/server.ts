@@ -22,7 +22,7 @@ const mongoUri: string = MONGODB_URI;
 const port = PORT;
 const secret = SESSION_SECRET;
 
-mongoose.connection.openUri(mongoUri, { useNewUrlParser: true, useCreateIndex: true });
+mongoose.connection.openUri(mongoUri, { useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false });
 
 app.use(bodyParser.json());
 app.use(
@@ -40,6 +40,7 @@ app.use(
 		store: new MongoStore({
 			autoReconnect: true,
 			collection: 'sessions',
+			stringify: false,
 			url: mongoUri
 		}),
 		unset: 'destroy'

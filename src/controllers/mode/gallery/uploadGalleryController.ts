@@ -4,8 +4,9 @@ import multer, { uploadPath } from '../../../config/multer';
 import convertAndUpload from '../../../util/Files/convertAndUpload';
 import { deleteFiles } from '../../../util/firebase';
 import { pushGallery } from '../../../models/mode/mode';
-import { allError207, allError507, getError400 } from '../../../util/errorObjects';
+import { allError207, allError507 } from '../../../util/errorObjects';
 import { remove } from 'fs-extra';
+import validateRequest from '../../../controllers/middleware/validateRequest';
 
 // TODO: replace with user authentication
 const userPlaceholder = (req: Request, res: Response, next: NextFunction) => {
@@ -17,16 +18,10 @@ const router: Router = Router();
 
 router.post(
 	'/mode/:modeId',
-	userPlaceholder,
-	multer.array('gallery'),
 	[param('modeId').isHexadecimal()],
+	validateRequest,
+	multer.array('gallery'),
 	async (req: Request, res: Response) => {
-		try {
-			validationResult(req).throw();
-		} catch (err) {
-			return res.send(400).send(getError400);
-		}
-
 		const uploadedWebpFiles = (<Express.Multer.File[]>req.files).map(async (file) => {
 			const uploadedFile = await convertAndUpload(file.path);
 			remove(file.path);

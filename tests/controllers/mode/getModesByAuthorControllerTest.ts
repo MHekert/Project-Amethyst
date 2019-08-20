@@ -6,7 +6,7 @@ import { MONGODB_URI_TEST } from '../../../src/util/secrets';
 import chaiHttp from 'chai-http';
 import { isArray } from 'lodash';
 import app, { server } from '../../../src/server';
-import { getError400 } from '../../../src/util/errorObjects';
+import { error400 } from '../../../src/util/errorObjects';
 
 const mongoUri: string = MONGODB_URI_TEST;
 use(chaiHttp);
@@ -37,21 +37,21 @@ describe(`GET on path`, () => {
 			it(`should return message and status code 400`, async () => {
 				const res = await request(app).get('/mode/author/123123/wrong_param/10');
 				expect(res).have.status(400);
-				expect(res.body).to.be.deep.equal(getError400);
+				expect(res.body).to.be.deep.equal(error400);
 			});
 		});
 		describe(`with wrong offset param`, () => {
 			it(`should return message and status code 400`, async () => {
 				const res = await request(app).get('/mode/author/123123/10/wrong_param');
 				expect(res).have.status(400);
-				expect(res.body).to.be.deep.equal(getError400);
+				expect(res.body).to.be.deep.equal(error400);
 			});
 		});
 		describe(`with wrong author param`, () => {
 			it(`should return message and status code 400`, async () => {
 				const res = await request(app).get('/mode/author/wrong_param/10/10');
 				expect(res).have.status(400);
-				expect(res.body).to.be.deep.equal(getError400);
+				expect(res.body).to.be.deep.equal(error400);
 			});
 		});
 

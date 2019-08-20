@@ -1,8 +1,10 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import { connection } from 'mongoose';
-import Mode from '../../../src/models/mode/mode';
+import Mode, { incPoints, decPoints, incFavorite, getAuthor } from '../../../src/models/mode/mode';
 import { MONGODB_URI_TEST } from '../../../src/util/secrets';
+import { correctBody } from '../../dummyData/putModeBodyDummy';
+
 const mongoUri: string = MONGODB_URI_TEST;
 
 describe(`mode's model`, () => {
@@ -22,21 +24,21 @@ describe(`mode's model`, () => {
 			expect(mode).to.have.property('thumbnail');
 		});
 	});
-	describe(`method to increment favorites`, () => {
+	describe(`helper function to increment favorites`, () => {
 		it(`should return model object with incremented favorites`, async () => {
 			const mode = await getDummyMode();
-			const updateResult = await mode.incFavorite();
+			const updateResult = await incFavorite(mode._id);
 			const updatedMode = await Mode.findOne({ _id: mode._id });
 			expect(updatedMode).to.have.property('favorites', 1);
 			expect(updateResult).to.have.property('nModified', 1);
 		});
 	});
-	describe(`method to decrement and increment points`, () => {
+	describe(`helper function to decrement and increment points`, () => {
 		it(`should update in order`, async () => {
 			const mode = await getDummyMode();
 			const pointsArray = [1, 1, 1, -1, -1, 1, 1, 1, 1, -1];
 			const expectedPoints = pointsArray.reduce((a, b) => a + b);
-			const updateMap = pointsArray.map((el) => (el === 1 ? mode.upvote() : mode.downvote()));
+			const updateMap = pointsArray.map((el) => (el === 1 ? incPoints(mode._id) : decPoints(mode._id)));
 			updateMap.forEach(async (el) => expect(await el).to.have.property('nModified', 1));
 			await Promise.all(updateMap);
 			const updatedMode = await Mode.findOne({ _id: mode._id });
@@ -50,6 +52,14 @@ describe(`mode's model`, () => {
 			expect(removed).to.be.deep.equal(mode);
 		});
 	});
+
+	describe(`helper function that retrieves mode's author`, () => {
+		it(`should return author`, async () => {
+			const mode = await getDummyMode(correctBody);
+			const author = await getAuthor(mode._id);
+			expect(author).to.be.deep.equal(mode.author);
+		});
+	});
 });
 
-const getDummyMode = () => new Mode().save();
+const getDummyMode = (object = {}) => new Mode(object).save();

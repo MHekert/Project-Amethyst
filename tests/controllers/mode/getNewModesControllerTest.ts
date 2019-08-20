@@ -6,7 +6,7 @@ import { MONGODB_URI_TEST } from '../../../src/util/secrets';
 import chaiHttp from 'chai-http';
 import { isArray } from 'lodash';
 import app, { server } from '../../../src/server';
-import { getError400 } from '../../../src/util/errorObjects';
+import { error400 } from '../../../src/util/errorObjects';
 const mongoUri: string = MONGODB_URI_TEST;
 use(chaiHttp);
 
@@ -29,7 +29,7 @@ describe(`GET on path`, () => {
 			it(`should return message and status code 400`, async () => {
 				const res = await request(app).get('/mode/new/wrong_param');
 				expect(res).have.status(400);
-				expect(res.body).to.be.deep.equal(getError400);
+				expect(res.body).to.be.deep.equal(error400);
 			});
 		});
 		describe(`/:quantity/:date with correct params`, () => {
@@ -43,14 +43,14 @@ describe(`GET on path`, () => {
 			it(`should return message and status code 400`, async () => {
 				const res = await request(app).get('/mode/new/wrong_param/2019-05-28T16:55:56.496Z');
 				expect(res).have.status(400);
-				expect(res.body).to.be.deep.equal(getError400);
+				expect(res.body).to.be.deep.equal(error400);
 			});
 		});
 		describe(`/:quantity/:date with wrong date param`, () => {
 			it(`should return message and status code 400`, async () => {
 				const res = await request(app).get('/mode/new/10/2019-05-2');
 				expect(res).have.status(400);
-				expect(res.body).to.be.deep.equal(getError400);
+				expect(res.body).to.be.deep.equal(error400);
 			});
 		});
 
