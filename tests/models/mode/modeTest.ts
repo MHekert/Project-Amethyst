@@ -1,8 +1,9 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import { connection } from 'mongoose';
-import Mode, { incPoints, decPoints, incFavorite } from '../../../src/models/mode/mode';
+import Mode, { incPoints, decPoints, incFavorite, getAuthor } from '../../../src/models/mode/mode';
 import { MONGODB_URI_TEST } from '../../../src/util/secrets';
+import { correctBody } from '../../dummyData/putModeBodyDummy';
 
 const mongoUri: string = MONGODB_URI_TEST;
 
@@ -23,7 +24,7 @@ describe(`mode's model`, () => {
 			expect(mode).to.have.property('thumbnail');
 		});
 	});
-	describe(`method to increment favorites`, () => {
+	describe(`helper function to increment favorites`, () => {
 		it(`should return model object with incremented favorites`, async () => {
 			const mode = await getDummyMode();
 			const updateResult = await incFavorite(mode._id);
@@ -32,7 +33,7 @@ describe(`mode's model`, () => {
 			expect(updateResult).to.have.property('nModified', 1);
 		});
 	});
-	describe(`method to decrement and increment points`, () => {
+	describe(`helper function to decrement and increment points`, () => {
 		it(`should update in order`, async () => {
 			const mode = await getDummyMode();
 			const pointsArray = [1, 1, 1, -1, -1, 1, 1, 1, 1, -1];
@@ -51,6 +52,14 @@ describe(`mode's model`, () => {
 			expect(removed).to.be.deep.equal(mode);
 		});
 	});
+
+	describe(`helper function that retrieves mode's author`, () => {
+		it(`should return author`, async () => {
+			const mode = await getDummyMode(correctBody);
+			const author = await getAuthor(mode._id);
+			expect(author).to.be.deep.equal(mode.author);
+		});
+	});
 });
 
-const getDummyMode = () => new Mode().save();
+const getDummyMode = (object = {}) => new Mode(object).save();
