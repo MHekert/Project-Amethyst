@@ -1,24 +1,14 @@
-import { max } from 'lodash';
+import { min } from 'lodash';
 import IUserModel from '../../../../src/interfaces/user/IUserModel';
 import Mode, { defaultProjection } from '../mode';
 import joinModeActions from './joinModeActions';
 
 const sort = { points: -1 };
 
-const getPositions = (ids: string[]) =>
-	ids.map((id) =>
-		Mode.findById({ _id: id })
-			.exec()
-			.then((mode) => {
-				return Mode.find({ points: { $gt: mode.points } })
-					.sort(sort)
-					.countDocuments();
-			})
-	);
-
-const determineOffset = async (posisionsPromises: Promise<number>[]) => {
-	const positions = await Promise.all(posisionsPromises);
-	return max(positions) + 1;
+const getPoints = async (ids: string[]) => {
+	const modes = await Mode.find({ _id: { $in: ids } }).exec();
+	const points = modes.map((el) => el.points);
+	return min(points);
 };
 
 const getModesByPointsInitial = async (user: IUserModel, quantity: number) => {
@@ -31,12 +21,17 @@ const getModesByPointsInitial = async (user: IUserModel, quantity: number) => {
 };
 
 const getModesByPointsOffset = async (user: IUserModel, quantity: number, ids: string[]) => {
-	const position = await determineOffset(getPositions(ids));
+	const points = await getPoints(ids);
+	const match = { points: { $lt: points } };
 	if (user)
-		return joinModeActions(user._id, { sort: sort, limit: quantity, project: defaultProjection, skip: position });
-	return Mode.find({})
+		return joinModeActions(user._id, {
+			match: match,
+			sort: sort,
+			limit: quantity,
+			project: defaultProjection
+		});
+	return Mode.find(match)
 		.sort(sort)
-		.skip(position)
 		.limit(quantity)
 		.select(defaultProjection)
 		.exec();

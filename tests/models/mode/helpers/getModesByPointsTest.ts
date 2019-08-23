@@ -20,17 +20,17 @@ describe(`mode's model helper function getModesByPoints`, () => {
 		it(`should return correct documents`, async () => {
 			const quantity = 10;
 			const dummyIds: string[] = await getDummyIds();
-			const res1 = await getModesByPoints(null, quantity, await dummyIds.slice(1, 4));
-			expect(res1.length).to.be.equal(2);
+			const res1 = await getModesByPoints(null, quantity, await dummyIds.slice(1, 2));
+			expect(res1.length).to.be.equal(3);
 			res1.forEach((el: any) => expect(el.points).at.most(30));
 		});
 	});
 
-	describe(`fwith ids param`, () => {
+	describe(`with ids param`, () => {
 		it(`should return correctly limited documents`, async () => {
 			const quantity = 1;
 			const dummyIds: string[] = await getDummyIds();
-			const res1 = await getModesByPoints(null, quantity, await dummyIds.slice(1, 4));
+			const res1 = await getModesByPoints(null, quantity, await dummyIds.slice(1, 2));
 			expect(res1.length).to.be.equal(1);
 			res1.forEach((el: any) => expect(el.points).at.most(30));
 		});
