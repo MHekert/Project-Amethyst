@@ -15,12 +15,10 @@ describe(`removeRevision helper function`, () => {
 		return connection.close();
 	});
 
-	describe(`should correctly remove revision from mode`, () => {
-		it('should', async () => {
-			const mode = await createDummyRevisions();
-			removeRevision(mode._id, mode.revisions[0]._id);
-			const updatedModeawait = await Mode.findById(mode._id).exec();
-			expect(updatedModeawait.revisions.length).to.be.equal(mode.revisions.length - 1);
-		});
+	it('should correctly remove revision from mode', async () => {
+		const mode = await createDummyRevisions();
+		removeRevision(mode._id, mode.revisions[0]._id);
+		const updatedModeawait = await Mode.findById(mode._id).exec();
+		expect(updatedModeawait.revisions.length).to.be.equal(mode.revisions.length - 1);
 	});
 });
