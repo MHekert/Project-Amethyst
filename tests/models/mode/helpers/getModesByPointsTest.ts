@@ -39,7 +39,7 @@ describe(`mode's model helper function getModesByPoints`, () => {
 	describe(`without ids param`, () => {
 		it(`should return correct documents`, async () => {
 			const quantity = 3;
-			await Promise.all(createDummyModes());
+			await createDummyModes();
 			const res1 = await getModesByPoints(quantity);
 			expect(res1.length).to.be.equal(3);
 			res1.forEach((el: any) => expect(el.points).to.be.equal(60));

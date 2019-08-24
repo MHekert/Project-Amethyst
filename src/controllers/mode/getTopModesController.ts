@@ -1,6 +1,5 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { query, param } from 'express-validator/check';
-import { isNull } from 'lodash';
 import getModesByPoints from '../../models/mode/helpers/getModesByPoints';
 import validateRequest from '../middleware/validateRequest';
 
@@ -14,8 +13,8 @@ router.get(
 			.toInt(),
 		query('ids')
 			.optional()
-			.isArray()
-			.custom((arr) => arr.every((el: string) => !isNull(el.match('^[0-9a-fA-F]+$'))))
+			.isArray(),
+		query('ids.*').isMongoId()
 	],
 	validateRequest,
 	async (req: Request, res: Response, next: NextFunction) => {

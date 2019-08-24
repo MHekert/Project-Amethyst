@@ -12,7 +12,7 @@ const router: Router = Router();
 
 router.use('/mode', modeController);
 router.use('/revision', revisionController);
-router.use('/mode/action', isUserLoggedIn, [body('modeId').isHexadecimal()], validateRequest, modeActionController);
+router.use('/mode/action', isUserLoggedIn, [body('modeId').isMongoId()], validateRequest, modeActionController);
 router.use('/auth', authController);
 router.use(errorHandler);
 

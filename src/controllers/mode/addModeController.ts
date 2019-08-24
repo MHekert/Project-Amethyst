@@ -9,7 +9,7 @@ const router: Router = Router();
 
 router.put(
 	'/',
-	[body('author').isHexadecimal(), body('code').exists()],
+	[body('author').isMongoId(), body('code').isString()],
 	validateRequest,
 	async (req: Request, res: Response, next: NextFunction) => {
 		try {

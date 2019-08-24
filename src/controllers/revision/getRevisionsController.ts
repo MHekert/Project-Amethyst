@@ -8,7 +8,7 @@ const router: Router = Router();
 router.get(
 	'/:modeId/:quantity?/:offset?',
 	[
-		param('modeId').isHexadecimal(),
+		param('modeId').isMongoId(),
 		param('quantity')
 			.optional()
 			.isInt()
