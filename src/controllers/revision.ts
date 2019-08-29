@@ -1,9 +1,10 @@
 import { Router } from 'express';
-import getRevisionsController from './revision/getRevisionsController';
-import addRevisionController from './revision/addRevisionController';
-import deleteRevisionController from './revision/deleteRevisionController';
-import isUserLoggedIn from './middleware/isUserLoggedIn';
-import isAuthorOfMode from './middleware/isAuthorOfMode';
+
+import isAuthorOfMode from '@controllers/middleware/isAuthorOfMode';
+import isUserLoggedIn from '@controllers/middleware/isUserLoggedIn';
+import addRevisionController from '@controllers/revision/addRevisionController';
+import deleteRevisionController from '@controllers/revision/deleteRevisionController';
+import getRevisionsController from '@controllers/revision/getRevisionsController';
 
 const router: Router = Router();
 

@@ -1,8 +1,9 @@
-import { describe, it } from 'mocha';
 import { expect } from 'chai';
-import Mode from '../../src/models/mode/mode';
-import modelFromRequest from '../../src/util/modelFromRequest';
-import { correctBody } from '../dummyData/putModeBodyDummy';
+import { describe, it } from 'mocha';
+
+import { correctBody } from '@dummy/putModeBodyDummy';
+import Mode from '@models/mode/mode';
+import modelFromRequest from '@util/modelFromRequest';
 
 describe(`modelFromRequest`, () => {
 	it(`should return correct model`, () => {

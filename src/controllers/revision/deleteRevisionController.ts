@@ -1,9 +1,10 @@
-import { Router, Request, Response, NextFunction } from 'express';
+import { NextFunction, Request, Response, Router } from 'express';
 import { param } from 'express-validator/check';
-import removeRevision from '../../models/mode/helpers/removeRevision';
-import validateRequest from '../middleware/validateRequest';
 import { isEqual } from 'lodash';
-import { notFoundError } from '../../util/errorObjects';
+
+import validateRequest from '@controllers/middleware/validateRequest';
+import removeRevision from '@models/mode/helpers/removeRevision';
+import { notFoundError } from '@util/errorObjects';
 
 const router: Router = Router();
 

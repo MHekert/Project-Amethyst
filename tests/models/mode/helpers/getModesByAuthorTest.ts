@@ -1,10 +1,12 @@
-import { describe, it } from 'mocha';
 import { expect } from 'chai';
+import { describe, it } from 'mocha';
 import { connection } from 'mongoose';
-import Mode from '../../../../src/models/mode/mode';
-import getModesByAuthor from '../../../../src/models/mode/helpers/getModesByAuthor';
-import createDummyModes from '../../../dummyData/createDummyModes';
-import { MONGODB_URI_TEST } from '../../../../src/util/secrets';
+
+import createDummyModes from '@dummy/createDummyModes';
+import getModesByAuthor from '@models/mode/helpers/getModesByAuthor';
+import Mode from '@models/mode/mode';
+import { MONGODB_URI_TEST } from '@util/secrets';
+
 const mongoUri: string = MONGODB_URI_TEST;
 
 describe(`mode's model helper function getModesByAuthor`, () => {
@@ -20,7 +22,7 @@ describe(`mode's model helper function getModesByAuthor`, () => {
 			const id = '507f1f77bcf86cd799439011';
 			const quantity = 10;
 			await Promise.all(createDummyModes());
-			const res1 = await getModesByAuthor(id, quantity);
+			const res1 = await getModesByAuthor(null, id, quantity);
 			expect(res1).to.have.length(5);
 			res1.forEach((el: any) => expect(el.author.toString()).at.equal(id));
 		});

@@ -1,5 +1,5 @@
-import IFork from './IFork';
-import IRevision from './IRevision';
+import IFork from '@interfaces/mode/IFork';
+import IRevision from '@interfaces/mode/IRevision';
 
 export default interface IMode {
 	author: string;

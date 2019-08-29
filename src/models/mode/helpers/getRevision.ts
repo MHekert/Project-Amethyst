@@ -1,6 +1,7 @@
-import Mode from '../mode';
-import IRevision from '../../../interfaces/mode/IRevision';
 import { Types } from 'mongoose';
+
+import IRevision from '@interfaces/mode/IRevision';
+import Mode from '@models/mode/mode';
 
 const getRevision = async (modeId: string, quantity: number, offset: number) => {
 	const idToSearch = Types.ObjectId(modeId);

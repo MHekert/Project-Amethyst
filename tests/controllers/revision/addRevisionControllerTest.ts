@@ -1,11 +1,12 @@
 import { expect, request, use } from 'chai';
-import { connection } from 'mongoose';
-import { MONGODB_URI_TEST } from '../../../src/util/secrets';
 import chaiHttp from 'chai-http';
-import Mode from '../../../src/models/mode/mode';
-import correctBody from '../../dummyData/dummyRevisionCorrectBody';
-import app, { server } from '../../../src/server';
-import { error400 } from '../../../src/util/errorObjects';
+import { connection } from 'mongoose';
+
+import correctBody from '@dummy/dummyRevisionCorrectBody';
+import Mode from '@models/mode/mode';
+import app, { server } from '@src/server';
+import { error400 } from '@util/errorObjects';
+import { MONGODB_URI_TEST } from '@util/secrets';
 
 const mongoUri: string = MONGODB_URI_TEST;
 use(chaiHttp);
