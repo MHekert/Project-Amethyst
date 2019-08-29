@@ -1,7 +1,8 @@
-import { Router, Request, Response, NextFunction } from 'express';
-import { setDownvote } from '../../models/modeAction';
-import { decPoints } from '../../models/mode/mode';
+import { NextFunction, Request, Response, Router } from 'express';
 import { isNull, isUndefined } from 'lodash';
+
+import { decPoints } from '@models/mode/mode';
+import { setDownvote } from '@models/modeAction';
 
 const router: Router = Router();
 

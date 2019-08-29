@@ -1,5 +1,6 @@
 import { isEmpty, isUndefined } from 'lodash';
-import Mode, { defaultProjection } from '../mode';
+
+import Mode, { defaultProjection } from '@models/mode/mode';
 
 const joinModeActions = async (
 	userId: string,

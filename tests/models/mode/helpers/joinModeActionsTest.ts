@@ -1,15 +1,16 @@
-import { describe, it } from 'mocha';
 import { expect } from 'chai';
+import { describe, it } from 'mocha';
 import { connection } from 'mongoose';
-import Mode from '../../../../src/models/mode/mode';
-import createDummyModes from '../../../dummyData/createDummyModes';
-import { MONGODB_URI_TEST } from '../../../../src/util/secrets';
-import ModeAction from '../../../../src/models/modeAction';
-import User from '../../../../src/models/user';
-import IUserModel from '../../../../src/interfaces/user/IUserModel';
-import IModeModel from '../../../../src/interfaces/mode/IModeModel';
-import joinModeActions from '../../../../src/models/mode/helpers/joinModeActions';
-import { setUpvote } from '../../../../src/models/modeAction';
+
+import createDummyModes from '@dummy/createDummyModes';
+import IModeModel from '@interfaces/mode/IModeModel';
+import IUserModel from '@interfaces/user/IUserModel';
+import joinModeActions from '@models/mode/helpers/joinModeActions';
+import Mode from '@models/mode/mode';
+import ModeAction from '@models/modeAction';
+import { setUpvote } from '@models/modeAction';
+import User from '@models/user';
+import { MONGODB_URI_TEST } from '@util/secrets';
 
 const mongoUri: string = MONGODB_URI_TEST;
 let userId: IUserModel['_id'];

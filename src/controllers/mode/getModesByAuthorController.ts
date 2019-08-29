@@ -1,7 +1,8 @@
-import { Router, Request, Response, NextFunction } from 'express';
+import { NextFunction, Request, Response, Router } from 'express';
 import { param } from 'express-validator/check';
-import getModesByAuthor from '../../models/mode/helpers/getModesByAuthor';
-import validateRequest from '../middleware/validateRequest';
+
+import validateRequest from '@controllers/middleware/validateRequest';
+import getModesByAuthor from '@models/mode/helpers/getModesByAuthor';
 
 const router: Router = Router();
 

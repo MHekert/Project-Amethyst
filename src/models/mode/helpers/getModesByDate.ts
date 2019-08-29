@@ -1,6 +1,6 @@
-import IUserModel from '../../../../src/interfaces/user/IUserModel';
-import Mode, { defaultProjection } from '../mode';
-import joinModeActions from './joinModeActions';
+import IUserModel from '@interfaces/user/IUserModel';
+import joinModeActions from '@models/mode/helpers/joinModeActions';
+import Mode, { defaultProjection } from '@models/mode/mode';
 
 const sort = { createdAt: -1 };
 

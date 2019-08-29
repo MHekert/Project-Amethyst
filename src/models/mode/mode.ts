@@ -1,6 +1,7 @@
 import { Model, model, Schema } from 'mongoose';
-import IModeModel from '../../interfaces/mode/IModeModel';
-import { revisionSchema } from './revision';
+
+import IModeModel from '@interfaces/mode/IModeModel';
+import { revisionSchema } from '@models/mode/revision';
 
 const { ObjectId } = Schema.Types;
 

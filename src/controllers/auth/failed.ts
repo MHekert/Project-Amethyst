@@ -1,5 +1,6 @@
-import { Router, Response } from 'express';
-import { FRONTEND_URL } from '../../util/secrets';
+import { Response, Router } from 'express';
+
+import { FRONTEND_URL } from '@util/secrets';
 
 const router: Router = Router();
 

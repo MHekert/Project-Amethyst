@@ -1,11 +1,13 @@
-import { describe, it } from 'mocha';
 import { expect } from 'chai';
+import { describe, it } from 'mocha';
 import { connection } from 'mongoose';
-import Mode from '../../../../src/models/mode/mode';
-import getModesByPoints from '../../../../src/models/mode/helpers/getModesByPoints';
-import createDummyModes from '../../../dummyData/createDummyModes';
-import getDummyIds from '../../../dummyData/getDummyIds';
-import { MONGODB_URI_TEST } from '../../../../src/util/secrets';
+
+import createDummyModes from '@dummy/createDummyModes';
+import getDummyIds from '@dummy/getDummyIds';
+import getModesByPoints from '@models/mode/helpers/getModesByPoints';
+import Mode from '@models/mode/mode';
+import { MONGODB_URI_TEST } from '@util/secrets';
+
 const mongoUri: string = MONGODB_URI_TEST;
 
 describe(`mode's model helper function getModesByPoints`, () => {

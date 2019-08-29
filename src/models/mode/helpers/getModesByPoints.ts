@@ -1,13 +1,15 @@
 import { min } from 'lodash';
-import IUserModel from '../../../../src/interfaces/user/IUserModel';
-import Mode, { defaultProjection } from '../mode';
-import joinModeActions from './joinModeActions';
+
+import IModeModel from '@interfaces/mode/IModeModel';
+import IUserModel from '@interfaces/user/IUserModel';
+import joinModeActions from '@models/mode/helpers/joinModeActions';
+import Mode, { defaultProjection } from '@models/mode/mode';
 
 const sort = { points: -1 };
 
 const getPoints = async (ids: string[]) => {
 	const modes = await Mode.find({ _id: { $in: ids } }).exec();
-	const points = modes.map((el) => el.points);
+	const points = modes.map((el: IModeModel) => el.points);
 	return min(points);
 };
 
