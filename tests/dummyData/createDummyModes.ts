@@ -1,4 +1,4 @@
-import Mode from '../../src/models/mode/mode';
+import Mode from '@models/mode/mode';
 
 const revisions = [{ code: 'code1' }, { code: 'code2' }, { code: 'code3' }];
 const modes = [

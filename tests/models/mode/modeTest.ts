@@ -1,9 +1,10 @@
-import { describe, it } from 'mocha';
 import { expect } from 'chai';
+import { describe, it } from 'mocha';
 import { connection } from 'mongoose';
-import Mode, { incPoints, decPoints, incFavorite, getAuthor } from '../../../src/models/mode/mode';
-import { MONGODB_URI_TEST } from '../../../src/util/secrets';
-import { correctBody } from '../../dummyData/putModeBodyDummy';
+
+import { correctBody } from '@dummy/putModeBodyDummy';
+import Mode, { decPoints, getAuthor, incFavorite, incPoints } from '@models/mode/mode';
+import { MONGODB_URI_TEST } from '@util/secrets';
 
 const mongoUri: string = MONGODB_URI_TEST;
 

@@ -1,8 +1,8 @@
-import Mode from '../../src/models/mode/mode';
-import Revision from '../../src/models/mode/revision';
-import modelFromRequest from '../../src/util/modelFromRequest';
-import { correctBody } from '../dummyData/putModeBodyDummy';
-import IModeModel from '../../src/interfaces/commentAction/ICommentActionModel';
+import { correctBody } from '@dummy/putModeBodyDummy';
+import IModeModel from '@interfaces/commentAction/ICommentActionModel';
+import Mode from '@models/mode/mode';
+import Revision from '@models/mode/revision';
+import modelFromRequest from '@util/modelFromRequest';
 
 export const createDummyRevisions = async () => {
 	const modeModel: IModeModel = modelFromRequest(Mode, correctBody, []);

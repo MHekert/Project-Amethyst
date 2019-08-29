@@ -1,7 +1,8 @@
-import { Router, Request, Response, NextFunction } from 'express';
-import { query, param } from 'express-validator/check';
-import getModesByPoints from '../../models/mode/helpers/getModesByPoints';
-import validateRequest from '../middleware/validateRequest';
+import { NextFunction, Request, Response, Router } from 'express';
+import { param, query } from 'express-validator/check';
+
+import validateRequest from '@controllers/middleware/validateRequest';
+import getModesByPoints from '@models/mode/helpers/getModesByPoints';
 
 const router: Router = Router();
 
@@ -19,8 +20,13 @@ router.get(
 	validateRequest,
 	async (req: Request, res: Response, next: NextFunction) => {
 		try {
-			if (!req.query.ids) return res.status(200).send(await getModesByPoints(req.params.quantity));
-			return res.status(200).send(await getModesByPoints(req.params.quantity, req.query.ids));
+			const {
+				user,
+				params: { quantity },
+				query: { ids }
+			} = req;
+			if (!req.query.ids) return res.status(200).send(await getModesByPoints(user, quantity));
+			return res.status(200).send(await getModesByPoints(user, quantity, ids));
 		} catch (err) {
 			next(err);
 		}

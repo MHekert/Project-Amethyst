@@ -1,6 +1,7 @@
-import { pick, merge } from 'lodash';
+import { merge, pick } from 'lodash';
 import { Model } from 'mongoose';
-import getSchemaPaths from './getSchemaPaths';
+
+import getSchemaPaths from '@util/getSchemaPaths';
 
 export default (model: Model<any>, requestBody: any, pathsBlacklist: string[]) => {
 	const pathsWhitelist = getSchemaPaths(model.schema).filter((el: any) => !pathsBlacklist.includes(el));

@@ -1,10 +1,11 @@
-import { describe, it } from 'mocha';
 import { expect } from 'chai';
+import { describe, it } from 'mocha';
 import { connection } from 'mongoose';
-import Mode from '../../../../src/models/mode/mode';
-import updateRevision from '../../../../src/models/mode/helpers/updateRevision';
-import createDummyModes from '../../../dummyData/createDummyModes';
-import { MONGODB_URI_TEST } from '../../../../src/util/secrets';
+
+import createDummyModes from '@dummy/createDummyModes';
+import updateRevision from '@models/mode/helpers/updateRevision';
+import Mode from '@models/mode/mode';
+import { MONGODB_URI_TEST } from '@util/secrets';
 
 const mongoUri: string = MONGODB_URI_TEST;
 

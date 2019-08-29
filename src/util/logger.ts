@@ -1,5 +1,6 @@
 import winston from 'winston';
-import { isDev } from './secrets';
+
+import { isDev } from '@util/secrets';
 
 const debug = winston.format.printf(({ level, message, label, timestamp }) => {
 	const newMessage = JSON.stringify(message).replace(/\r?\n|\r/, '');

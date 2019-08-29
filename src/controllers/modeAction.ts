@@ -1,9 +1,10 @@
 import { Router } from 'express';
-import upvoteController from './ModeAction/upvote';
-import downvoteController from './ModeAction/downvote';
-import unsetVoteController from './ModeAction/unsetVote';
-import setFavoriteController from './ModeAction/setFavorite';
-import unsetFavoriteController from './ModeAction/unsetFavorite';
+
+import downvoteController from '@controllers/ModeAction/downvote';
+import setFavoriteController from '@controllers/ModeAction/setFavorite';
+import unsetFavoriteController from '@controllers/ModeAction/unsetFavorite';
+import unsetVoteController from '@controllers/ModeAction/unsetVote';
+import upvoteController from '@controllers/ModeAction/upvote';
 
 const router: Router = Router();
 

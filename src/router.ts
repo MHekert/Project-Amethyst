@@ -1,12 +1,13 @@
 import { Router } from 'express';
-import modeController from './controllers/mode';
-import revisionController from './controllers/revision';
-import modeActionController from './controllers/modeAction';
-import authController from './controllers/auth';
-import isUserLoggedIn from './controllers/middleware/isUserLoggedIn';
-import validateRequest from './controllers/middleware/validateRequest';
 import { body } from 'express-validator/check';
-import errorHandler from './controllers/middleware/errorHandler';
+
+import authController from '@controllers/auth';
+import errorHandler from '@controllers/middleware/errorHandler';
+import isUserLoggedIn from '@controllers/middleware/isUserLoggedIn';
+import validateRequest from '@controllers/middleware/validateRequest';
+import modeController from '@controllers/mode';
+import modeActionController from '@controllers/modeAction';
+import revisionController from '@controllers/revision';
 
 const router: Router = Router();
 

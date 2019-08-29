@@ -1,6 +1,7 @@
 import { Model, model, Schema } from 'mongoose';
-import IModeModel from '../../interfaces/mode/IModeModel';
-import { revisionSchema } from './revision';
+
+import IModeModel from '@interfaces/mode/IModeModel';
+import { revisionSchema } from '@models/mode/revision';
 
 const { ObjectId } = Schema.Types;
 
@@ -44,7 +45,7 @@ modeSchema.pre<IModeModel>('save', async function(next) {
 	next();
 });
 
-export const defaultSelection = { __v: 0, revisions: 0 };
+export const defaultProjection = { __v: 0, revisions: 0 };
 
 const updateMode = (modeId: string, obj: any) => Mode.updateOne({ _id: modeId }, { $inc: obj }).exec();
 

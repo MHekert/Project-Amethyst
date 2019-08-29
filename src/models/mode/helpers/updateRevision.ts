@@ -1,6 +1,7 @@
-import { pick, isEmpty } from 'lodash';
-import Mode from '../mode';
-import IRevision from '../../../interfaces/mode/IRevision';
+import { isEmpty, pick } from 'lodash';
+
+import IRevision from '@interfaces/mode/IRevision';
+import Mode from '@models/mode/mode';
 
 const updateRevision = async (modeId: string, revisionId: string, changes: Partial<Omit<IRevision, 'createdAt'>>) => {
 	const _changes: any = pick(changes, ['body', 'changelog', 'code']);

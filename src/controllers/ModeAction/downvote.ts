@@ -1,18 +1,23 @@
-import { Router, Request, Response, NextFunction } from 'express';
-import { setDownvote } from '../../models/modeAction';
-import { decPoints } from '../../models/mode/mode';
+import { NextFunction, Request, Response, Router } from 'express';
 import { isNull, isUndefined } from 'lodash';
+
+import { decPoints } from '@models/mode/mode';
+import { setDownvote } from '@models/modeAction';
 
 const router: Router = Router();
 
 router.post('/', async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		const modeAction = await setDownvote(req.user, req.body.modeId);
+		const {
+			user,
+			body: { modeId }
+		} = req;
+		const modeAction = await setDownvote(user, modeId);
 		if (isNull(modeAction) || isUndefined(modeAction.upvote)) {
-			await decPoints(req.body.modeId);
+			await decPoints(modeId);
 		} else {
 			if (!modeAction.upvote) return res.sendStatus(304);
-			await decPoints(req.body.modeId, 2);
+			await decPoints(modeId, 2);
 		}
 		res.sendStatus(200);
 	} catch (err) {
