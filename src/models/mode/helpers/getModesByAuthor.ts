@@ -1,4 +1,4 @@
-import Mode, { defaultSelection } from '../mode';
+import Mode, { defaultSelection } from '@models/mode/mode';
 
 const getModesByAuthor = (author: string, quantity: number, offset = 0) =>
 	Mode.find({ author: author })

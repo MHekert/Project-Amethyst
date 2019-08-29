@@ -1,7 +1,8 @@
 import passport from 'passport';
-import User from '../models/user';
-import IUserModel from '../interfaces/user/IUserModel';
-import facebookStrategy from './facebookStrategy';
+
+import facebookStrategy from '@config/facebookStrategy';
+import IUserModel from '@interfaces/user/IUserModel';
+import User from '@models/user';
 
 passport.use(facebookStrategy);
 

@@ -1,4 +1,4 @@
-import ModeAction from '../../src/models/modeAction';
+import ModeAction from '@models/modeAction';
 
 export const dummyModeActionBody = {
 	modeId: '5cf2a6fded450065969652b3',

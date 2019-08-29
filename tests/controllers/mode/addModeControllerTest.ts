@@ -1,12 +1,13 @@
 process.env.NODE_ENV = 'test';
 import { expect, request, use } from 'chai';
-import { connection } from 'mongoose';
-import { MONGODB_URI_TEST } from '../../../src/util/secrets';
 import chaiHttp from 'chai-http';
-import Mode from '../../../src/models/mode/mode';
-import app, { server } from '../../../src/server';
-import { correctBody, incorrectBody } from '../../dummyData/putModeBodyDummy';
-import { error400 } from '../../../src/util/errorObjects';
+import { connection } from 'mongoose';
+
+import { correctBody, incorrectBody } from '@dummy/putModeBodyDummy';
+import Mode from '@models/mode/mode';
+import app, { server } from '@src/server';
+import { error400 } from '@util/errorObjects';
+import { MONGODB_URI_TEST } from '@util/secrets';
 
 const mongoUri: string = MONGODB_URI_TEST;
 use(chaiHttp);

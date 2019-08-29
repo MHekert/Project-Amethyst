@@ -1,8 +1,9 @@
-import { Router, Request, Response, NextFunction } from 'express';
-import { query, param } from 'express-validator/check';
+import { NextFunction, Request, Response, Router } from 'express';
+import { param, query } from 'express-validator/check';
 import { isNull } from 'lodash';
-import getModesByPoints from '../../models/mode/helpers/getModesByPoints';
-import validateRequest from '../middleware/validateRequest';
+
+import validateRequest from '@controllers/middleware/validateRequest';
+import getModesByPoints from '@models/mode/helpers/getModesByPoints';
 
 const router: Router = Router();
 

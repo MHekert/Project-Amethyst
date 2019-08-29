@@ -1,8 +1,10 @@
-import { describe, it } from 'mocha';
 import { expect } from 'chai';
+import { describe, it } from 'mocha';
 import { connection } from 'mongoose';
-import Revision from '../../../src/models/mode/revision';
-import { MONGODB_URI_TEST } from '../../../src/util/secrets';
+
+import Revision from '@models/mode/revision';
+import { MONGODB_URI_TEST } from '@util/secrets';
+
 const mongoUri: string = MONGODB_URI_TEST;
 
 describe(`revision's model`, () => {

@@ -1,4 +1,4 @@
-import Mode, { defaultSelection } from '../mode';
+import Mode, { defaultSelection } from '@models/mode/mode';
 
 const getModesByDate = (quantity: number, olderThan?: string) => {
 	if (!olderThan)

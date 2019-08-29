@@ -1,7 +1,8 @@
-import { Router, Request, Response, NextFunction } from 'express';
+import { NextFunction, Request, Response, Router } from 'express';
 import { param } from 'express-validator/check';
-import getModesByDate from '../../models/mode/helpers/getModesByDate';
-import validateRequest from '../middleware/validateRequest';
+
+import validateRequest from '@controllers/middleware/validateRequest';
+import getModesByDate from '@models/mode/helpers/getModesByDate';
 
 const router: Router = Router();
 

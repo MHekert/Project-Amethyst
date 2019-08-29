@@ -1,5 +1,6 @@
 import { max } from 'lodash';
-import Mode, { defaultSelection } from '../mode';
+
+import Mode, { defaultSelection } from '@models/mode/mode';
 
 const getPositions = (ids: string[]) =>
 	ids.map((id) =>

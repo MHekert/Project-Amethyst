@@ -1,6 +1,7 @@
 import { Document } from 'mongoose';
-import IUser from './IUser';
-import IAccount from './IAccount';
+
+import IAccount from '@interfaces/user/IAccount';
+import IUser from '@interfaces/user/IUser';
 
 export default interface IUserModel extends Document, IUser {
 	generateHash(): string;
