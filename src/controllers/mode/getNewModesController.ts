@@ -17,7 +17,11 @@ router.get(
 	validateRequest,
 	async (req: Request, res: Response, next: NextFunction) => {
 		try {
-			const modes = await getModesByDate(req.user, req.params.quantity, req.params.date);
+			const {
+				user,
+				params: { quantity, date }
+			} = req;
+			const modes = await getModesByDate(user, quantity, date);
 			res.status(200).send(modes);
 		} catch (err) {
 			next(err);
@@ -35,7 +39,11 @@ router.get(
 	validateRequest,
 	async (req: Request, res: Response, next: NextFunction) => {
 		try {
-			const modes = await getModesByDate(req.user, req.params.quantity);
+			const {
+				user,
+				params: { quantity }
+			} = req;
+			const modes = await getModesByDate(user, quantity);
 			res.status(200).send(modes);
 		} catch (err) {
 			next(err);

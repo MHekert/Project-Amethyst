@@ -14,7 +14,7 @@ const getPoints = async (ids: string[]) => {
 };
 
 const getModesByPointsInitial = async (user: IUserModel, quantity: number) => {
-	if (user) return joinModeActions(user._id, { sort: sort, limit: quantity, project: defaultProjection });
+	if (user) return joinModeActions(user._id, { sort, limit: quantity, project: defaultProjection });
 	return Mode.find()
 		.sort(sort)
 		.limit(quantity)
@@ -27,8 +27,8 @@ const getModesByPointsOffset = async (user: IUserModel, quantity: number, ids: s
 	const match = { points: { $lt: points } };
 	if (user)
 		return joinModeActions(user._id, {
-			match: match,
-			sort: sort,
+			match,
+			sort,
 			limit: quantity,
 			project: defaultProjection
 		});

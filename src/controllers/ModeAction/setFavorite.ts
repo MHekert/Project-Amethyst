@@ -8,9 +8,13 @@ const router: Router = Router();
 
 router.post('/', async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		const modeAction = await setFavorite(req.user, req.body.modeId);
+		const {
+			user,
+			body: { modeId }
+		} = req;
+		const modeAction = await setFavorite(user, modeId);
 		if (isNull(modeAction) || isUndefined(modeAction.favorite)) {
-			await incFavorite(req.body.modeId);
+			await incFavorite(modeId);
 			return res.sendStatus(200);
 		}
 		return res.sendStatus(304);

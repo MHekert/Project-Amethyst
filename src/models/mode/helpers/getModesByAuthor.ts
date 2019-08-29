@@ -5,17 +5,17 @@ import Mode, { defaultProjection } from '@models/mode/mode';
 const sort = { createdAt: -1 };
 
 const getModesByAuthor = (user: IUserModel, author: string, quantity: number, offset = 0) => {
-	const match = { author: author };
+	const match = { author };
 	if (user)
 		return joinModeActions(user._id, {
-			match: match,
-			sort: sort,
+			match,
+			sort,
 			skip: offset,
 			limit: quantity,
 			project: defaultProjection
 		});
-	return Mode.find({ author: author })
-		.sort({ createdAt: -1 })
+	return Mode.find({ author })
+		.sort(sort)
 		.skip(offset)
 		.limit(quantity)
 		.select(defaultProjection)

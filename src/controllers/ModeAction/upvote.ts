@@ -8,12 +8,16 @@ const router: Router = Router();
 
 router.post('/', async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		const modeAction = await setUpvote(req.user, req.body.modeId);
+		const {
+			user,
+			body: { modeId }
+		} = req;
+		const modeAction = await setUpvote(user, modeId);
 		if (isNull(modeAction) || isUndefined(modeAction.upvote)) {
-			await incPoints(req.body.modeId);
+			await incPoints(modeId);
 		} else {
 			if (modeAction.upvote) return res.sendStatus(304);
-			await incPoints(req.body.modeId, 2);
+			await incPoints(modeId, 2);
 		}
 		res.sendStatus(200);
 	} catch (err) {
