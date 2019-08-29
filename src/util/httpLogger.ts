@@ -1,5 +1,6 @@
 import morgan from 'morgan';
-import { httpLoggerConsole, httpLoggerFile } from './logger';
+
+import { httpLoggerConsole, httpLoggerFile } from '@util/logger';
 
 const getStream = (logger: any) => {
 	class Stream {

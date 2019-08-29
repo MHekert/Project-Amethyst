@@ -1,5 +1,15 @@
 {
 	"rules": {
+		"ordered-imports": [
+			true,
+			{
+				"grouped-imports": true,
+				"named-imports-order": "case-insensitive",
+				"import-sources-order": "case-insensitive",
+				"module-source-path": "full",
+				"groups": ["^[a-zA-Z]+", "^.*"]
+			}
+		],
 		"class-name": true,
 		"comment-format": [true, "check-space"],
 		"indent": [true, "tabs"],

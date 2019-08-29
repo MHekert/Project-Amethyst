@@ -1,12 +1,13 @@
 import { Router } from 'express';
-import addModeController from './mode/addModeController';
-import getNewModesController from './mode/getNewModesController';
-import getTopModesController from './mode/getTopModesController';
-import uploadGalleryController from './mode/gallery/uploadGalleryController';
-import getGalleryController from './mode/gallery/getGalleryController';
-import getModesByAuthorController from './mode/getModesByAuthorController';
-import isUserLoggedIn from './middleware/isUserLoggedIn';
-import isAuthorOfMode from './middleware/isAuthorOfMode';
+
+import isAuthorOfMode from '@controllers/middleware/isAuthorOfMode';
+import isUserLoggedIn from '@controllers/middleware/isUserLoggedIn';
+import addModeController from '@controllers/mode/addModeController';
+import getGalleryController from '@controllers/mode/gallery/getGalleryController';
+import uploadGalleryController from '@controllers/mode/gallery/uploadGalleryController';
+import getModesByAuthorController from '@controllers/mode/getModesByAuthorController';
+import getNewModesController from '@controllers/mode/getNewModesController';
+import getTopModesController from '@controllers/mode/getTopModesController';
 
 const router: Router = Router();
 

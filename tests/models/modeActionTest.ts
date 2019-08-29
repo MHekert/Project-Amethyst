@@ -1,9 +1,10 @@
-import { describe, it } from 'mocha';
 import { expect } from 'chai';
+import { describe, it } from 'mocha';
 import { connection } from 'mongoose';
-import ModeAction, { setDownvote, setUpvote, setFavorite, unsetFavorite, unsetVote } from '../../src/models/modeAction';
-import { MONGODB_URI_TEST } from '../../src/util/secrets';
-import { dummyModeAction, dummyModeActionBody, getDummyModeAction } from '../dummyData/dummyModeAction';
+
+import { dummyModeAction, dummyModeActionBody, getDummyModeAction } from '@dummy/dummyModeAction';
+import ModeAction, { setDownvote, setFavorite, setUpvote, unsetFavorite, unsetVote } from '@models/modeAction';
+import { MONGODB_URI_TEST } from '@util/secrets';
 
 const mongoUri: string = MONGODB_URI_TEST;
 

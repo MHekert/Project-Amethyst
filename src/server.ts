@@ -1,16 +1,18 @@
 import bodyParser from 'body-parser';
 import mongo from 'connect-mongo';
+import cors from 'cors';
 import express from 'express';
 import session from 'express-session';
+import helmet from 'helmet';
 import mongoose from 'mongoose';
-import cors from 'cors';
-import { isDev, MONGODB_URI, PORT, SESSION_SECRET, FRONTEND_URL } from './util/secrets';
-import { morganConsole, morganFile } from './util/httpLogger';
-import passport from './config/passport';
 
-import router from './router';
+import passport from '@config/passport';
+import router from '@src/router';
+import { morganConsole, morganFile } from '@util/httpLogger';
+import { FRONTEND_URL, isDev, MONGODB_URI, PORT, SESSION_SECRET } from '@util/secrets';
 
 const app = express();
+app.use(helmet());
 app.use(cors({ origin: FRONTEND_URL, credentials: true }));
 if (isDev && process.env.NODE_ENV !== 'test') {
 	app.use(morganConsole);

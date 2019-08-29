@@ -1,17 +1,18 @@
-import { Router, Request, Response, NextFunction } from 'express';
-import { validationResult, param } from 'express-validator/check';
-import multer, { uploadPath } from '../../../config/multer';
-import convertAndUpload from '../../../util/Files/convertAndUpload';
-import { deleteFiles } from '../../../util/firebase';
-import { pushGallery } from '../../../models/mode/mode';
-import { allError207, allError507 } from '../../../util/errorObjects';
+import { Request, Response, Router } from 'express';
+import { param } from 'express-validator/check';
 import { remove } from 'fs-extra';
-import validateRequest from '../../../controllers/middleware/validateRequest';
+
+import multer, { uploadPath } from '@config/multer';
+import validateRequest from '@controllers/middleware/validateRequest';
+import { pushGallery } from '@models/mode/mode';
+import { allError207, allError507 } from '@util/errorObjects';
+import convertAndUpload from '@util/files/convertAndUpload';
+import { deleteFiles } from '@util/firebase';
 
 const router: Router = Router();
 
 router.post(
-	'/mode/:modeId',
+	'/:modeId',
 	[param('modeId').isHexadecimal()],
 	validateRequest,
 	multer.array('gallery'),

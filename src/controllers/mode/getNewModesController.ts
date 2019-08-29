@@ -1,7 +1,8 @@
-import { Router, Request, Response, NextFunction } from 'express';
+import { NextFunction, Request, Response, Router } from 'express';
 import { param } from 'express-validator/check';
-import getModesByDate from '../../models/mode/helpers/getModesByDate';
-import validateRequest from '../middleware/validateRequest';
+
+import validateRequest from '@controllers/middleware/validateRequest';
+import getModesByDate from '@models/mode/helpers/getModesByDate';
 
 const router: Router = Router();
 
@@ -16,7 +17,11 @@ router.get(
 	validateRequest,
 	async (req: Request, res: Response, next: NextFunction) => {
 		try {
-			const modes = await getModesByDate(req.params.quantity, req.params.date);
+			const {
+				user,
+				params: { quantity, date }
+			} = req;
+			const modes = await getModesByDate(user, quantity, date);
 			res.status(200).send(modes);
 		} catch (err) {
 			next(err);
@@ -34,7 +39,11 @@ router.get(
 	validateRequest,
 	async (req: Request, res: Response, next: NextFunction) => {
 		try {
-			const modes = await getModesByDate(req.params.quantity);
+			const {
+				user,
+				params: { quantity }
+			} = req;
+			const modes = await getModesByDate(user, quantity);
 			res.status(200).send(modes);
 		} catch (err) {
 			next(err);

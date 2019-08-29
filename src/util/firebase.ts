@@ -1,5 +1,6 @@
-import { bucket } from '../config/firebase';
 import { basename } from 'path';
+
+import { bucket } from '@config/firebase';
 
 export const uploadFile = (filePath: string, destinationDir = 'images/') =>
 	bucket.upload(filePath, {

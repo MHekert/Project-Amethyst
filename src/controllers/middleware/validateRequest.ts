@@ -1,6 +1,7 @@
-import { Request, Response, NextFunction } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { validationResult } from 'express-validator/check';
-import { error400 } from '../../util/errorObjects';
+
+import { error400 } from '@util/errorObjects';
 
 const validateRequest = async (req: Request, res: Response, next: NextFunction) => {
 	try {

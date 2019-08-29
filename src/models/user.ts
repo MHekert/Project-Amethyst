@@ -1,7 +1,8 @@
+import { compareSync, genSaltSync, hashSync } from 'bcrypt';
 import mongoose, { Schema } from 'mongoose';
-import { compareSync, hashSync, genSaltSync } from 'bcrypt';
-import IUserModel from '../interfaces/user/IUserModel';
-import IAccount from '../interfaces/user/IAccount';
+
+import IAccount from '@interfaces/user/IAccount';
+import IUserModel from '@interfaces/user/IUserModel';
 
 const userSchema: Schema = new Schema({
 	visibleName: String,

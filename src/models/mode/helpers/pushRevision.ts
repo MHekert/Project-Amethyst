@@ -1,5 +1,5 @@
-import Mode from '../mode';
-import IRevision from '../../../interfaces/mode/IRevision';
+import IRevision from '@interfaces/mode/IRevision';
+import Mode from '@models/mode/mode';
 
 const pushRevision = async (modeId: string, revision: IRevision) => {
 	const mode = await Mode.findById(modeId).exec();

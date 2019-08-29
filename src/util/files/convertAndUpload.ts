@@ -1,5 +1,5 @@
-import convertToWebp from './convertToWebp';
-import uploadFile from './uploadFile';
+import convertToWebp from '@util/files/convertToWebp';
+import uploadFile from '@util/files/uploadFile';
 
 export default async (filePath: string) => {
 	try {

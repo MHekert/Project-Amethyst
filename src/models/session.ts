@@ -1,5 +1,6 @@
 import { Model, model, Schema } from 'mongoose';
-import ISessionModel from '../interfaces/session/ISessionModel';
+
+import ISessionModel from '@interfaces/session/ISessionModel';
 
 const { ObjectId } = Schema.Types;
 
