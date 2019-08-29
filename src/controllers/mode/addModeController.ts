@@ -14,8 +14,9 @@ router.put(
 	validateRequest,
 	async (req: Request, res: Response, next: NextFunction) => {
 		try {
-			const mode = modelFromRequest(Mode, req.body, ['createdAt', 'actualCode']);
-			const revision = modelFromRequest(Revision, req.body, ['createdAt']);
+			const { body } = req;
+			const mode = modelFromRequest(Mode, body, ['createdAt', 'actualCode']);
+			const revision = modelFromRequest(Revision, body, ['createdAt']);
 			mode.revisions.push(revision);
 			const savedMode = await mode.save();
 			res.status(200).send({ mode: savedMode });

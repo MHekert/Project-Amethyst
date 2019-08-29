@@ -21,8 +21,11 @@ router.get(
 	validateRequest,
 	async (req: Request, res: Response, next: NextFunction) => {
 		try {
-			const { author, quantity, offset } = req.params;
-			const modes = await getModesByAuthor(author, quantity, offset);
+			const {
+				user,
+				params: { author, quantity, offset }
+			} = req;
+			const modes = await getModesByAuthor(user, author, quantity, offset);
 			res.status(200).send(modes);
 		} catch (err) {
 			next(err);

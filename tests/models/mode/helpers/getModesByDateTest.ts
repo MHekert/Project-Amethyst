@@ -3,6 +3,7 @@ import { describe, it } from 'mocha';
 import { connection } from 'mongoose';
 
 import createDummyModes from '@dummy/createDummyModes';
+import IModeModel from '@interfaces/mode/IModeModel';
 import getModesByDate from '@models/mode/helpers/getModesByDate';
 import Mode from '@models/mode/mode';
 import { MONGODB_URI_TEST } from '@util/secrets';
@@ -23,9 +24,9 @@ describe(`mode's model helper function getModesByDate`, () => {
 			const dateS = date.toISOString();
 			const quantity = 10;
 			await Promise.all(createDummyModes());
-			const res1 = await getModesByDate(quantity, dateS);
+			const res1 = await getModesByDate(null, quantity, dateS);
 			expect(res1.length).to.be.equal(3);
-			res1.forEach((el) => expect(new Date(el.createdAt)).at.most(date));
+			res1.forEach((el: IModeModel) => expect(new Date(el.createdAt)).at.most(date));
 		});
 	});
 });

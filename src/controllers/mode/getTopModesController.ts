@@ -21,8 +21,13 @@ router.get(
 	validateRequest,
 	async (req: Request, res: Response, next: NextFunction) => {
 		try {
-			if (!req.query.ids) return res.status(200).send(await getModesByPoints(req.params.quantity));
-			return res.status(200).send(await getModesByPoints(req.params.quantity, req.query.ids));
+			const {
+				user,
+				params: { quantity },
+				query: { ids }
+			} = req;
+			if (!req.query.ids) return res.status(200).send(await getModesByPoints(user, quantity));
+			return res.status(200).send(await getModesByPoints(user, quantity, ids));
 		} catch (err) {
 			next(err);
 		}
