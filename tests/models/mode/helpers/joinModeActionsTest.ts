@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import { describe, it } from 'mocha';
 import { connection } from 'mongoose';
 
 import createDummyModes from '@dummy/createDummyModes';
