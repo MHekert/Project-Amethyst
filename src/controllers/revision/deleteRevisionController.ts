@@ -10,7 +10,7 @@ const router: Router = Router();
 
 router.delete(
 	'/:modeId/:revisionId',
-	[param('modeId').isHexadecimal(), param('revisionId').isHexadecimal()],
+	[param('modeId').isMongoId(), param('revisionId').isMongoId()],
 	validateRequest,
 	async (req: Request, res: Response, next: NextFunction) => {
 		try {
