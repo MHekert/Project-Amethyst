@@ -1,10 +1,14 @@
 import winston from 'winston';
 
-import { isDev } from '@util/secrets';
+import { NODE_ENV } from '@util/secrets';
+
+const isDev = NODE_ENV === 'development';
 
 const debug = winston.format.printf(({ level, message, label, timestamp }) => {
 	const newMessage = JSON.stringify(message).replace(/\r?\n|\r/, '');
-	return label ? `[${timestamp}] [${label}] ${level}: ${newMessage}` : `[${timestamp}] ${level}: ${newMessage}`;
+	return label
+		? `[${timestamp}] [${label}] ${level}: ${newMessage}`
+		: `[${timestamp}] ${level}: ${newMessage}`;
 });
 
 const httpFormat = winston.format.printf(({ level, message, label, timestamp }) => {
@@ -16,12 +20,20 @@ const logger = winston.loggers.add('logger', {
 	transports: [
 		new winston.transports.Console({
 			level: isDev ? 'debug' : 'error',
-			format: winston.format.combine(winston.format.colorize(), winston.format.timestamp(), debug)
+			format: winston.format.combine(
+				winston.format.colorize(),
+				winston.format.timestamp(),
+				debug
+			)
 		}),
 		new winston.transports.File({
 			filename: 'debug.log',
 			level: 'debug',
-			format: winston.format.combine(winston.format.timestamp(), winston.format.label({ label: 'logger' }), debug)
+			format: winston.format.combine(
+				winston.format.timestamp(),
+				winston.format.label({ label: 'logger' }),
+				debug
+			)
 		})
 	]
 });

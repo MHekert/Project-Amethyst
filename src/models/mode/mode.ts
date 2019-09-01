@@ -40,14 +40,15 @@ modeSchema.index(
 	}
 );
 
-modeSchema.pre<IModeModel>('save', async function (next) {
+modeSchema.pre<IModeModel>('save', async function(next) {
 	if (this.revisions.length > 0) this.actualCode = this.revisions[this.revisions.length - 1].code;
 	next();
 });
 
 export const defaultProjection = { __v: 0, revisions: 0 };
 
-const updateMode = (modeId: string, obj: any) => Mode.updateOne({ _id: modeId }, { $inc: obj }).exec();
+const updateMode = (modeId: string, obj: any) =>
+	Mode.updateOne({ _id: modeId }, { $inc: obj }).exec();
 
 export const incPoints = (modeId: string, value = 1) => updateMode(modeId, { points: value });
 export const decPoints = (modeId: string, value = 1) => updateMode(modeId, { points: -value });

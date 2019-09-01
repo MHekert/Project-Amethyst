@@ -3,7 +3,11 @@ import { isEmpty, pick } from 'lodash';
 import IRevision from '@interfaces/mode/IRevision';
 import Mode from '@models/mode/mode';
 
-const updateRevision = async (modeId: string, revisionId: string, changes: Partial<Omit<IRevision, 'createdAt'>>) => {
+const updateRevision = async (
+	modeId: string,
+	revisionId: string,
+	changes: Partial<Omit<IRevision, 'createdAt'>>
+) => {
 	const _changes: any = pick(changes, ['body', 'changelog', 'code']);
 	if (isEmpty(_changes)) return null;
 	const updateObject: any = {};

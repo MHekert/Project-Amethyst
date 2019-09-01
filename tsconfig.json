@@ -10,12 +10,13 @@
 		"outDir": "dist",
 		"baseUrl": ".",
 		"paths": {
-			"@dummy/*": ["tests/dummyData/*"],
-			"@src/*": ["src/*"],
-			"@models/*": ["src/models/*"],
-			"@controllers/*": ["src/controllers/*"],
-			"@interfaces/*": ["src/interfaces/*"],
 			"@config/*": ["src/config/*"],
+			"@controllers/*": ["src/controllers/*"],
+			"@dummy/*": ["tests/dummyData/*"],
+			"@interfaces/*": ["src/interfaces/*"],
+			"@models/*": ["src/models/*"],
+			"@src/*": ["src/*"],
+			"@tests/*": ["tests/*"],
 			"@util/*": ["src/util/*"]
 		}
 	},

@@ -1,10 +1,10 @@
 import { Router } from 'express';
 import passport from 'passport';
 
-const router: Router = Router();
+const facebookRoute: Router = Router();
 
-router.get('/', passport.authenticate('facebook'));
-router.get(
+facebookRoute.get('/', passport.authenticate('facebook'));
+facebookRoute.get(
 	'/callback',
 	passport.authenticate('facebook', {
 		successRedirect: '/auth/success',
@@ -12,4 +12,4 @@ router.get(
 	})
 );
 
-export default router;
+export default facebookRoute;
