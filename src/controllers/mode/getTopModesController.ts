@@ -25,7 +25,7 @@ router.get(
 				params: { quantity },
 				query: { ids }
 			} = req;
-			if (!req.query.ids) return res.status(200).send(await getModesByPoints(user, quantity));
+			if (!ids) return res.status(200).send(await getModesByPoints(user, quantity));
 			return res.status(200).send(await getModesByPoints(user, quantity, ids));
 		} catch (err) {
 			next(err);

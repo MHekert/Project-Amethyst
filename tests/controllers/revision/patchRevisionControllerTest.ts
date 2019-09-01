@@ -35,7 +35,7 @@ describe(`PATCH on path /revision/:modeId/:revisionId`, () => {
 	});
 
 	describe(`with correct params and empty body`, () => {
-		it(`should return status code 507`, async () => {
+		it(`should return status code 400`, async () => {
 			const modes = await createDummyModes();
 			const mode = modes.pop();
 			const revisionId = (<any>mode.revisions[0])._id;
@@ -48,7 +48,7 @@ describe(`PATCH on path /revision/:modeId/:revisionId`, () => {
 	});
 
 	describe(`with wrong param`, () => {
-		it(`should return status code 507`, async () => {
+		it(`should return status code 400`, async () => {
 			const modes = await createDummyModes();
 			const mode = modes.pop();
 			const res = await request(app)
@@ -61,7 +61,7 @@ describe(`PATCH on path /revision/:modeId/:revisionId`, () => {
 	});
 
 	describe(`with correct params and wrong body`, () => {
-		it(`should return status code 200`, async () => {
+		it(`should return status code 400`, async () => {
 			const modes = await createDummyModes();
 			const mode = modes.pop();
 			const revisionId = (<any>mode.revisions[0])._id;

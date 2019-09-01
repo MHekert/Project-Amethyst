@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import { describe, it } from 'mocha';
 import { connection } from 'mongoose';
 
 import createDummyModes from '@dummy/createDummyModes';
@@ -20,7 +19,6 @@ describe(`mode's model helper function joinModeAction`, () => {
 	before(async () => {
 		await connection.openUri(mongoUri, { useNewUrlParser: true, useCreateIndex: true });
 		await Promise.all([Mode.deleteMany({}), ModeAction.deleteMany({})]);
-		// modesPromise = (async () => await Promise.all(createDummyModes()))();
 		modesPromise = <any>await createDummyModes();
 		const userPromise = new User().save();
 		await Promise.all([modesPromise, userPromise]);

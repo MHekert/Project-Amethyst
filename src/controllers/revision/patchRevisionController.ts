@@ -32,7 +32,7 @@ router.patch(
 			} = req;
 			const updatedRevision = await updateRevision(modeId, revisionId, body);
 			if (!updatedRevision) return res.status(400).send(error400);
-			if (updatedRevision.nModified == 0) return res.status(507).send(allError507);
+			if (updatedRevision.nModified === 0) return res.status(507).send(allError507);
 			return res.sendStatus(200);
 		} catch (err) {
 			next(err);
