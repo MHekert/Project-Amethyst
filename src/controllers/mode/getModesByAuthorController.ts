@@ -12,7 +12,7 @@ router.get(
 		param('quantity')
 			.isInt()
 			.toInt(),
-		param('author').isHexadecimal(),
+		param('author').isMongoId(),
 		param('offset')
 			.optional()
 			.isInt()

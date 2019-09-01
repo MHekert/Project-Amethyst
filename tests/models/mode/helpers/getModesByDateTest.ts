@@ -23,7 +23,7 @@ describe(`mode's model helper function getModesByDate`, () => {
 			const date = new Date('2019-05-28');
 			const dateS = date.toISOString();
 			const quantity = 10;
-			await Promise.all(createDummyModes());
+			await createDummyModes();
 			const res1 = await getModesByDate(null, quantity, dateS);
 			expect(res1.length).to.be.equal(3);
 			res1.forEach((el: IModeModel) => expect(new Date(el.createdAt)).at.most(date));

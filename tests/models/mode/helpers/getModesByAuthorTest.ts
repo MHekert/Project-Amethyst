@@ -21,7 +21,7 @@ describe(`mode's model helper function getModesByAuthor`, () => {
 		it(`should return correct documents`, async () => {
 			const id = '507f1f77bcf86cd799439011';
 			const quantity = 10;
-			await Promise.all(createDummyModes());
+			await createDummyModes();
 			const res1 = await getModesByAuthor(null, id, quantity);
 			expect(res1).to.have.length(5);
 			res1.forEach((el: any) => expect(el.author.toString()).at.equal(id));
