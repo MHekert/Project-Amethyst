@@ -16,7 +16,7 @@ router.post(
 	[param('modeId').isHexadecimal()],
 	validateRequest,
 	multer.array('gallery'),
-	async (req: Request, res: Response) => {
+	async (req: Request & { failed: boolean }, res: Response) => {
 		const uploadedWebpFiles = (<Express.Multer.File[]>req.files).map(async (file) => {
 			const uploadedFile = await convertAndUpload(file.path);
 			remove(file.path);
@@ -34,7 +34,7 @@ router.post(
 			return res.status(507).send(allError507);
 		}
 
-		if (imageNames.length !== uploadedWebpFiles.length)
+		if (req.failed || imageNames.length !== uploadedWebpFiles.length)
 			return res.status(207).send({ gallery: imageNames, ...allError207 });
 		return res.status(200).send({ gallery: imageNames });
 	}

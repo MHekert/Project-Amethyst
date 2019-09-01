@@ -7,6 +7,6 @@ export default async (filePath: string) => {
 		const uploadedFilePath = await uploadFile(convertedFilePath);
 		return uploadedFilePath;
 	} catch (err) {
-		return '';
+		return null;
 	}
 };

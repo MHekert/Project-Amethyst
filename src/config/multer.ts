@@ -7,9 +7,10 @@ export const uploadPath = tmpdir() + '/uploads/';
 
 ensureDir(uploadPath);
 
-const fileFilter = (_req: Request, file: Express.Multer.File, cb: any) => {
+const fileFilter = (req: Request & { failed: boolean }, file: Express.Multer.File, cb: any) => {
 	const acceptTypes = ['image/png', 'image/jpeg'];
 	if (acceptTypes.some((el) => file.mimetype === el)) return cb(null, true);
+	req.failed = true;
 	return cb(null, false);
 };
 
@@ -18,5 +19,6 @@ const storage = multer.diskStorage({
 	filename: (req: Request, _file, cb) => cb(null, req.user._id + '-' + Date.now())
 });
 
-const upload = multer({ storage: storage, fileFilter: fileFilter });
+const upload = multer({ storage, fileFilter });
+
 export default upload;

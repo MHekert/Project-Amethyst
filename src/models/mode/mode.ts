@@ -40,7 +40,7 @@ modeSchema.index(
 	}
 );
 
-modeSchema.pre<IModeModel>('save', async function(next) {
+modeSchema.pre<IModeModel>('save', async function (next) {
 	if (this.revisions.length > 0) this.actualCode = this.revisions[this.revisions.length - 1].code;
 	next();
 });
@@ -55,10 +55,11 @@ export const incFavorite = (modeId: string, value = 1) => updateMode(modeId, { f
 export const decFavorite = (modeId: string, value = 1) => updateMode(modeId, { favorites: -value });
 
 export const getAuthor = async (id: string) => {
-	const { author } = await Mode.findById(id)
+	const mode = await Mode.findById(id)
 		.select({ _id: 0, author: 1 })
 		.exec();
-	return author;
+	if (mode) return mode.author;
+	return null;
 };
 
 export const pushGallery = (modeId: string, newImages: string[]) =>
