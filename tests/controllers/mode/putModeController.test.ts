@@ -3,11 +3,13 @@ import { describe, it } from 'mocha';
 
 import { connectDB, disconnectDB } from '@config/mongoose';
 import { putModeRoute } from '@controllers/mode/putModeController';
+import dummyLoggedUserMiddleware from '@dummy/dummyLoggedUserMiddleware';
 import { correctBody, incorrectBody } from '@dummy/putModeBodyDummy';
 import Mode from '@models/mode/mode';
 import app from '@tests/serverSetup';
 import { error400 } from '@util/errorObjects';
 
+app.use('/mode', dummyLoggedUserMiddleware);
 app.use('/mode', putModeRoute);
 
 describe(`PUT on path /mode`, () => {

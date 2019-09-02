@@ -8,9 +8,10 @@ import modelFromRequest from '@util/modelFromRequest';
 
 export const putModeMiddleware = async (req: Request, res: Response, next: NextFunction) => {
 	try {
-		const { body } = req;
-		const mode = modelFromRequest(Mode, body, ['createdAt', 'actualCode']);
-		const revision = modelFromRequest(Revision, body, ['createdAt']);
+		const { body, user } = req;
+		const requestBody = { ...body, author: user._id };
+		const mode = modelFromRequest(Mode, requestBody, ['createdAt', 'actualCode']);
+		const revision = modelFromRequest(Revision, requestBody, ['createdAt']);
 		mode.revisions.push(revision);
 		const savedMode = await mode.save();
 		res.status(200).send({ mode: savedMode });
@@ -20,10 +21,5 @@ export const putModeMiddleware = async (req: Request, res: Response, next: NextF
 };
 
 const putModeRoute: Router = Router();
-putModeRoute.put(
-	'/',
-	[body('author').isMongoId(), body('code').isString()],
-	validateRequest,
-	putModeMiddleware
-);
+putModeRoute.put('/', [body('code').isString()], validateRequest, putModeMiddleware);
 export { putModeRoute };

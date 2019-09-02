@@ -53,7 +53,7 @@ FIREBASE_SAK_CLIENT_X509_CERT_URL=...
 
 ### node.env pitfalls
 
--   `NODE_ENV` - oprional, default value: `development` [read more](http://expressjs.com/en/advanced/best-practice-performance.html#set-node_env-to-production)
+-   `NODE_ENV` - oprional, default value: `development`. [Read more](http://expressjs.com/en/advanced/best-practice-performance.html#set-node_env-to-production)
 -   `FIREBASE_IMGS_URL=https://firebasestorage.googleapis.com/v0/b/YOUR_PROJECT_ID.appspot.com/o/DIRECTORY%2F`
     -   Replace `YOUR_PROJECT_ID` with your project id (can be find in serviceAccountKey.json)
     -   Replace `DIRECTORY%2F` with your path to directory in which files should be saved. Path needs to be url encoded (eg. `%2F` insteed of `/`)
