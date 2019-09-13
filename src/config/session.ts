@@ -9,10 +9,10 @@ const secret = SESSION_SECRET;
 
 const session = () =>
 	expressSession({
+		secret,
 		cookie: { secure: false, httpOnly: true },
 		resave: false,
 		saveUninitialized: false,
-		secret: secret,
 		store: new MongoStore({
 			autoReconnect: true,
 			collection: 'sessions',

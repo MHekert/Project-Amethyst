@@ -22,9 +22,9 @@ export const postGalleryImageMiddleware = async (
 
 	const imageNames: string[] = (await Promise.all(uploadedWebpFiles)).filter((el: string) => el);
 	try {
-		if (imageNames.length === 0) throw new Error('Could not uplad files');
+		if (!imageNames.length) throw new Error('Could not uplad files');
 		const pushResponse = await pushGallery(req.params.modeId, imageNames);
-		if (pushResponse.nModified === 0) throw new Error('Could not save to database');
+		if (!pushResponse.nModified) throw new Error('Could not save to database');
 	} catch (err) {
 		deleteFiles(imageNames);
 		return res.status(507).send(error507);
