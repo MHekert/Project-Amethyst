@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 import { existsSync } from 'fs';
 
 if (existsSync('node.env')) dotenv.config({ path: 'node.env' });
-export const isDev: boolean = JSON.parse(process.env.ISDEV);
+export const NODE_ENV = process.env['NODE_ENV'] || 'development';
 
 export const SESSION_SECRET = process.env['SESSION_SECRET'];
 export const MONGODB_URI = process.env['MONGODB_URI'];
@@ -18,7 +18,8 @@ const FIREBASE_SAK_CLIENT_EMAIL = process.env['FIREBASE_SAK_CLIENT_EMAIL'];
 const FIREBASE_SAK_CLIENT_ID = process.env['FIREBASE_SAK_CLIENT_ID'];
 const FIREBASE_SAK_AUTH_URI = process.env['FIREBASE_SAK_AUTH_URI'];
 const FIREBASE_SAK_TOKEN_URI = process.env['FIREBASE_SAK_TOKEN_URI'];
-const FIREBASE_SAK_AUTH_PROVIDER_X509_CERT_URL = process.env['FIREBASE_SAK_AUTH_PROVIDER_X509_CERT_URL'];
+const FIREBASE_SAK_AUTH_PROVIDER_X509_CERT_URL =
+	process.env['FIREBASE_SAK_AUTH_PROVIDER_X509_CERT_URL'];
 const FIREBASE_SAK_CLIENT_X509_CERT_URL = process.env['FIREBASE_SAK_CLIENT_X509_CERT_URL'];
 
 export const FIREBASE_SERVICEACCOUNTKEY = {

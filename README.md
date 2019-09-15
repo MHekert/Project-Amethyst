@@ -1,3 +1,5 @@
+# [API documentation](https://app.swaggerhub.com/apis/MHekert/Amethyst/0.1.0)
+
 # development environment setup guide
 
 ## Prerequisites
@@ -27,7 +29,7 @@
 ### example
 
 ```
-ISDEV=true
+NODE_ENV=development
 SESSION_SECRET=keybordCat
 MONGODB_URI_TEST=mongodb://localhost:27017/testDB
 MONGODB_URI=mongodb://localhost:27017/localDB
@@ -51,6 +53,7 @@ FIREBASE_SAK_CLIENT_X509_CERT_URL=...
 
 ### node.env pitfalls
 
+-   `NODE_ENV` - optional, default value: `development`. [Read more](http://expressjs.com/en/advanced/best-practice-performance.html#set-node_env-to-production)
 -   `FIREBASE_IMGS_URL=https://firebasestorage.googleapis.com/v0/b/YOUR_PROJECT_ID.appspot.com/o/DIRECTORY%2F`
     -   Replace `YOUR_PROJECT_ID` with your project id (can be find in serviceAccountKey.json)
     -   Replace `DIRECTORY%2F` with your path to directory in which files should be saved. Path needs to be url encoded (eg. `%2F` insteed of `/`)

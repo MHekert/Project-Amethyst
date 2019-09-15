@@ -2,8 +2,8 @@ import { Response, Router } from 'express';
 
 import { FRONTEND_URL } from '@util/secrets';
 
-const router: Router = Router();
+const successRoute: Router = Router();
 
-router.get('/', (_req, res: Response) => res.redirect(FRONTEND_URL));
+successRoute.get('/', (_req, res: Response) => res.redirect(FRONTEND_URL));
 
-export default router;
+export default successRoute;
