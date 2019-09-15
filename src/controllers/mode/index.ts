@@ -1,6 +1,7 @@
 import { Router } from 'express';
 
 import isUserLoggedIn from '@controllers/middleware/isUserLoggedIn';
+import { getByActionModeRoute } from '@controllers/mode/getByActionModeController';
 import { getByAuthorModeRoute } from '@src/controllers/mode/getByAuthorModeController';
 import {
 	getNewModeInitialRoute,
@@ -18,10 +19,11 @@ modeRoutes.use('/action', actionRoutes);
 modeRoutes.use('/revision', revisionRoutes);
 modeRoutes.use('/gallery', galleryRoutes);
 
-modeRoutes.use(isUserLoggedIn, putModeRoute);
 modeRoutes.use(getNewModeInitialRoute);
 modeRoutes.use(getNewModeWithOffsetRoute);
 modeRoutes.use(getTopModeRoute);
 modeRoutes.use(getByAuthorModeRoute);
+modeRoutes.use(isUserLoggedIn, putModeRoute);
+modeRoutes.use(isUserLoggedIn, getByActionModeRoute);
 
 export default modeRoutes;
