@@ -11,7 +11,13 @@ export const putModeMiddleware = async (req: Request, res: Response, next: NextF
 	try {
 		const { body, user } = req;
 		const requestBody = { ...body, author: user._id };
-		const mode = modelFromRequest(Mode, requestBody, ['createdAt', 'actualCode']);
+		const mode = modelFromRequest(Mode, requestBody, [
+			'createdAt',
+			'actualCode',
+			'author',
+			'points',
+			'favorites'
+		]);
 		const revision = modelFromRequest(Revision, requestBody, ['createdAt']);
 		mode.revisions.push(revision);
 		const savedMode = await mode.save();
