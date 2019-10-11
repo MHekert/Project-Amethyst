@@ -26,7 +26,7 @@ describe(`mode's model helper function updateRevision`, () => {
 		const updatedRevision = await updateRevision(mode._id, revisionId, changes);
 		const modeAfterUpdate = await Mode.findById(mode._id);
 		expect(modeAfterUpdate.revisions[0]).to.deep.include(changes);
-		expect(updatedRevision).to.be.deep.equal({ n: 1, nModified: 1, ok: 1 });
+		expect(updatedRevision).to.include({ n: 1, nModified: 1, ok: 1 });
 	});
 
 	it('should correctly update revision with one change', async () => {
@@ -37,6 +37,6 @@ describe(`mode's model helper function updateRevision`, () => {
 		const updatedRevision = await updateRevision(mode._id, revisionId, changes);
 		const modeAfterUpdate = await Mode.findById(mode._id);
 		expect(modeAfterUpdate.revisions[0]).to.deep.include(changes);
-		expect(updatedRevision).to.be.deep.equal({ n: 1, nModified: 1, ok: 1 });
+		expect(updatedRevision).to.include({ n: 1, nModified: 1, ok: 1 });
 	});
 });

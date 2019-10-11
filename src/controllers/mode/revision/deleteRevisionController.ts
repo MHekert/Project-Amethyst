@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import { param } from 'express-validator/check';
-import { isEqual } from 'lodash';
+import { isEqual, pick } from 'lodash';
 
 import validateRequest from '@controllers/middleware/validateRequest';
 import removeRevision from '@models/mode/helpers/removeRevision';
@@ -10,7 +10,8 @@ const deleteRevisionMiddleware = async (req: Request, res: Response, next: NextF
 	try {
 		const { modeId, revisionId } = req.params;
 		const updateStatus = await removeRevision(modeId, revisionId);
-		if (isEqual(updateStatus, { n: 1, nModified: 1, ok: 1 })) return res.sendStatus(200);
+		if (isEqual(pick(updateStatus, ['n', 'nModified', 'ok']), { n: 1, nModified: 1, ok: 1 }))
+			return res.sendStatus(200);
 		return res.status(404).send(notFoundError);
 	} catch (err) {
 		next(err);
