@@ -4,6 +4,7 @@ import { param } from 'express-validator/check';
 import validateRequest from '@controllers/middleware/validateRequest';
 import EAction from '@interfaces/modeAction/EAction';
 import getModesByAction from '@models/mode/helpers/getModesByAction';
+import cleanId from '@util/cleanId';
 
 export const getByActionModeMiddleware = async (
 	req: Request,
@@ -16,7 +17,7 @@ export const getByActionModeMiddleware = async (
 			params: { action, quantity, offset }
 		} = req;
 		const modes = await getModesByAction(_id, action, quantity, offset);
-		res.status(200).send(modes);
+		res.status(200).send(cleanId(modes));
 	} catch (err) {
 		next(err);
 	}

@@ -3,6 +3,7 @@ import { param, query } from 'express-validator/check';
 
 import validateRequest from '@controllers/middleware/validateRequest';
 import getModesByPoints from '@models/mode/helpers/getModesByPoints';
+import cleanId from '@util/cleanId';
 
 export const getTopModeMiddleware = async (req: Request, res: Response, next: NextFunction) => {
 	try {
@@ -11,8 +12,12 @@ export const getTopModeMiddleware = async (req: Request, res: Response, next: Ne
 			params: { quantity },
 			query: { ids }
 		} = req;
-		if (!ids) return res.status(200).send(await getModesByPoints(user, quantity));
-		return res.status(200).send(await getModesByPoints(user, quantity, ids));
+		if (!ids) {
+			const modes = await getModesByPoints(user, quantity);
+			return res.status(200).send(cleanId(modes));
+		}
+		const modes = await getModesByPoints(user, quantity, ids);
+		return res.status(200).send(cleanId(modes));
 	} catch (err) {
 		next(err);
 	}
