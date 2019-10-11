@@ -4,6 +4,7 @@ import { body } from 'express-validator/check';
 import validateRequest from '@controllers/middleware/validateRequest';
 import Mode from '@models/mode/mode';
 import Revision from '@models/mode/revision';
+import cleanId from '@util/cleanId';
 import modelFromRequest from '@util/modelFromRequest';
 
 export const putModeMiddleware = async (req: Request, res: Response, next: NextFunction) => {
@@ -14,7 +15,7 @@ export const putModeMiddleware = async (req: Request, res: Response, next: NextF
 		const revision = modelFromRequest(Revision, requestBody, ['createdAt']);
 		mode.revisions.push(revision);
 		const savedMode = await mode.save();
-		res.status(200).send({ mode: savedMode });
+		res.status(200).send({ mode: cleanId(savedMode) });
 	} catch (err) {
 		next(err);
 	}

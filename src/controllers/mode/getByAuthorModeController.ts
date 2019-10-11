@@ -3,6 +3,7 @@ import { param } from 'express-validator/check';
 
 import validateRequest from '@controllers/middleware/validateRequest';
 import getModesByAuthor from '@models/mode/helpers/getModesByAuthor';
+import cleanId from '@util/cleanId';
 
 export const getByAuthorModeMiddleware = async (
 	req: Request,
@@ -15,7 +16,7 @@ export const getByAuthorModeMiddleware = async (
 			params: { author, quantity, offset }
 		} = req;
 		const modes = await getModesByAuthor(user, author, quantity, offset);
-		res.status(200).send(modes);
+		res.status(200).send(cleanId(modes));
 	} catch (err) {
 		next(err);
 	}

@@ -4,6 +4,7 @@ import { body } from 'express-validator/check';
 import validateRequest from '@controllers/middleware/validateRequest';
 import IRevisionModel from '@interfaces/mode/IRevisionModel';
 import Revision from '@models/mode/revision';
+import cleanId from '@util/cleanId';
 import modelFromRequest from '@util/modelFromRequest';
 
 export const putRevisionMiddleware = async (req: Request, res: Response, next: NextFunction) => {
@@ -14,7 +15,7 @@ export const putRevisionMiddleware = async (req: Request, res: Response, next: N
 		} = req;
 		const revision: IRevisionModel = modelFromRequest(Revision, body, ['createdAt']);
 		await revision.insertToMode(modeId);
-		res.status(200).send(revision);
+		res.status(200).send(cleanId(revision));
 	} catch (err) {
 		next(err);
 	}

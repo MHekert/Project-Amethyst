@@ -3,6 +3,7 @@ import { param } from 'express-validator/check';
 
 import validateRequest from '@controllers/middleware/validateRequest';
 import getRevision from '@models/mode/helpers/getRevision';
+import cleanId from '@util/cleanId';
 
 export const getRevisionMiddleware = async (req: Request, res: Response, next: NextFunction) => {
 	try {
@@ -10,7 +11,7 @@ export const getRevisionMiddleware = async (req: Request, res: Response, next: N
 		const quantity = req.params.quantity || 10;
 		const modeId = req.params.modeId;
 		const revisions = await getRevision(modeId, quantity, offset);
-		res.status(200).send(revisions);
+		res.status(200).send(cleanId(revisions));
 	} catch (err) {
 		next(err);
 	}

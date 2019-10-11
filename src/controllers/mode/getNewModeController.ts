@@ -3,6 +3,7 @@ import { param } from 'express-validator/check';
 
 import validateRequest from '@controllers/middleware/validateRequest';
 import getModesByDate from '@models/mode/helpers/getModesByDate';
+import cleanId from '@util/cleanId';
 
 const router: Router = Router();
 
@@ -17,7 +18,7 @@ export const getNewModeWithOffsetMiddleware = async (
 			params: { quantity, date }
 		} = req;
 		const modes = await getModesByDate(user, quantity, date);
-		res.status(200).send(modes);
+		res.status(200).send(modes.map((e: any) => e.clean()));
 	} catch (err) {
 		next(err);
 	}
@@ -34,7 +35,7 @@ export const getNewModeInitialMiddleware = async (
 			params: { quantity }
 		} = req;
 		const modes = await getModesByDate(user, quantity);
-		res.status(200).send(modes);
+		res.status(200).send(cleanId(modes));
 	} catch (err) {
 		next(err);
 	}
