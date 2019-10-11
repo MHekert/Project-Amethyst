@@ -1,13 +1,12 @@
 import { now, random, times } from 'lodash';
 import { LoremIpsum } from 'lorem-ipsum';
-import { connection } from 'mongoose';
+import { Types } from 'mongoose';
 
+import { connectDB } from '@config/mongoose';
 import Mode from '@models/mode/mode';
 import Revision from '@models/mode/revision';
-import { MONGODB_URI } from '@util/secrets';
 
-const mongoUri: string = MONGODB_URI;
-connection.openUri(mongoUri, { useNewUrlParser: true, useCreateIndex: true });
+const { ObjectId } = Types;
 
 const lorem = new LoremIpsum({
 	wordsPerSentence: {
@@ -37,6 +36,7 @@ const generateRevisions = () =>
 
 const generateMode = () => {
 	const mode = new Mode();
+	mode.author = new ObjectId().toHexString();
 	mode.createdAt = new Date(now() - random(31556952000)).toISOString();
 	mode.points = random(0, 10000);
 	mode.favorites = random(0, 1000);
@@ -48,6 +48,7 @@ const generateMode = () => {
 };
 
 export const populateDatabase = async (quantity?: number) => {
+	await connectDB(false);
 	const count = !quantity ? 50 : quantity;
 	const modes = times(count, generateMode);
 	await Mode.create(modes);

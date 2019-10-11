@@ -17,7 +17,7 @@ describe(`mode's model helper function joinModeAction`, () => {
 	before(async () => {
 		await connectDB(true);
 		await Promise.all([Mode.deleteMany({}), ModeAction.deleteMany({})]);
-		modesPromise = <any>await createDummyModes();
+		modesPromise = createDummyModes();
 		const userPromise = new User().save();
 		await Promise.all([modesPromise, userPromise]);
 		userId = (await userPromise)._id;
@@ -55,5 +55,12 @@ describe(`mode's model helper function joinModeAction`, () => {
 		const res = await joinModeActions(userId, { outerJoin: false });
 		expect(res).to.be.an('array');
 		expect(res).to.have.length(1);
+	});
+
+	it('should correctly perform reverse join', async () => {
+		const res = await joinModeActions(userId, { reverseJoin: true, outerJoin: false });
+		expect(res).to.be.an('array');
+		expect(res).to.have.length(1);
+		expect(res[0]).to.nested.property('actions.upvote', true);
 	});
 });
