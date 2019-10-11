@@ -53,7 +53,7 @@ describe(`GET on path`, () => {
 		});
 
 		describe(`with wrong params number`, () => {
-			it(`should return message and status code 404`, async () => {
+			it(`should return status code 404`, async () => {
 				const res = await request(app).get('/mode/action/wrong_param/10/10/something_else');
 				expect(res).have.status(404);
 			});
