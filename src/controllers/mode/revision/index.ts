@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import isAuthorOfMode from '@controllers/middleware/isAuthorOfMode';
+import { isAuthorOfModeInBody } from '@controllers/middleware/isAuthorOfMode';
 import isUserLoggedIn from '@controllers/middleware/isUserLoggedIn';
 import { deleteRevisionRoute } from './deleteRevisionController';
 import { getRevisionRoute } from './getRevisionController';
@@ -11,7 +11,7 @@ const revisionController: Router = Router();
 
 revisionController.use(isUserLoggedIn, putRevisionRoute);
 revisionController.use(getRevisionRoute);
-revisionController.use(isUserLoggedIn, isAuthorOfMode, patchRevisionRoute);
-revisionController.use(isUserLoggedIn, isAuthorOfMode, deleteRevisionRoute);
+revisionController.use(isUserLoggedIn, isAuthorOfModeInBody, patchRevisionRoute);
+revisionController.use(isUserLoggedIn, isAuthorOfModeInBody, deleteRevisionRoute);
 
 export default revisionController;
