@@ -28,7 +28,7 @@ describe(`PUT on path /mode/revision`, () => {
 				.send(requestBody);
 			expect(res).have.status(200);
 			expect(res.body).to.be.an('object');
-			expect(res.body).to.have.property('_id');
+			expect(res.body).to.have.property('id');
 			expect(res.body).to.have.property('code', requestBody.code);
 			expect(res.body).to.have.property('createdAt');
 			expect(res.body).to.have.property('body');

@@ -18,7 +18,7 @@ export const getNewModeWithOffsetMiddleware = async (
 			params: { quantity, date }
 		} = req;
 		const modes = await getModesByDate(user, quantity, date);
-		res.status(200).send(modes.map((e: any) => e.clean()));
+		res.status(200).send(cleanId(modes));
 	} catch (err) {
 		next(err);
 	}
