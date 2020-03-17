@@ -1,15 +1,12 @@
-import { isArray, isUndefined, omit, omitBy, pick } from 'lodash';
+import { isArray, omit } from 'lodash';
 import { Document } from 'mongoose';
-
-import getSchemaPaths from '@util/getSchemaPaths';
 
 const cleanOne = (model: Document) => {
 	if (!model._id) return model;
 	const id = model._id;
 	let cleanModel: any;
 	if (model.schema) {
-		const paths = getSchemaPaths(model.schema).filter((e) => e !== '_id');
-		cleanModel = omitBy(pick(model, paths), isUndefined);
+		cleanModel = omit(model.toObject(), ['_id']);
 	} else {
 		cleanModel = omit(model, ['_id']);
 	}
