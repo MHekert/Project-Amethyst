@@ -1,0 +1,98 @@
+version: 2.1
+
+orbs:
+  heroku: circleci/heroku@1.0.1
+
+references:
+  node_defaults: &node_defaults
+    working_directory: ~/repo
+    docker:
+      - image: circleci/node:latest
+        environment:
+          MONGODB_URI_TEST: mongodb://localhost:27017/test
+      - image: circleci/mongo:latest
+
+jobs:
+  checkout_code:
+    <<: *node_defaults
+    steps:
+      - checkout
+      - persist_to_workspace:
+          root: ~/repo
+          paths:
+            - .
+
+  bundle_yarn:
+    <<: *node_defaults
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - restore_cache:
+          key: yarn-{{ checksum "yarn.lock" }}
+      - run: yarn install
+      - save_cache:
+          key: yarn-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/repo/node_modules
+      - persist_to_workspace:
+          root: ~/repo
+          paths:
+            - node_modules
+
+  linter:
+    <<: *node_defaults
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - run: yarn tslint
+
+  build:
+    <<: *node_defaults
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - run: yarn build
+      - persist_to_workspace:
+          root: ~/repo
+          paths:
+            - dist
+
+  test:
+    <<: *node_defaults
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - run: yarn test
+
+  deploy:
+    <<: *node_defaults
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - heroku/install
+      - heroku/deploy-via-git
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - checkout_code
+      - bundle_yarn:
+          requires:
+            - checkout_code
+      - linter:
+          requires:
+            - bundle_yarn
+      - build:
+          requires:
+            - bundle_yarn
+      - test:
+          requires:
+            - build
+      - deploy:
+          requires:
+            - test
+            - linter
+          filters:
+            branches:
+              only: development
